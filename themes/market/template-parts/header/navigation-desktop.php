@@ -1,6 +1,6 @@
 <?php
 /**
- * Market Theme — Desktop Navigation Bar
+ * Market Theme — Desktop Navigation Bar with Digikala-Style Mega Menu
  *
  * @package Market
  */
@@ -8,26 +8,51 @@
 defined('ABSPATH') || exit;
 ?>
 <nav class="desktop-nav" aria-label="<?php esc_attr_e('منوی اصلی', 'market'); ?>">
-    <div class="container">
-        <?php
-        if (has_nav_menu('primary-menu')) {
-            wp_nav_menu([
-                'theme_location' => 'primary-menu',
-                'menu_class'     => 'desktop-nav-menu',
-                'container'      => false,
-                'depth'          => 3,
-                'fallback_cb'    => false,
-            ]);
-        } else {
-            ?>
-            <ul class="desktop-nav-menu">
-                <li><a href="<?php echo esc_url(home_url('/')); ?>"><?php esc_html_e('صفحه اصلی', 'market'); ?></a></li>
-                <?php if (class_exists('WooCommerce')) : ?>
-                    <li><a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>"><?php esc_html_e('فروشگاه', 'market'); ?></a></li>
-                <?php endif; ?>
-            </ul>
+    <div class="container desktop-nav-container">
+        
+        <!-- ۱. دکمه و مگامنوی دسته‌بندی کالاها (طراحی سبک دیجی‌کالا) -->
+        <div class="header-mega-menu-wrap" id="header-mega-menu-wrap">
+            <button class="header-mega-menu-btn" id="mega-menu-btn" type="button" aria-expanded="false" aria-haspopup="true">
+                <svg class="mega-menu-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+                <span class="mega-menu-title"><?php esc_html_e('دسته‌بندی کالاها', 'market'); ?></span>
+                <svg class="mega-menu-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+            </button>
+
+            <?php get_template_part('template-parts/header/mega-menu'); ?>
+        </div>
+
+        <!-- خط جداکننده عمودی بین مگامنو و سایر لینک‌ها -->
+        <span class="nav-v-divider" aria-hidden="true"></span>
+
+        <!-- ۲. پیوندهای ناوبری اصلی (صفحه اصلی، فروشگاه، و...) -->
+        <div class="header-nav-links">
             <?php
-        }
-        ?>
+            if (has_nav_menu('primary-menu')) {
+                wp_nav_menu([
+                    'theme_location' => 'primary-menu',
+                    'menu_class'     => 'desktop-nav-menu',
+                    'container'      => false,
+                    'depth'          => 2,
+                    'fallback_cb'    => false,
+                ]);
+            } else {
+                ?>
+                <ul class="desktop-nav-menu">
+                    <li><a href="<?php echo esc_url(home_url('/')); ?>"><?php esc_html_e('صفحه اصلی', 'market'); ?></a></li>
+                    <?php if (class_exists('WooCommerce')) : ?>
+                        <li><a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>"><?php esc_html_e('فروشگاه', 'market'); ?></a></li>
+                    <?php endif; ?>
+                </ul>
+                <?php
+            }
+            ?>
+        </div>
+
     </div>
 </nav>

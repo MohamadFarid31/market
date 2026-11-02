@@ -1,0 +1,19 @@
+{
+  "name": "market-woocommerce-scripts",
+  "version": "1.0.0",
+  "description": "WooCommerce REST API automated category & store setup scripts for Market theme",
+  "type": "module",
+  "main": "create-categories.js",
+  "scripts": {
+    "create-categories": "node create-categories.js"
+  },
+  "keywords": [
+    "woocommerce",
+    "wordpress",
+    "rest-api",
+    "categories"
+  ],
+  "author": "",
+  "license": "GPL-3.0-or-later"
+}
+

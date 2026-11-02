@@ -1,17 +1,41 @@
 /**
- * Market Theme — Navigation Systems (Desktop, Mobile Drawer, Bottom Bar)
+ * Market Theme — Navigation Systems (Digikala Mega Menu, Desktop Nav, Mobile Drawer, Bottom Bar)
  */
 
-/* Desktop Primary Nav */
+/* ==========================================================================
+   1. Desktop Primary Navigation Bar Container
+   ========================================================================== */
 .desktop-nav {
   background-color: var(--color-bg-surface);
   border-block-start: 1px solid var(--color-border-subtle);
+  position: relative;
+}
+
+.desktop-nav-container {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  position: relative; /* تکیه‌گاه اصلی برای مگامنو */
+}
+
+.nav-v-divider {
+  width: 1px;
+  height: 22px;
+  background-color: var(--color-border-subtle);
+  margin-inline: var(--space-1);
+}
+
+.header-nav-links {
+  flex: 1;
 }
 
 .desktop-nav-menu {
   display: flex;
   align-items: center;
   gap: var(--space-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .desktop-nav-menu > li {
@@ -26,13 +50,267 @@
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
   color: var(--color-text-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
 }
 
-.desktop-nav-menu > li:hover > a {
+.desktop-nav-menu > li:hover > a,
+.desktop-nav-menu > li.current-menu-item > a {
   color: var(--color-primary);
 }
 
-/* Dropdown */
+/* ==========================================================================
+   2. Digikala-Style Category Mega Menu (دکمه و کانتینر بازشونده مگامنو)
+   ========================================================================== */
+.header-mega-menu-wrap {
+  position: relative;
+  padding-block: var(--space-2);
+}
+
+/* دکمه trigger دسته‌بندی کالاها */
+.header-mega-menu-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  font-family: inherit;
+  transition: all var(--transition-fast);
+}
+
+.header-mega-menu-btn:hover,
+.header-mega-menu-wrap.is-open .header-mega-menu-btn {
+  background-color: var(--color-bg-subtle);
+  color: var(--color-primary);
+}
+
+.header-mega-menu-btn .mega-menu-icon {
+  color: var(--color-primary);
+}
+
+.header-mega-menu-btn .mega-menu-arrow {
+  color: var(--color-text-muted);
+  transition: transform var(--transition-fast);
+}
+
+.header-mega-menu-wrap:hover .mega-menu-arrow,
+.header-mega-menu-wrap.is-open .mega-menu-arrow {
+  transform: rotate(180deg);
+  color: var(--color-primary);
+}
+
+/* پنجره کشویی مگامنو */
+.mega-menu-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  inset-inline-start: 0;
+  width: 960px;
+  max-width: calc(100vw - 48px);
+  height: 460px;
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  z-index: var(--z-dropdown);
+  overflow: hidden;
+  flex-direction: row;
+}
+
+/* نمایش در هاور موس یا وضعیت فعال */
+.header-mega-menu-wrap:hover .mega-menu-dropdown,
+.header-mega-menu-wrap.is-open .mega-menu-dropdown {
+  display: flex;
+}
+
+/* ستون سمت راست: لیست دسته‌های اصلی */
+.mega-menu-sidebar {
+  width: 240px;
+  min-width: 240px;
+  background-color: var(--color-bg-subtle);
+  border-inline-end: 1px solid var(--color-border-subtle);
+  overflow-y: auto;
+  padding-block: var(--space-3);
+}
+
+.mega-menu-cat-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mega-menu-cat-item {
+  padding-inline: var(--space-2);
+}
+
+.mega-menu-cat-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-3);
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  transition: all var(--transition-fast);
+}
+
+.mega-menu-cat-link .cat-arrow {
+  color: var(--color-text-muted);
+  transition: transform var(--transition-fast);
+}
+
+/* استایل دسته فعال یا در حال هاور در ستون راست */
+.mega-menu-cat-item.is-active .mega-menu-cat-link,
+.mega-menu-cat-item:hover .mega-menu-cat-link {
+  background-color: var(--color-bg-surface);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+  box-shadow: var(--shadow-sm);
+}
+
+.mega-menu-cat-item.is-active .cat-arrow,
+.mega-menu-cat-item:hover .cat-arrow {
+  color: var(--color-primary);
+  transform: translateX(-3px); /* اشاره به سمت چپ در RTL */
+}
+
+/* ستون سمت چپ: پنل‌های محتوای زیردسته‌ها */
+.mega-menu-content-panels {
+  flex: 1;
+  padding: var(--space-6);
+  background-color: var(--color-bg-surface);
+  overflow-y: auto;
+}
+
+.mega-menu-panel {
+  display: none;
+  animation: fadeIn 150ms ease-in-out;
+}
+
+.mega-menu-panel.is-active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mega-panel-header {
+  margin-block-end: var(--space-5);
+  padding-block-end: var(--space-3);
+  border-block-end: 1px solid var(--color-border-subtle);
+}
+
+.mega-panel-view-all {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: opacity var(--transition-fast);
+}
+
+.mega-panel-view-all:hover {
+  opacity: 0.8;
+}
+
+/* گرید ۳ ستونه زیردسته‌ها */
+.mega-subcats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.mega-subcat-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-canvas);
+  border: 1px solid transparent;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+  transition: all var(--transition-fast);
+}
+
+.mega-subcat-card .subcat-indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary);
+  opacity: 0.5;
+  transition: opacity var(--transition-fast);
+}
+
+.mega-subcat-card:hover {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  border-color: rgba(30, 58, 138, 0.12);
+  transform: translateX(-3px);
+}
+
+.mega-subcat-card:hover .subcat-indicator {
+  opacity: 1;
+}
+
+/* جعبه نمایش دسته‌های تک‌سطحی (فاقد زیردسته مانند نورپردازی و عروسک) */
+.mega-single-cat-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-8);
+  height: 280px;
+  gap: var(--space-3);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-bg-canvas);
+}
+
+.mega-single-cat-box .single-cat-icon {
+  color: var(--color-text-muted);
+}
+
+.mega-single-cat-box .single-cat-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.mega-single-cat-box .single-cat-desc {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  max-width: 320px;
+  margin: 0;
+}
+
+/* ==========================================================================
+   3. Dropdown معمولی برای سایر آیتم‌های نوار منو
+   ========================================================================== */
 .desktop-nav-menu .sub-menu {
   display: none;
   position: absolute;
@@ -42,8 +320,10 @@
   background-color: var(--color-bg-surface);
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-md);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-xl);
   padding-block: var(--space-2);
+  margin: 0;
+  list-style: none;
   z-index: var(--z-dropdown);
 }
 
@@ -53,10 +333,10 @@
 
 .desktop-nav-menu .sub-menu a {
   display: block;
-  padding-block: var(--space-2);
-  padding-inline: var(--space-4);
+  padding: var(--space-2) var(--space-4);
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
+  text-decoration: none;
 }
 
 .desktop-nav-menu .sub-menu a:hover {
@@ -64,7 +344,84 @@
   color: var(--color-primary);
 }
 
-/* Mobile Bottom Navigation Bar */
+/* ==========================================================================
+   4. Mobile Navigation Drawer (عمق ۳ سطحی با آکاردئون لمسی)
+   ========================================================================== */
+.mobile-nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mobile-nav-list li {
+  border-block-end: 1px solid var(--color-border-subtle);
+}
+
+.mobile-nav-item-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mobile-nav-list a {
+  display: block;
+  flex: 1;
+  padding-block: var(--space-3);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  text-decoration: none;
+}
+
+.mobile-submenu-toggle {
+  background: none;
+  border: none;
+  padding: var(--space-2) var(--space-3);
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-submenu-toggle svg {
+  width: 18px;
+  height: 18px;
+  transition: transform var(--transition-normal);
+}
+
+li.is-expanded > .mobile-nav-item-inner .mobile-submenu-toggle svg {
+  transform: rotate(180deg);
+}
+
+.mobile-nav-list .sub-menu {
+  display: none;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-color: var(--color-bg-subtle);
+  border-radius: var(--radius-sm);
+  margin-block-end: var(--space-2);
+}
+
+li.is-expanded > .sub-menu {
+  display: block;
+}
+
+.mobile-nav-list .sub-menu li a {
+  padding-inline-start: var(--space-4);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+
+.mobile-nav-list .sub-menu .sub-menu li a {
+  padding-inline-start: var(--space-8);
+  color: var(--color-text-primary);
+}
+
+/* ==========================================================================
+   5. Mobile Bottom Navigation Bar
+   ========================================================================== */
 .mobile-bottom-bar {
   display: none;
   position: fixed;
@@ -85,7 +442,7 @@
   }
 
   body {
-    padding-block-end: 64px; /* Space for fixed bottom bar */
+    padding-block-end: 64px;
   }
 }
 
@@ -96,6 +453,7 @@
   gap: 2px;
   font-size: var(--font-size-xs);
   color: var(--color-text-secondary);
+  text-decoration: none;
   position: relative;
 }
 
