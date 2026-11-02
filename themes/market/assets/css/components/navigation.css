@@ -1,0 +1,111 @@
+/**
+ * Market Theme — Navigation Systems (Desktop, Mobile Drawer, Bottom Bar)
+ */
+
+/* Desktop Primary Nav */
+.desktop-nav {
+  background-color: var(--color-bg-surface);
+  border-block-start: 1px solid var(--color-border-subtle);
+}
+
+.desktop-nav-menu {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.desktop-nav-menu > li {
+  position: relative;
+}
+
+.desktop-nav-menu > li > a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding-block: var(--space-3);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.desktop-nav-menu > li:hover > a {
+  color: var(--color-primary);
+}
+
+/* Dropdown */
+.desktop-nav-menu .sub-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  inset-inline-start: 0;
+  min-width: 220px;
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding-block: var(--space-2);
+  z-index: var(--z-dropdown);
+}
+
+.desktop-nav-menu li:hover > .sub-menu {
+  display: block;
+}
+
+.desktop-nav-menu .sub-menu a {
+  display: block;
+  padding-block: var(--space-2);
+  padding-inline: var(--space-4);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.desktop-nav-menu .sub-menu a:hover {
+  background-color: var(--color-bg-subtle);
+  color: var(--color-primary);
+}
+
+/* Mobile Bottom Navigation Bar */
+.mobile-bottom-bar {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  inset-inline: 0;
+  background-color: var(--color-bg-surface);
+  border-block-start: 1px solid var(--color-border-default);
+  box-shadow: var(--shadow-lg);
+  z-index: var(--z-sticky);
+  padding-block: var(--space-2);
+}
+
+@media (max-width: 767px) {
+  .mobile-bottom-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  body {
+    padding-block-end: 64px; /* Space for fixed bottom bar */
+  }
+}
+
+.mobile-bottom-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  position: relative;
+}
+
+.mobile-bottom-item.active,
+.mobile-bottom-item:hover {
+  color: var(--color-primary);
+}
+
+.mobile-bottom-item .badge {
+  position: absolute;
+  top: -4px;
+  inset-inline-end: -6px;
+}

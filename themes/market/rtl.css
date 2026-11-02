@@ -1,0 +1,41 @@
+/**
+ * Market Theme — RTL Specific Stylesheet
+ * 
+ * Loaded automatically by WordPress when the active locale is RTL (e.g. fa-IR).
+ */
+
+body {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Directional Icon Inversion for Right-to-Left */
+.icon-directional,
+.breadcrumb-separator,
+.pagination .prev,
+.pagination .next,
+.nav-arrow {
+  transform: scaleX(-1);
+  display: inline-block;
+}
+
+/* Form inputs text alignment */
+input[type="text"],
+input[type="search"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+input[type="password"],
+textarea,
+select {
+  text-align: right;
+}
+
+/* Latin/Numeric codes preservation */
+input[type="tel"],
+input.ltr-input,
+.code-box,
+.ltr-text {
+  direction: ltr;
+  text-align: left;
+}

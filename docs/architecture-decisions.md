@@ -112,6 +112,29 @@ Phase 2 requires a comprehensive architectural plan covering all required pages,
 
 ---
 
+## ADR-005: Raw Theme Foundation & Workflow for Screenshot-Driven Visual Refinement
+
+### Status
+Accepted
+
+### Date
+2026-11-02
+
+### Context
+In Phase 3, we constructed the installable, technically functional raw theme foundation in `themes/market/`. Visual styling for individual pages must not be finalized arbitrarily, because the user will provide visual reference screenshots one by one. Each page must be styled, reviewed, and refined iteratively based on its specific reference.
+
+### Decision
+1. **Raw Foundation Delivery:** Complete the modular directory and file structure (49 PHP templates and parts, 24 modular CSS files, and ES6 JavaScript modules), making the theme fully installable and technically functional.
+2. **Neutral Design System Baseline:** Enforce CSS custom properties (`tokens.css`), neutral baseline styling, Persian RTL (`rtl.css`), and responsive breakpoints without prematurely committing to a specific visual layout.
+3. **Screenshot-Driven Workflow:** Halt further visual styling until the user supplies the first visual screenshot. Implement one page at a time matching the supplied reference, and wait for user review and approval before proceeding to the next page.
+4. **Dynamic Data Primacy:** Preserve pure dynamic WordPress and WooCommerce queries; zero hardcoded mockup IDs, product titles, or prices.
+
+### Consequences
+- **Positive:** Pristine technical foundation, zero technical debt, verified template hierarchy, and 100% precision matching of the user's design vision page by page.
+- **Negative:** Requires strict turn-by-turn discipline without jumping ahead to style secondary pages.
+
+---
+
 ## ADR Template for Future Decisions
 
 ```markdown

@@ -1,0 +1,20 @@
+/*
+Theme Name: Market
+Theme URI: 
+Author: Market Engineering Team
+Author URI: 
+Description: High-performance, clean-slate, fully custom WordPress and WooCommerce theme engineered for speed, full RTL support, and HPOS compatibility.
+Version: 1.0.0
+Requires at least: 6.0
+Tested up to: 6.6
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: market
+Tags: e-commerce, custom, rtl-language-support, right-to-left, full-width-template
+*/
+
+/* ==========================================================================
+   Root Manifest - Detailed component styles are conditionally enqueued 
+   from assets/css/ to maintain optimal Core Web Vitals and minimal payload.
+   ========================================================================== */

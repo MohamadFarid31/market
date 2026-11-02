@@ -1,0 +1,50 @@
+/**
+ * Market Theme — Alerts, Badges & WooCommerce Notices
+ */
+
+.alert,
+.woocommerce-message,
+.woocommerce-info,
+.woocommerce-error {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+  margin-block-end: var(--space-4);
+  border-inline-start: 4px solid transparent;
+}
+
+/* Success */
+.alert-success,
+.woocommerce-message {
+  background-color: var(--color-success-bg);
+  color: var(--color-success-text);
+  border-inline-start-color: var(--color-success);
+}
+
+/* Info */
+.alert-info,
+.woocommerce-info {
+  background-color: var(--color-info-bg);
+  color: var(--color-info-text);
+  border-inline-start-color: var(--color-info);
+}
+
+/* Danger / Error */
+.alert-danger,
+.woocommerce-error {
+  background-color: var(--color-danger-bg);
+  color: var(--color-danger-text);
+  border-inline-start-color: var(--color-danger);
+  list-style: none;
+}
+
+/* Warning */
+.alert-warning {
+  background-color: var(--color-warning-bg);
+  color: var(--color-warning-text);
+  border-inline-start-color: var(--color-warning);
+}

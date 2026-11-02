@@ -1,0 +1,82 @@
+/**
+ * Market Theme — Footer Components
+ */
+
+.site-footer {
+  background-color: var(--color-bg-surface);
+  border-block-start: 1px solid var(--color-border-default);
+  margin-block-start: var(--space-12);
+  padding-block: var(--space-8);
+  color: var(--color-text-secondary);
+}
+
+.footer-widgets-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+  margin-block-end: var(--space-8);
+}
+
+@media (min-width: 768px) {
+  .footer-widgets-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .footer-widgets-grid {
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+  }
+}
+
+.footer-widget-title {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin-block-end: var(--space-4);
+}
+
+.footer-menu li {
+  margin-block-end: var(--space-2);
+}
+
+.footer-menu a {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.footer-menu a:hover {
+  color: var(--color-primary);
+}
+
+/* Trust Badges */
+.footer-trust-badges {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.trust-badge-card {
+  width: 90px;
+  height: 90px;
+  background-color: var(--color-bg-subtle);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2);
+}
+
+/* Bottom Bar / Copyright */
+.footer-bottom {
+  border-block-start: 1px solid var(--color-border-subtle);
+  padding-block-start: var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  font-size: var(--font-size-xs);
+}
