@@ -1,5 +1,5 @@
 /**
- * Market Theme — Header & Topbar Components
+ * Market Theme — Taj Bazar Header & Topbar Components
  */
 
 .site-header {
@@ -9,24 +9,15 @@
   z-index: var(--z-sticky);
 }
 
-/* Topbar */
-.topbar {
-  background-color: var(--color-bg-subtle);
-  border-block-end: 1px solid var(--color-border-subtle);
-  padding-block: var(--space-2);
-  font-size: var(--font-size-xs);
-  color: var(--color-text-secondary);
-}
-
-.topbar .container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
 /* Main Header Bar */
 .header-main {
-  padding-block: var(--space-4);
+  padding-block: var(--space-3);
+}
+
+@media (min-width: 1024px) {
+  .header-main {
+    padding-block: var(--space-4);
+  }
 }
 
 .header-main-inner {
@@ -36,74 +27,235 @@
   gap: var(--space-4);
 }
 
+/* Taj Bazar Branding */
 .site-branding {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
-  text-decoration: none;
 }
 
-.site-title {
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-primary);
-  margin: 0;
+.site-logo-link {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.taj-bazar-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.taj-bazar-emblem {
+  width: 32px;
+  height: 32px;
+}
+
+@media (min-width: 768px) {
+  .taj-bazar-emblem {
+    width: 38px;
+    height: 38px;
+  }
+}
+
+.taj-bazar-text {
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--color-text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 /* Header Search */
 .header-search {
   flex: 1;
-  max-width: 560px;
-  position: relative;
+  max-width: 580px;
+  margin-inline: var(--space-4);
 }
 
 .header-search-form {
   display: flex;
   align-items: center;
   position: relative;
+  width: 100%;
 }
 
 .header-search-input {
   width: 100%;
+  height: 44px;
+  padding-inline-start: var(--space-4);
   padding-inline-end: var(--space-10);
-  background-color: var(--color-bg-subtle);
-  border-color: transparent;
+  background-color: #f4f4f5;
+  border: 1px solid #e4e4e7;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  transition: all var(--transition-fast);
+}
+
+.header-search-input:focus {
+  background-color: #ffffff;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(229, 37, 52, 0.12);
+  outline: none;
+}
+
+.header-search-input::placeholder {
+  color: #a1a1aa;
 }
 
 .header-search-btn {
   position: absolute;
   inset-inline-end: var(--space-2);
-  color: var(--color-text-secondary);
+  top: 50%;
+  transform: translateY(-50%);
+  color: #71717a;
   padding: var(--space-1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Header Actions */
+.header-search-btn:hover {
+  color: var(--color-primary);
+}
+
+/* Mobile Search Wrapper */
+.header-mobile-search-wrap {
+  padding-block-end: var(--space-3);
+}
+
+.header-mobile-search-wrap .header-search-input {
+  background-color: #f4f4f5;
+  border-color: #e4e4e7;
+  height: 42px;
+}
+
+/* Header Actions (Desktop) */
 .header-actions {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
+  gap: var(--space-2);
 }
 
 .header-action-btn {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-2);
+  justify-content: center;
+  width: 42px;
+  height: 42px;
   border-radius: var(--radius-md);
   color: var(--color-text-primary);
   position: relative;
+  transition: all var(--transition-fast);
+}
+
+.header-action-btn:hover {
+  color: var(--color-primary);
+  background-color: var(--color-primary-light);
 }
 
 .cart-count-badge {
+  position: absolute;
+  top: 2px;
+  inset-inline-end: 2px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 1.25rem;
-  height: 1.25rem;
+  min-width: 18px;
+  height: 18px;
   padding-inline: 4px;
-  font-size: var(--font-size-xs);
+  font-size: 11px;
   font-weight: var(--font-weight-bold);
   background-color: var(--color-primary);
-  color: var(--color-primary-contrast);
+  color: #ffffff;
   border-radius: var(--radius-full);
+}
+
+/* Mobile Actions */
+.mobile-header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.mobile-header-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  color: var(--color-text-primary);
+  border-radius: var(--radius-md);
+}
+
+.mobile-menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  color: var(--color-text-primary);
+  padding: 0;
+}
+
+/* Sub-Header Navigation Wrap (Desktop) */
+.header-nav-wrap {
+  border-block-start: 1px solid var(--color-border-subtle);
+  background-color: var(--color-bg-surface);
+}
+
+.desktop-nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
+}
+
+.desktop-nav-menu {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.desktop-nav-menu a {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  padding-block: var(--space-3);
+  transition: color var(--transition-fast);
+}
+
+.desktop-nav-menu a:hover {
+  color: var(--color-primary);
+}
+
+.header-nav-phone {
+  display: flex;
+  align-items: center;
+}
+
+.header-phone-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  direction: ltr;
+  transition: color var(--transition-fast);
+}
+
+.header-phone-link:hover {
+  color: var(--color-primary);
+}
+
+.header-phone-link svg {
+  color: var(--color-text-secondary);
 }

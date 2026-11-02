@@ -1,37 +1,653 @@
 /**
- * Market Theme — Homepage Styles
+ * Market Theme — Taj Bazar Homepage Styles
  */
 
-.hero-slider-section {
-  margin-block-end: var(--space-8);
+.front-page-main {
+  padding-block: var(--space-6) var(--space-16);
+  background-color: var(--color-bg-canvas);
 }
 
-.product-carousel-section {
-  margin-block-end: var(--space-10);
-}
-
-.section-header {
+.front-page-container {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-block-end: var(--space-6);
+  flex-direction: column;
+  gap: var(--space-12);
 }
 
-.section-title {
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-text-primary);
-  margin: 0;
-  position: relative;
-  display: inline-flex;
+@media (min-width: 1024px) {
+  .front-page-container {
+    gap: var(--space-16);
+  }
+}
+
+/* ==========================================================================
+   Section Title & Header Utilities
+   ========================================================================== */
+.home-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.section-title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+@media (min-width: 768px) {
+  .section-title-wrap {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+}
+
+.section-title-wrap.text-center {
   align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.section-heading-col {
+  display: flex;
+  flex-direction: column;
   gap: var(--space-2);
 }
 
-.section-more-link {
-  font-size: var(--font-size-sm);
-  color: var(--color-primary);
+.section-action-col {
+  display: flex;
+}
+
+@media (max-width: 767px) {
+  .section-action-col .btn-taj-red {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+.section-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin: 0;
+  line-height: var(--line-height-tight);
+}
+
+@media (min-width: 768px) {
+  .section-title {
+    font-size: 1.75rem;
+  }
+}
+
+.btn-taj-red {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-1);
+  justify-content: center;
+  padding: 10px 24px;
+  background-color: var(--color-brand-badge);
+  color: #ffffff;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.btn-taj-red:hover {
+  background-color: var(--color-primary-hover);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(229, 37, 52, 0.3);
+}
+
+/* ==========================================================================
+   1. Hero Slider Section
+   ========================================================================== */
+.hero-slider-section {
+  position: relative;
+}
+
+.hero-slider-container {
+  position: relative;
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.2);
+}
+
+.hero-slide {
+  display: none;
+  position: relative;
+  width: 100%;
+}
+
+.hero-slide.active {
+  display: block;
+}
+
+.hero-slide-bg {
+  padding: var(--space-8) var(--space-6);
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  color: #ffffff;
+}
+
+@media (min-width: 768px) {
+  .hero-slide-bg {
+    padding: var(--space-12) var(--space-10);
+    min-height: 420px;
+  }
+}
+
+.hero-gradient-dark {
+  background: radial-gradient(circle at 85% 50%, #1e3a8a 0%, #0f172a 60%, #030712 100%);
+}
+
+.hero-gradient-blue {
+  background: radial-gradient(circle at 85% 50%, #2563eb 0%, #1d4ed8 50%, #0f172a 100%);
+}
+
+.hero-slide-content {
+  max-width: 600px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.hero-slide-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 4px 14px;
+  background-color: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  color: #e2e8f0;
+}
+
+.hero-slide-sub {
+  font-size: var(--font-size-sm);
+  color: #93c5fd;
+  font-weight: var(--font-weight-medium);
+}
+
+.hero-slide-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: var(--line-height-tight);
+  color: #ffffff;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .hero-slide-title {
+    font-size: 2.5rem;
+  }
+}
+
+.hero-slide-desc {
+  font-size: var(--font-size-sm);
+  color: #cbd5e1;
+  line-height: var(--line-height-normal);
+  margin: 0;
+}
+
+.hero-features-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-6);
+  list-style: none;
+  padding: 0;
+  margin: var(--space-2) 0;
+}
+
+.hero-features-list li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--font-size-xs);
+  color: #f1f5f9;
+}
+
+.hero-features-list svg {
+  color: var(--color-brand-badge);
+}
+
+.hero-cta-wrap {
+  margin-block-start: var(--space-2);
+}
+
+.btn-hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 28px;
+  background-color: var(--color-brand-badge);
+  color: #ffffff;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.btn-hero-cta:hover {
+  background-color: #ffffff;
+  color: var(--color-brand-badge);
+  transform: translateY(-2px);
+}
+
+/* Hero Controls */
+.hero-arrow-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  background-color: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  transition: all var(--transition-fast);
+}
+
+@media (min-width: 768px) {
+  .hero-arrow-btn {
+    display: flex;
+  }
+}
+
+.hero-arrow-btn:hover {
+  background-color: #ffffff;
+  color: #18181b;
+}
+
+.hero-arrow-prev {
+  inset-inline-start: var(--space-4);
+}
+
+.hero-arrow-next {
+  inset-inline-end: var(--space-4);
+}
+
+.hero-dots {
+  position: absolute;
+  bottom: var(--space-4);
+  inset-inline: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  z-index: 5;
+}
+
+.hero-dot {
+  width: 24px;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.35);
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  padding: 0;
+  transition: all var(--transition-fast);
+}
+
+.hero-dot.active {
+  width: 40px;
+  background-color: #ffffff;
+}
+
+/* ==========================================================================
+   2. Product Carousel Utility (Discounts, Recommended, Latest)
+   ========================================================================== */
+.product-carousel-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.product-carousel-track {
+  display: flex;
+  gap: var(--space-4);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-block: var(--space-2);
+}
+
+.product-carousel-track::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-slide-item {
+  flex: 0 0 240px;
+  scroll-snap-align: start;
+}
+
+@media (min-width: 768px) {
+  .carousel-slide-item {
+    flex: 0 0 250px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .carousel-slide-item {
+    flex: 0 0 260px;
+  }
+}
+
+.carousel-dots-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-block-start: var(--space-2);
+}
+
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background-color: #e4e4e7;
+  transition: all var(--transition-fast);
+}
+
+.carousel-dot.active {
+  width: 20px;
+  background-color: var(--color-brand-badge);
+}
+
+/* ==========================================================================
+   3. Circular Categories Section
+   ========================================================================== */
+.categories-circle-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .categories-circle-grid {
+    grid-template-columns: repeat(6, 1fr);
+    gap: var(--space-6);
+  }
+}
+
+.category-circle-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  text-decoration: none;
+  transition: transform var(--transition-fast);
+}
+
+.category-circle-item:hover {
+  transform: translateY(-4px);
+}
+
+.circle-thumb-frame {
+  width: 90px;
+  height: 90px;
+  border-radius: var(--radius-full);
+  background-color: #ffffff;
+  border: 2px solid #e4e4e7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  transition: all var(--transition-fast);
+}
+
+@media (min-width: 768px) {
+  .circle-thumb-frame {
+    width: 115px;
+    height: 115px;
+  }
+}
+
+.category-circle-item:hover .circle-thumb-frame {
+  border-color: var(--color-brand-badge);
+  box-shadow: 0 6px 16px rgba(229, 37, 52, 0.15);
+}
+
+.circle-icon-visual {
+  color: #52525b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-fast);
+}
+
+.category-circle-item:hover .circle-icon-visual {
+  color: var(--color-brand-badge);
+}
+
+.category-circle-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  text-align: center;
+  line-height: var(--line-height-tight);
+}
+
+@media (min-width: 768px) {
+  .category-circle-label {
+    font-size: 13px;
+  }
+}
+
+/* ==========================================================================
+   4. Triple Promo Banners (Row 1 & Row 2)
+   ========================================================================== */
+.promo-banners-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+@media (min-width: 1024px) {
+  .promo-banners-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+  }
+}
+
+.promo-banner-card {
+  border-radius: var(--radius-2xl);
+  padding: var(--space-6);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 200px;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.promo-banner-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.25);
+}
+
+.promo-dark-card {
+  background: linear-gradient(135deg, #18181b 0%, #09090b 100%);
+  color: #ffffff;
+  border: 1px solid #27272a;
+}
+
+.promo-card-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.promo-card-sub {
+  font-size: 11px;
+  color: #a1a1aa;
+  font-weight: var(--font-weight-regular);
+}
+
+.promo-card-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 var(--space-3) 0;
+  line-height: var(--line-height-normal);
+}
+
+.btn-promo-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 18px;
+  background-color: #ffffff;
+  color: #18181b;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  width: fit-content;
+  transition: all var(--transition-fast);
+}
+
+.btn-promo-pill:hover {
+  background-color: var(--color-brand-badge);
+  color: #ffffff;
+}
+
+.promo-card-visual {
+  position: absolute;
+  bottom: -15px;
+  inset-inline-end: -15px;
+  color: #ffffff;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   5. Interactive Feature Banner (دنیای تجهیزات حرفه‌ای را کشف کنید)
+   ========================================================================== */
+.max-w-2xl {
+  max-width: 680px;
+  margin-inline: auto;
+}
+
+.showcase-desc {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.8;
+  margin: 0;
+}
+
+.interactive-banner-container {
+  position: relative;
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.interactive-banner-bg {
+  background: radial-gradient(circle at 50% 50%, #27272a 0%, #18181b 70%, #09090b 100%);
+  min-height: 280px;
+  position: relative;
+  border: 1px solid #27272a;
+  border-radius: var(--radius-2xl);
+}
+
+@media (min-width: 768px) {
+  .interactive-banner-bg {
+    min-height: 400px;
+  }
+}
+
+.interactive-stage {
+  position: absolute;
+  inset: 0;
+}
+
+/* Hotspots */
+.hotspot-point {
+  position: absolute;
+  cursor: pointer;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+}
+
+.hotspot-dot {
+  width: 14px;
+  height: 14px;
+  background-color: var(--color-brand-badge);
+  border: 2px solid #ffffff;
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 10px rgba(239, 57, 78, 0.8);
+  position: relative;
+  z-index: 2;
+}
+
+.hotspot-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 28px;
+  height: 28px;
+  background-color: rgba(239, 57, 78, 0.4);
+  border-radius: var(--radius-full);
+  animation: hotspot-pulse-anim 2s infinite ease-out;
+}
+
+@keyframes hotspot-pulse-anim {
+  0% { transform: translate(-50%, -50%) scale(0.6); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1.8); opacity: 0; }
+}
+
+.hotspot-label {
+  display: none;
+  background-color: rgba(24, 24, 27, 0.85);
+  backdrop-filter: blur(6px);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--radius-md);
+  margin-inline-start: 10px;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.hotspot-point:hover .hotspot-label {
+  display: inline-block;
+}
+
+/* ==========================================================================
+   6. Articles Grid
+   ========================================================================== */
+.articles-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .articles-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }

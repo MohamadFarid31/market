@@ -34,6 +34,7 @@ if (!function_exists('market_enqueue_assets')) {
         // 3. Conditional Page & Template Styles
         if (is_front_page()) {
             wp_enqueue_style('market-product-card', $uri . '/assets/css/components/product-card.css', ['market-tokens'], $theme_version);
+            wp_enqueue_style('market-article-card', $uri . '/assets/css/components/article-card.css', ['market-tokens'], $theme_version);
             wp_enqueue_style('market-page-home', $uri . '/assets/css/pages/home.css', ['market-tokens'], $theme_version);
         }
 

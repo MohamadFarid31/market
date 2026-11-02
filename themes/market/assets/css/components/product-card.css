@@ -1,78 +1,111 @@
 /**
- * Market Theme — Product Card Components
+ * Market Theme — Taj Bazar Product Card Components
  */
 
 .product-card {
-  background-color: var(--color-bg-surface);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-lg);
+  background-color: #ffffff;
+  border: 1px solid #f1f1f4;
+  border-radius: var(--radius-xl);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   position: relative;
   transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+  padding: var(--space-3);
+  text-align: center;
 }
 
 .product-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--color-border-default);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+  border-color: #e4e4e7;
+}
+
+/* Top Actions: Wishlist Heart & Sale Pill */
+.product-card-top-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  position: absolute;
+  top: var(--space-3);
+  inset-inline: 0;
+  padding-inline: var(--space-3);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.product-wishlist-btn {
+  pointer-events: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #a1a1aa;
+  padding: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-fast);
+}
+
+.product-wishlist-btn:hover,
+.product-wishlist-btn.is-active {
+  color: var(--color-primary);
+  transform: scale(1.15);
+}
+
+.product-wishlist-btn.is-active svg {
+  fill: var(--color-primary);
+}
+
+.product-sale-pill {
+  pointer-events: auto;
+  background-color: var(--color-brand-badge);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
 }
 
 /* Image Container */
 .product-card-thumb {
   position: relative;
   aspect-ratio: 1 / 1;
-  background-color: var(--color-bg-subtle);
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-block-start: var(--space-4);
+  margin-block-end: var(--space-3);
   overflow: hidden;
 }
 
 .product-card-thumb img {
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
   object-fit: contain;
-  padding: var(--space-3);
   transition: transform var(--transition-normal);
 }
 
 .product-card:hover .product-card-thumb img {
-  transform: scale(1.04);
-}
-
-/* Badges */
-.product-card-badge {
-  position: absolute;
-  top: var(--space-2);
-  inset-inline-start: var(--space-2);
-  padding-block: 2px;
-  padding-inline: var(--space-2);
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-bold);
-  border-radius: var(--radius-sm);
-  z-index: 2;
-}
-
-.badge-sale {
-  background-color: var(--color-danger);
-  color: var(--color-danger-bg);
+  transform: scale(1.05);
 }
 
 /* Content Area */
 .product-card-content {
-  padding: var(--space-3);
   display: flex;
   flex-direction: column;
   flex: 1;
-  gap: var(--space-2);
-}
-
-.product-card-category {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
+  align-items: center;
+  gap: 4px;
 }
 
 .product-card-title {
-  font-size: var(--font-size-sm);
+  font-size: 13px;
   font-weight: var(--font-weight-medium);
   color: var(--color-text-primary);
   line-height: var(--line-height-normal);
@@ -81,40 +114,64 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   height: 2.8em;
+  margin: 0;
 }
 
 .product-card-title a {
   color: inherit;
+  text-decoration: none;
 }
 
 .product-card-title a:hover {
   color: var(--color-primary);
 }
 
-/* Price Box */
+.product-card-subtitle {
+  font-size: 11px;
+  color: #a1a1aa;
+  font-family: var(--font-family-base);
+  direction: ltr;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.product-card-category {
+  font-size: 11px;
+  color: #71717a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* Pricing Section */
 .product-card-pricing {
   margin-block-start: auto;
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--space-2);
+  padding-block-start: var(--space-2);
 }
 
-.product-price {
-  font-size: var(--font-size-base);
+.product-card-pricing .product-price,
+.product-card-pricing .price {
+  font-size: 15px;
   font-weight: var(--font-weight-bold);
-  color: var(--color-text-primary);
+  color: var(--color-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
 }
 
-.product-price-currency {
-  font-size: var(--font-size-xs);
+.product-card-pricing del {
+  color: #a1a1aa;
+  font-size: 12px;
   font-weight: var(--font-weight-regular);
-  color: var(--color-text-secondary);
-  margin-inline-start: 2px;
+  text-decoration: line-through;
+  margin-inline-end: 6px;
 }
 
-.product-price-old {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
-  text-decoration: line-through;
+.product-card-pricing ins {
+  text-decoration: none;
+  color: var(--color-primary);
 }

@@ -1,23 +1,19 @@
 <?php
 /**
- * Market Theme — Footer Copyright Notice
+ * Market Theme — Taj Bazar Footer Copyright Notice
  *
  * @package Market
  */
 
 defined('ABSPATH') || exit;
 ?>
-<div class="footer-bottom">
-    <div class="copyright-text">
-        <p>
-            &copy; <?php echo esc_html(market_to_persian_numbers(date_i18n('Y'))); ?> 
-            <?php bloginfo('name'); ?>. 
-            <?php esc_html_e('تمامی حقوق محفوظ است.', 'market'); ?>
+<div class="footer-copyright-bar">
+    <div class="container footer-copyright-inner">
+        <p class="copyright-rights">
+            <?php esc_html_e('تمامی حقوق محفوظ و متعلق به تاج بازار می‌باشد.', 'market'); ?>
         </p>
-    </div>
-    <div class="footer-bottom-links">
-        <a href="#primary" class="back-to-top btn-ghost">
-            <?php esc_html_e('بازگشت به بالا ↑', 'market'); ?>
-        </a>
+        <p class="copyright-credits">
+            <?php esc_html_e('طراحی و توسعه یافته توسط استودیو تکسیما', 'market'); ?>
+        </p>
     </div>
 </div>

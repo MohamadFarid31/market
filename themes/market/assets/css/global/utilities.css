@@ -45,8 +45,23 @@
 /* Grid Helpers */
 .grid { display: grid; }
 .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
-.grid-cols-3 { grid-templatecolumns: repeat(3, 1fr); }
+.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
 .grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+/* Brand Badge Helpers */
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 16px;
+  background-color: var(--color-brand-badge);
+  color: #ffffff;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--radius-full);
+  line-height: var(--line-height-normal);
+  white-space: nowrap;
+}
 
 /* Accessibility & Screen Readers */
 .sr-only {

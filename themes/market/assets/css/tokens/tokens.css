@@ -7,52 +7,58 @@
 
 :root {
   /* ==========================================================================
-     1. Color Palette (Neutral / Temporary Theme Tokens)
+     1. Color Palette (Taj Bazar Red & Graphite Brand Tokens)
      ========================================================================== */
-  --color-primary: #1e3a8a;
-  --color-primary-hover: #172554;
-  --color-primary-active: #0f172a;
-  --color-primary-light: #eff6ff;
+  --color-primary: #e52534;
+  --color-primary-hover: #cf1d2b;
+  --color-primary-active: #b91523;
+  --color-primary-light: #fef2f2;
   --color-primary-contrast: #ffffff;
 
-  --color-secondary: #0d9488;
-  --color-secondary-hover: #0f766e;
-  --color-secondary-active: #115e59;
-  --color-secondary-light: #f0fdfa;
+  --color-secondary: #18181b;
+  --color-secondary-hover: #27272a;
+  --color-secondary-active: #09090b;
+  --color-secondary-light: #f4f4f5;
   --color-secondary-contrast: #ffffff;
 
-  --color-accent: #f59e0b;
-  --color-accent-hover: #d97706;
-  --color-accent-light: #fffbeb;
+  --color-accent: #ef394e;
+  --color-accent-hover: #dc2626;
+  --color-accent-light: #fff1f2;
   --color-accent-contrast: #ffffff;
+
+  /* Brand Specific Highlights */
+  --color-brand-red: #e52534;
+  --color-brand-badge: #ef394e;
+  --color-brand-dark: #18181b;
+  --color-brand-dark-surface: #202024;
 
   /* ==========================================================================
      2. Text & Typography Colors
      ========================================================================== */
-  --color-text-primary: #0f172a;
-  --color-text-secondary: #475569;
-  --color-text-muted: #94a3b8;
+  --color-text-primary: #18181b;
+  --color-text-secondary: #52525b;
+  --color-text-muted: #9ca3af;
   --color-text-inverse: #ffffff;
-  --color-text-link: #1e3a8a;
-  --color-text-link-hover: #2563eb;
+  --color-text-link: #e52534;
+  --color-text-link-hover: #cf1d2b;
 
   /* ==========================================================================
      3. Background & Surface Colors
      ========================================================================== */
-  --color-bg-canvas: #f8fafc;
+  --color-bg-canvas: #fafafa;
   --color-bg-surface: #ffffff;
   --color-bg-surface-raised: #ffffff;
-  --color-bg-subtle: #f1f5f9;
-  --color-bg-muted: #e2e8f0;
-  --color-bg-overlay: rgba(15, 23, 42, 0.6);
+  --color-bg-subtle: #f4f4f5;
+  --color-bg-muted: #e4e4e7;
+  --color-bg-overlay: rgba(24, 24, 27, 0.7);
 
   /* ==========================================================================
      4. Border & Divider Colors
      ========================================================================== */
-  --color-border-subtle: #f1f5f9;
-  --color-border-default: #e2e8f0;
-  --color-border-strong: #cbd5e1;
-  --color-border-focus: #3b82f6;
+  --color-border-subtle: #f4f4f5;
+  --color-border-default: #e4e4e7;
+  --color-border-strong: #d4d4d8;
+  --color-border-focus: #e52534;
 
   /* ==========================================================================
      5. Semantic Feedback States

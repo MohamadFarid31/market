@@ -1,77 +1,124 @@
 /**
- * Market Theme — Blog Article Card Components
+ * Market Theme — Taj Bazar Blog Article Card Components
  */
 
 .article-card {
-  background-color: var(--color-bg-surface);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
+  background-color: transparent;
   display: flex;
   flex-direction: column;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  position: relative;
+  transition: transform var(--transition-fast);
 }
 
 .article-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
 }
 
-.article-card-thumb {
-  aspect-ratio: 16 / 9;
+/* Image Thumbnail Container */
+.article-card-thumb-wrap {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-xl);
   overflow: hidden;
-  background-color: var(--color-bg-subtle);
+  background-color: #1e1e24;
+  margin-block-end: var(--space-3);
 }
 
-.article-card-thumb img {
+.article-thumb-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.article-thumb-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform var(--transition-normal);
 }
 
-.article-card:hover .article-card-thumb img {
+.article-card:hover .article-thumb-img {
   transform: scale(1.05);
 }
 
+.article-thumb-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #27272a 0%, #18181b 100%);
+}
+
+/* Red Pill Badge */
+.article-badge-pill {
+  position: absolute;
+  top: 12px;
+  inset-inline-end: 12px;
+  background-color: var(--color-brand-badge);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
+  padding: 3px 12px;
+  border-radius: var(--radius-full);
+  z-index: 2;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Content Area */
 .article-card-body {
-  padding: var(--space-4);
   display: flex;
   flex-direction: column;
   flex: 1;
 }
 
-.article-card-meta {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  font-size: var(--font-size-xs);
-  color: var(--color-text-secondary);
-  margin-block-end: var(--space-2);
-}
-
 .article-card-title {
-  font-size: var(--font-size-md);
+  font-size: 15px;
   font-weight: var(--font-weight-bold);
-  line-height: var(--line-height-tight);
+  line-height: var(--line-height-normal);
   margin-block-end: var(--space-2);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.8em;
 }
 
 .article-card-title a {
   color: var(--color-text-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
 }
 
 .article-card-title a:hover {
   color: var(--color-primary);
 }
 
-.article-card-excerpt {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
-  line-height: var(--line-height-normal);
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  margin-block-end: var(--space-4);
+.article-card-action {
+  margin-block-end: var(--space-2);
+}
+
+.article-more-link {
+  font-size: 13px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: color var(--transition-fast);
+}
+
+.article-more-link:hover {
+  color: var(--color-primary-hover);
+  text-decoration: underline;
+}
+
+/* Meta Area */
+.article-card-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 12px;
+  color: #a1a1aa;
+}
+
+.meta-dot {
+  color: #d4d4d8;
 }
