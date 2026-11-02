@@ -37,5 +37,9 @@ WooCommerce stores products as custom post types (`product` and `product_variati
 
 ## 6. Migration Status & Database Cleanup Boundary
 - **Zero Migration Requirement:** The existing database contains no critical business assets (zero products, variations, customer accounts, or historical orders requiring migration).
-- **Non-Destructive Protocol:** Despite the lack of business data, the existing WordPress database installation must be preserved.
-- **Strict Approval Rule:** Never drop, truncate, or alter existing database tables, options, or metadata without first inspecting the environment, presenting a reasoned justification to the user, and receiving explicit written approval.
+- **Non-Destructive Protocol & Schema Invariants:**
+  1. **No DDL Drops / Truncates:** Never drop or truncate database tables (`DROP TABLE`, `TRUNCATE TABLE`).
+  2. **Preserve System Tables:** Never delete or alter WooCommerce core tables or HPOS tables (`wp_wc_orders`, `wp_wc_order_*`).
+  3. **Preserve Identity & Configuration:** Never delete user or administrator accounts (`wp_users`, `wp_usermeta`) or reset core WordPress options (`wp_options`).
+  4. **Preserve System Records:** Never delete system-generated records simply because they relate to test content.
+  5. **API-Driven Deletions Only:** All test content pruning (25 products, 8 variations, 14 pages, 9 posts, verified attachments) must be executed strictly via native WordPress APIs (`wp_delete_post()`, `wp_delete_attachment()`) so foreign keys, lookup tables, and taxonomy relationships are updated cleanly without orphaned rows.

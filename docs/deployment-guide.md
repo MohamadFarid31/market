@@ -44,3 +44,10 @@
 - Before updating an active theme on production:
   1. Rename the existing remote folder on the server to `market-backup-YYYYMMDD/` before overwriting.
   2. In the event of a critical failure or fatal error, immediately rename the backup folder back to `market/` or activate a standard default theme (e.g. Storefront or Twenty Twenty-Four) via WP-Admin or FTP.
+
+## 5. Safe Ahura Theme Decommissioning Procedure
+1. **Prerequisite:** Ensure a default core fallback theme (e.g., Twenty Twenty-Four) is present in `wp-content/themes/`.
+2. **Parallel Installation:** Upload `market` folder via FTP alongside `ahura`. Both themes coexist on the filesystem; Ahura remains active.
+3. **Activation Checkpoint:** Activate `Market` in WP Admin. Test frontend, header, footer, cart, and checkout in staging or under admin preview.
+4. **Emergency Plan:** If any regression is observed, immediately switch active theme back to `Ahura` with one click.
+5. **Final Decommissioning:** Only after full verification of `Market`, delete the `ahura` (and child theme) folder from `wp-content/themes/` via FTP. Never leave the server without an active working theme.

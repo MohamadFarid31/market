@@ -9,11 +9,13 @@ Every plugin on the existing WordPress site must undergo a rigorous architectura
 5. **Security:** Has the plugin received updates within the last 12 months? Are there known vulnerabilities in public databases (CVE/WPScan)?
 
 ## 2. Existing Plugins Audit Register
-*(To be populated once the user provides the active plugins list from the existing site)*
 
-| Plugin Name | Slug / Version | Purpose / Role | Status (Keep / Replace / Custom Code / Deactivate) | Impact on Custom Theme |
-| :--- | :--- | :--- | :--- | :--- |
-| *Pending User Input* | - | - | - | - |
+| Plugin Name | Identified Role | Status & Action | Impact on Custom Theme |
+| :--- | :--- | :--- | :--- |
+| **WooCommerce** | Core e-commerce engine | **Keep (Mandatory)** | Foundation for shop, cart, checkout, account, and product catalog. Theme provides custom templates. |
+| **Elementor** | Visual page builder | **Retain temporarily -> Decommission post-launch** | Kept active during theme transition. Deactivate and remove once custom theme natively replaces all templates. |
+| **Google for WooCommerce** | Google Shopping & Merchant feed | **Keep** | Retained. Does not conflict with custom theme frontend templates. |
+| **Jetpack** | Site security, stats, tools | **Keep** | Retained. Requires separate justification if removal is desired in the future. |
 
 ## 3. High-Priority Functional Categories to Check
 When reviewing the existing setup, we specifically look for:

@@ -27,18 +27,27 @@
 - **Typography:** Persian web fonts (e.g., Vazirmatn or user-approved Persian font stack) with OpenType features.
 - **Deployment Interface:** File transfer protocol (FTP/SFTP) managed by the site owner.
 
-## 4. Existing Website Inventory & Inspection Status
-> **Clarification Confirmed:** The existing website holds **no valuable business data** (zero products, product variations, customer accounts, orders, or critical business content that require migration). The frontend can be built entirely clean. However, the existing WordPress and WooCommerce installation must be inspected before any action is taken.
+## 4. Existing Website Inventory & Cleanup Status
+> **User-Approved Cleanup Status:** The user has explicitly approved the complete removal of the legacy commercial **Ahura** theme and the deletion of known test content. Full details and safety guardrails are recorded in [`docs/cleanup-manifest.md`](cleanup-manifest.md).
 
-*Baseline parameters to inspect and verify with the user:*
-- **WordPress Version:** *(To be inspected)*
-- **WooCommerce Version:** *(To be inspected)*
-- **PHP Version:** *(To be inspected)*
-- **Database Server:** *(MySQL / MariaDB version)*
-- **Active Web Server:** *(Nginx / Apache / LiteSpeed)*
-- **Currently Active Theme:** *(Identified for replacement)*
-- **Active Plugins & Leftovers:** *(To be audited for cleanup or reuse)*
-- **Cleanup Requirement:** *(To be determined following environment inspection)*
-- **Active Payment Gateways:** *(Iranian banking gateways, e.g., ZarinPal, Saman, Mellat, etc.)*
-- **Active SMS / OTP Gateways:** *(e.g., Kavenegar, FarazSMS, etc.)*
-- **Active Shipping Methods:** *(e.g., Iran Post, Tipax, local courier)*
+### Known Environment & Inventory Findings
+- **Currently Active Theme:** **Ahura** (Approved for complete removal following custom theme activation and verification).
+- **Approved Test Content for Deletion:**
+  - 25 Products & 8 Variations
+  - 14 Test Pages (Strictly preserving WooCommerce system pages: Shop, Cart, Checkout, My Account)
+  - 9 Blog Posts
+  - 186 Media Attachments (Subject to site identity and logo preservation check)
+  - Legacy Elementor Templates (`elementor_library`)
+- **Active Plugins Identified:**
+  - **WooCommerce:** Core e-commerce engine (Preserved).
+  - **Elementor:** Active visual page builder (Retained during theme development; phased out after custom theme natively replaces templates).
+  - **Google for WooCommerce:** Active (Preserved).
+  - **Jetpack:** Active (Preserved).
+- **Backup Prerequisite:** Full database dump and `wp-content/uploads/` archive must be verified prior to live cleanup.
+
+## 5. Phase 2 Architecture & Template Directives
+- **Zero Content Hardcoding:** The user will manually create all real pages, posts, products, categories, subcategories, and brands via the WordPress dashboard later. No IDs, titles, or prices may be hardcoded.
+- **Dynamic Taxonomy Routing:** Support parent category views (drill-down subcategory cards) and child category views (filtered catalog) dynamically via `taxonomy-product_cat.php` / `archive-product.php`.
+- **Brand Taxonomy Strategy:** Native WooCommerce lacks a built-in brand taxonomy. Proposed registering a native, lightweight `product_brand` taxonomy with term meta for logo/banner (Option 1) to eliminate paid plugin dependencies, pending user approval.
+- **Reusable Informational Page Templates:** Provide 5 specialized templates (`page-templates/page-*.php`) for Contact, FAQ, Complaints, About, and Order Guide.
+- **Comprehensive Master Plan:** Detailed in [`docs/template-coverage-matrix.md`](template-coverage-matrix.md), [`docs/architecture.md`](architecture.md), and [`docs/design-system.md`](design-system.md).
