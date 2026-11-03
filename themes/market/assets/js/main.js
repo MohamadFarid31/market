@@ -5,9 +5,11 @@
 import { initNavigation } from './modules/navigation.js';
 import { initCartDrawer } from './modules/cart-drawer.js';
 import { initSliders } from './modules/slider.js';
+import { initSingleProduct } from './modules/single-product.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
   initCartDrawer();
   initSliders();
+  initSingleProduct();
 });

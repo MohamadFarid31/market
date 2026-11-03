@@ -1,76 +1,819 @@
 /**
- * Market Theme — Single Product Styles
+ * Market Theme — Taj Bazar Single Product Styles
+ *
+ * Accurate 1:1 implementation matching Taj Bazar's design tokens and layout.
  */
 
-.single-product-layout {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-8);
-  margin-block-start: var(--space-6);
+.taj-single-product-container {
+  padding-block: var(--space-2) var(--space-16);
 }
 
-@media (min-width: 1024px) {
-  .single-product-layout {
-    grid-template-columns: 1fr 1.2fr;
+/* ==========================================================================
+   1. Breadcrumbs Nav (Single Line, Clean RTL)
+   ========================================================================== */
+.breadcrumbs-nav {
+  padding-block: var(--space-3) var(--space-4);
+  margin-block-end: var(--space-2);
+}
+
+.breadcrumb-items,
+.woocommerce-breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #71717a;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.breadcrumb-items a,
+.woocommerce-breadcrumb a {
+  color: #71717a;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.breadcrumb-items a:hover,
+.woocommerce-breadcrumb a:hover {
+  color: var(--color-primary);
+}
+
+.breadcrumb-separator {
+  color: #d4d4d8;
+  font-size: 0.85rem;
+  user-select: none;
+}
+
+.breadcrumb-item.active {
+  color: #27272a;
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   2. Main Top 3-Column Grid Layout (Desktop RTL)
+   ========================================================================== */
+.taj-single-product-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  margin-block-start: var(--space-2);
+}
+
+/* Responsive Re-ordering for Mobile View */
+@media (max-width: 1023px) {
+  .taj-single-product-grid {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .product-mobile-title {
+    order: 1;
+  }
+
+  .single-product-gallery-col {
+    order: 2;
+  }
+
+  .single-product-info-col {
+    order: 3;
+  }
+
+  .single-product-buybox-col {
+    order: 4;
   }
 }
 
-.product-gallery-wrapper {
-  background-color: var(--color-bg-surface);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-xl);
-  padding: var(--space-4);
+/* Desktop: 3 Distinct Columns (Right: Info, Center: Gallery, Left: Buy Box) */
+@media (min-width: 1024px) {
+  .taj-single-product-grid {
+    display: grid;
+    grid-template-columns: 1fr 380px 330px;
+    gap: var(--space-8);
+    align-items: start;
+  }
 }
 
-.product-summary-wrapper {
+@media (min-width: 1280px) {
+  .taj-single-product-grid {
+    grid-template-columns: 1fr 420px 350px;
+    gap: var(--space-10);
+  }
+}
+
+/* Titles */
+.single-product-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #18181b;
+  line-height: 1.45;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .single-product-title {
+    font-size: 1.55rem;
+  }
+}
+
+.product-mobile-title {
+  margin-block-end: var(--space-4);
+}
+
+.product-desktop-title {
+  margin-block-end: var(--space-5);
+}
+
+/* ==========================================================================
+   3. Column 1 (Right in RTL): Title, Bullet Points & Metadata
+   ========================================================================== */
+.single-product-info-col {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Bullet Points / Key Features */
+.product-short-description {
+  margin-block-end: var(--space-6);
+}
+
+.product-short-description ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.product-short-description li {
+  position: relative;
+  padding-inline-start: 18px;
+  font-size: 0.92rem;
+  color: #27272a;
+  line-height: 1.6;
+}
+
+.product-short-description li::before {
+  content: "•";
+  position: absolute;
+  inset-inline-start: 0;
+  color: #18181b;
+  font-weight: 800;
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+/* Meta Details (Category & Brand) */
+.product-meta-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-block-start: var(--space-4);
+  font-size: 0.92rem;
+}
+
+.product-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.product-meta-row .meta-label {
+  color: #18181b;
+  font-weight: 700;
+}
+
+.product-meta-row .meta-value {
+  color: #71717a;
+}
+
+.product-meta-row .meta-value a {
+  color: #71717a;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.product-meta-row .meta-value a:hover {
+  color: var(--color-primary);
+}
+
+/* ==========================================================================
+   4. Column 2 (Center in RTL): Product Gallery & Thumbnails
+   ========================================================================== */
+.single-product-gallery-col {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
 }
 
-.single-product-title {
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
-  line-height: var(--line-height-tight);
-}
-
-.product-meta-item {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
-}
-
-.product-price-large {
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-primary);
-}
-
-/* Tabs & Specifications */
-.product-tabs-wrapper {
-  margin-block-start: var(--space-12);
-  background-color: var(--color-bg-surface);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-xl);
-  padding: var(--space-6);
-}
-
-/* Mobile Sticky Add-to-Cart Bar */
-.mobile-sticky-buy-bar {
-  display: none;
-  position: fixed;
-  bottom: 0;
-  inset-inline: 0;
-  background-color: var(--color-bg-surface);
-  border-block-start: 1px solid var(--color-border-default);
-  padding: var(--space-3) var(--space-4);
-  box-shadow: var(--shadow-lg);
-  z-index: var(--z-sticky);
+.product-main-image-wrap {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background-color: #ffffff;
+  border: 1px solid #f1f1f4;
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  padding: var(--space-6);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+}
+
+.product-main-img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  transition: transform var(--transition-normal);
+}
+
+.product-main-image-wrap:hover .product-main-img {
+  transform: scale(1.04);
+}
+
+.product-image-placeholder {
+  color: #d4d4d8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-image-zoom-btn {
+  position: absolute;
+  bottom: 14px;
+  inset-inline-start: 14px;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background-color: rgba(255, 255, 255, 0.92);
+  border: 1px solid #e4e4e7;
+  color: #71717a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.product-image-zoom-btn:hover {
+  background-color: #ffffff;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.product-thumbnails-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.product-thumb-item {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-lg);
+  border: 1.5px solid #e4e4e7;
+  background-color: #ffffff;
+  padding: 4px;
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.product-thumb-item.active,
+.product-thumb-item:hover {
+  border-color: var(--color-brand-badge);
+}
+
+.product-thumb-item img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* ==========================================================================
+   5. Column 3 (Left in RTL): Buy Box Card (جعبه خرید)
+   ========================================================================== */
+.single-product-buybox-col {
+  width: 100%;
+}
+
+.product-buybox-card {
+  background-color: #ffffff;
+  border: 1px solid #f1f1f4;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
 }
 
 @media (max-width: 767px) {
-  .mobile-sticky-buy-bar {
-    display: flex;
+  .product-buybox-card {
+    background-color: #f9fafb;
+    border: none;
+    padding: 16px;
+    border-radius: 16px;
   }
+}
+
+/* Guarantees */
+.buybox-guarantees {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.guarantee-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.guarantee-icon-wrap {
+  color: #ef394e;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.guarantee-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.guarantee-text strong {
+  font-size: 13px;
+  font-weight: 700;
+  color: #18181b;
+}
+
+.guarantee-text span {
+  font-size: 11px;
+  color: #71717a;
+}
+
+.buybox-divider {
+  border: none;
+  border-block-start: 1px solid #f4f4f5;
+  margin: 18px 0;
+}
+
+/* Price & Quick Actions */
+.buybox-price-actions-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-block-end: 18px;
+}
+
+.single-product-price {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #18181b;
+}
+
+.single-product-price del {
+  font-size: 0.9rem;
+  color: #a1a1aa;
+  text-decoration: line-through;
+  margin-inline-end: 6px;
+  font-weight: 400;
+}
+
+.single-product-price ins {
+  text-decoration: none;
+  color: #18181b;
+}
+
+.buybox-quick-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.buybox-action-icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  border: 1px solid #e4e4e7;
+  background-color: #ffffff;
+  color: #71717a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.buybox-action-icon-btn:hover {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  background-color: var(--color-primary-light);
+}
+
+/* Native Add to Cart Form + Stepper Row */
+.buybox-cart-form-wrap form.cart {
+  display: flex !important;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  width: 100%;
+}
+
+.buybox-cart-form-wrap form.cart .quantity {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #e4e4e7;
+  border-radius: var(--radius-md);
+  background-color: #ffffff;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.buybox-cart-form-wrap form.cart .quantity input.qty {
+  width: 44px;
+  height: 44px;
+  border: none;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #18181b;
+  background: transparent;
+  padding: 0;
+  -moz-appearance: textfield;
+}
+
+.buybox-cart-form-wrap form.cart .quantity input.qty::-webkit-inner-spin-button,
+.buybox-cart-form-wrap form.cart .quantity input.qty::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.qty-stepper-btn {
+  width: 34px;
+  height: 44px;
+  border: none;
+  background: transparent;
+  color: #71717a;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-fast);
+}
+
+.qty-stepper-btn:hover {
+  color: var(--color-primary);
+}
+
+.buybox-cart-form-wrap button.single_add_to_cart_button {
+  flex: 1;
+  height: 44px;
+  background-color: #ef394e !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: var(--radius-md) !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.buybox-cart-form-wrap button.single_add_to_cart_button:hover {
+  background-color: #dc2626 !important;
+  box-shadow: 0 4px 12px rgba(239, 57, 78, 0.3);
+}
+
+/* ==========================================================================
+   6. Tabs Section: توضیحات محصول و مشخصات فنی
+   ========================================================================== */
+.single-product-tabs-section {
+  margin-block-start: var(--space-12);
+}
+
+.product-tabs-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-block-end: var(--space-6);
+}
+
+@media (max-width: 767px) {
+  .product-tabs-nav {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+.tab-pill-btn {
+  padding: 10px 32px;
+  border-radius: var(--radius-lg);
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  background-color: #18181b;
+  color: #ffffff;
+}
+
+@media (max-width: 767px) {
+  .tab-pill-btn {
+    width: 100%;
+    padding: 12px 20px;
+  }
+}
+
+.tab-pill-btn.active {
+  background-color: #ef394e;
+  color: #ffffff;
+}
+
+.tab-pill-btn.tab-pill-dark {
+  background-color: #18181b;
+  color: #ffffff;
+}
+
+.product-tab-panel {
+  display: none;
+  background-color: #ffffff;
+  border: 1px solid #f1f1f4;
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+}
+
+.product-tab-panel.active {
+  display: block;
+}
+
+.product-tab-panel .entry-content {
+  line-height: 1.9;
+  font-size: 14px;
+  color: #3f3f46;
+}
+
+/* Technical Attributes Table */
+.product-attributes-wrap table.woocommerce-product-attributes {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.product-attributes-wrap table.woocommerce-product-attributes th,
+.product-attributes-wrap table.woocommerce-product-attributes td {
+  padding: 12px 16px;
+  border-block-end: 1px solid #f1f1f4;
+  font-size: var(--font-size-sm);
+}
+
+.product-attributes-wrap table.woocommerce-product-attributes th {
+  background-color: #fafafa;
+  color: #71717a;
+  width: 30%;
+  text-align: start;
+}
+
+/* ==========================================================================
+   7. Reviews Section: امتیاز و دیدگاه کاربران
+   ========================================================================== */
+.single-product-reviews-section {
+  margin-block-start: var(--space-12);
+}
+
+.reviews-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #18181b;
+  margin-block-end: var(--space-4);
+}
+
+.reviews-indicator-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-full);
+  background-color: #ef394e;
+}
+
+.empty-reviews-card {
+  background-color: #ffffff;
+  border: 1px solid #f1f1f4;
+  border-radius: 20px;
+  padding: 36px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+}
+
+.empty-reviews-icon {
+  color: #cbd5e1;
+}
+
+.empty-reviews-text {
+  font-size: 14px;
+  color: #71717a;
+  margin: 0;
+}
+
+/* Desktop Button: ارسال دیدگاه */
+.btn-write-review {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 36px;
+  border-radius: var(--radius-full);
+  border: 1.5px solid #fca5a5;
+  background-color: #ffffff;
+  color: #ef394e;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-write-review:hover {
+  background-color: #ef394e;
+  color: #ffffff;
+  border-color: #ef394e;
+}
+
+/* Mobile Trigger: دیدگاه خود را درباره این کالا بنویسید */
+.mobile-review-trigger-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 480px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  border: 1px solid #e4e4e7;
+  background-color: #ffffff;
+  color: #27272a;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.mobile-review-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mobile-review-inner svg {
+  color: #71717a;
+}
+
+/* Comments & Review Form Styling */
+.product-review-form-wrap {
+  margin-block-start: var(--space-6);
+  background-color: #ffffff;
+  border: 1px solid #f1f1f4;
+  border-radius: 20px;
+  padding: var(--space-6);
+}
+
+.product-review-form-wrap #reply-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-block-end: var(--space-4);
+}
+
+/* ==========================================================================
+   8. Related Products Section (اسلایدر محصولات مرتبط)
+   ========================================================================== */
+.single-product-related-section {
+  margin-block-start: var(--space-14);
+}
+
+.single-product-related-section .section-title-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-block-end: var(--space-6);
+}
+
+.single-product-related-section .section-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #18181b;
+  margin: 0;
+}
+
+.related-slider-arrows {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.slider-arrow-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-full);
+  border: 1px solid #e4e4e7;
+  background-color: #ffffff;
+  color: #71717a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.slider-arrow-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.product-carousel-track {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-block: 4px 16px;
+}
+
+.product-carousel-track::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-slide-item {
+  flex: 0 0 240px;
+  max-width: 240px;
+}
+
+@media (max-width: 640px) {
+  .carousel-slide-item {
+    flex: 0 0 calc(50% - 8px);
+    max-width: calc(50% - 8px);
+  }
+}
+
+/* ==========================================================================
+   9. Mobile Sticky Bottom Buy Bar (نوار چسبان خرید موبایل)
+   ========================================================================== */
+.mobile-sticky-buy-bar {
+  position: fixed;
+  bottom: 0;
+  inset-inline: 0;
+  z-index: var(--z-fixed);
+  background-color: #ffffff;
+  border-block-start: 1px solid #e4e4e7;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.sticky-buy-price {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #18181b;
+}
+
+.btn-taj-red.mobile-sticky-cart-btn {
+  flex: 1;
+  max-width: 200px;
+  height: 44px;
+  background-color: #ef394e;
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

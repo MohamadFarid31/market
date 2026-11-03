@@ -31,6 +31,7 @@ add_action('before_woocommerce_init', function () {
 remove_action('woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10);
 remove_action('woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end', 10);
 remove_action('woocommerce_sidebar', 'woocommerce_get_sidebar', 10);
+remove_action('woocommerce_before_main_content', 'woocommerce_breadcrumb', 20);
 
 /**
  * Custom Clean Content Wrappers
@@ -85,3 +86,28 @@ add_filter('woocommerce_sale_flash', function ($badge, $post, $product) {
     }
     return '';
 }, 10, 3);
+
+/**
+ * 5. Format WooCommerce Prices with Persian Numerals
+ */
+add_filter('formatted_woocommerce_price', function ($formatted_price) {
+    if (function_exists('market_to_persian_numbers')) {
+        return market_to_persian_numbers($formatted_price);
+    }
+    return $formatted_price;
+}, 10, 1);
+
+/**
+ * 6. Store Visibility — Disable WooCommerce 9+ "Coming Soon" Mode
+ *
+ * Prevents WooCommerce from intercepting product, category, and catalog pages
+ * with the default "Great things are on the horizon" / "اتفاقات بزرگی در راه است" maintenance screen.
+ */
+add_filter('woocommerce_is_coming_soon', '__return_false', 9999);
+add_filter('woocommerce_show_coming_soon_banner', '__return_false', 9999);
+
+add_action('init', function () {
+    if (get_option('woocommerce_coming_soon') === 'yes') {
+        update_option('woocommerce_coming_soon', 'no');
+    }
+});

@@ -15,10 +15,25 @@
   text-align: center;
 }
 
+.product-card::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  inset-inline: 20px;
+  height: 3px;
+  background-color: transparent;
+  border-radius: 9999px;
+  transition: background-color var(--transition-fast);
+}
+
 .product-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
   border-color: #e4e4e7;
+}
+
+.product-card:hover::after {
+  background-color: var(--color-brand-badge);
 }
 
 /* Top Actions: Wishlist Heart & Sale Pill */
