@@ -5,7 +5,8 @@
   "type": "module",
   "main": "create-categories.js",
   "scripts": {
-    "create-categories": "node create-categories.js"
+    "create-categories": "node create-categories.js",
+    "sync-pages": "node sync-pages.js"
   },
   "keywords": [
     "woocommerce",
