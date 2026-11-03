@@ -25,33 +25,25 @@ $current_term = get_queried_object();
             <?php endif; ?>
         </header>
 
-        <div class="catalog-layout">
-            <?php if (is_active_sidebar('sidebar-shop')) : ?>
-                <aside class="catalog-sidebar">
-                    <?php dynamic_sidebar('sidebar-shop'); ?>
-                </aside>
-            <?php endif; ?>
-
-            <div class="catalog-content">
-                <?php if (have_posts()) : ?>
-                    <div class="products-grid">
-                        <?php
-                        while (have_posts()) :
-                            the_post();
-                            get_template_part('template-parts/product/card');
-                        endwhile;
-                        ?>
-                    </div>
-                    <?php get_template_part('template-parts/common/pagination'); ?>
-                <?php else : ?>
+        <div class="catalog-main-content">
+            <?php if (have_posts()) : ?>
+                <div class="products-grid">
                     <?php
-                    get_template_part('template-parts/common/empty-state', null, [
-                        'title'       => esc_html__('محصولی برای این برند یافت نشد', 'market'),
-                        'description' => esc_html__('در حال حاضر کالایی برای این برند ثبت نشده است.', 'market'),
-                    ]);
+                    while (have_posts()) :
+                        the_post();
+                        get_template_part('template-parts/product/card');
+                    endwhile;
                     ?>
-                <?php endif; ?>
-            </div>
+                </div>
+                <?php get_template_part('template-parts/common/pagination'); ?>
+            <?php else : ?>
+                <?php
+                get_template_part('template-parts/common/empty-state', null, [
+                    'title'       => esc_html__('محصولی برای این برند یافت نشد', 'market'),
+                    'description' => esc_html__('در حال حاضر کالایی برای این برند ثبت نشده است.', 'market'),
+                ]);
+                ?>
+            <?php endif; ?>
         </div>
     </div>
 </main>

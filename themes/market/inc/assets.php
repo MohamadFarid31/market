@@ -39,7 +39,7 @@ if (!function_exists('market_enqueue_assets')) {
         }
 
         if (function_exists('is_woocommerce')) {
-            if (is_shop() || is_product_taxonomy()) {
+            if (is_shop() || is_product_taxonomy() || is_product_category() || is_product_tag()) {
                 wp_enqueue_style('market-product-card', $uri . '/assets/css/components/product-card.css', ['market-tokens'], $theme_version);
                 wp_enqueue_style('market-pagination', $uri . '/assets/css/components/pagination.css', ['market-tokens'], $theme_version);
                 wp_enqueue_style('market-page-shop', $uri . '/assets/css/pages/shop.css', ['market-tokens'], $theme_version);

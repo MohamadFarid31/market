@@ -1,80 +1,231 @@
 /**
- * Market Theme — Shop & Catalog Archive Styles
+ * Market Theme — Taj Bazar Shop & Category Archive Styles
+ *
+ * Full-width 5-column desktop catalog, 2-column mobile layout.
  */
 
-.catalog-layout {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-6);
-  margin-block-start: var(--space-6);
+.taj-catalog-wrapper {
+  padding-block: var(--space-2) var(--space-14);
 }
 
-@media (min-width: 1024px) {
-  .catalog-layout {
-    grid-template-columns: 280px 1fr;
-  }
+/* ==========================================================================
+   1. Subcategories Bar (Horizontal Scrolling Chips)
+   ========================================================================== */
+.category-subcategories-bar {
+  margin-block-end: var(--space-5);
 }
 
-/* Facet Filter Sidebar */
-.catalog-sidebar {
-  background-color: var(--color-bg-surface);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-lg);
-  padding: var(--space-4);
-  align-self: start;
+.subcategories-scroll-track {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-block: 2px 8px;
 }
 
-.filter-group {
+.subcategories-scroll-track::-webkit-scrollbar {
+  display: none;
+}
+
+.subcat-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  border-radius: var(--radius-full);
+  background-color: #f4f4f5;
+  color: #52525b;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  border: 1px solid #e4e4e7;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.subcat-chip:hover {
+  background-color: #ffffff;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+.subcat-chip.is-active {
+  background-color: var(--color-brand-badge);
+  color: #ffffff;
+  border-color: var(--color-brand-badge);
+}
+
+.subcat-count {
+  font-size: 11px;
+  opacity: 0.85;
+}
+
+/* ==========================================================================
+   2. Catalog Toolbar: Result Count & Orderby Dropdown
+   ========================================================================== */
+.catalog-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
   margin-block-end: var(--space-6);
-  padding-block-end: var(--space-4);
-  border-block-end: 1px solid var(--color-border-subtle);
+  padding-block-end: var(--space-3);
+  border-block-end: 1px solid #f1f1f4;
 }
 
-.filter-group:last-child {
-  margin-block-end: 0;
-  padding-block-end: 0;
-  border-block-end: none;
+.catalog-toolbar-right,
+.catalog-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.filter-title {
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-bold);
-  margin-block-end: var(--space-3);
+.catalog-count {
+  font-size: 13px;
+  color: #71717a;
+  margin: 0;
 }
 
-/* Products Grid */
+.btn-catalog-filter-mobile {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid #e4e4e7;
+  background-color: #ffffff;
+  color: #18181b;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-catalog-filter-mobile:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+/* WooCommerce Ordering Select */
+.catalog-sort-wrap form.woocommerce-ordering {
+  margin: 0;
+}
+
+.woocommerce-ordering select.orderby {
+  border: 1px solid #e4e4e7;
+  border-radius: var(--radius-md);
+  padding: 7px 32px 7px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #3f3f46;
+  background-color: #ffffff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left 10px center;
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--transition-fast);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.woocommerce-ordering select.orderby:hover,
+.woocommerce-ordering select.orderby:focus {
+  border-color: var(--color-primary);
+}
+
+/* ==========================================================================
+   3. Main Catalog Products Grid: 5 Columns Desktop / 2 Columns Mobile
+   ========================================================================== */
+.catalog-main-content {
+  width: 100%;
+}
+
 .products-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-4);
+  gap: 12px;
+}
+
+@media (min-width: 640px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
 }
 
 @media (min-width: 768px) {
   .products-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-6);
+    gap: 16px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .products-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
   }
 }
 
 @media (min-width: 1280px) {
   .products-grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
   }
 }
 
-/* Sorting & Toolbar */
-.catalog-toolbar {
+/* ==========================================================================
+   4. Pagination (شماره صفحات)
+   ========================================================================== */
+.woocommerce-pagination {
+  margin-block-start: var(--space-10);
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: var(--color-bg-surface);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-md);
-  padding: var(--space-3) var(--space-4);
-  margin-block-end: var(--space-6);
+  justify-content: center;
 }
 
-.catalog-count {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
+.woocommerce-pagination ul.page-numbers {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.woocommerce-pagination ul.page-numbers li {
+  margin: 0;
+}
+
+.woocommerce-pagination .page-numbers {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 38px;
+  height: 38px;
+  padding-inline: 10px;
+  border-radius: var(--radius-md);
+  border: 1px solid #e4e4e7;
+  background-color: #ffffff;
+  color: #3f3f46;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.woocommerce-pagination .page-numbers:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.woocommerce-pagination .page-numbers.current {
+  background-color: var(--color-brand-badge);
+  border-color: var(--color-brand-badge);
+  color: #ffffff;
 }
