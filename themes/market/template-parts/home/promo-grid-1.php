@@ -1,55 +1,68 @@
 <?php
 /**
- * Market Theme — Triple Promo Banners Row 1 (Taj Bazar Style)
+ * Market Theme — Triple Promo Banners Row 1 (Visual Image Banners)
  *
  * @package Market
  */
 
 defined('ABSPATH') || exit;
+
+$home_id = (int) get_option('page_on_front');
+if (!$home_id && get_the_ID()) {
+    $home_id = get_the_ID();
+}
+$meta = get_post_meta($home_id, '_market_home_data', true);
+if (!is_array($meta)) {
+    $meta = [];
+}
+
+$get_val = function ($key, $default = '') use ($meta) {
+    return (!empty($meta[$key])) ? $meta[$key] : $default;
+};
 ?>
-<section class="home-section promo-banners-section" aria-label="<?php esc_attr_e('بنرهای تبلیغاتی تجهیزات', 'market'); ?>">
+<section class="home-section promo-banners-section"
+    aria-label="<?php esc_attr_e('بنرهای تبلیغاتی ردیف اول', 'market'); ?>">
     <div class="promo-banners-grid">
-        <!-- Banner 1: نورپردازی -->
-        <div class="promo-banner-card promo-dark-card promo-card-lighting">
-            <div class="promo-card-content">
-                <span class="promo-card-sub"><?php esc_html_e('نورپردازی دقیق برای ثبت جزئیات و ساخت محتوای چشمگیر', 'market'); ?></span>
-                <h3 class="promo-card-title"><?php esc_html_e('تجهیزات نورپردازی حرفه‌ای', 'market'); ?></h3>
-                <a href="<?php echo esc_url(function_exists('wc_get_page_permalink') ? wc_get_page_permalink('shop') : home_url('/shop/')); ?>" class="btn-promo-pill">
-                    <?php esc_html_e('مشاهده و خرید', 'market'); ?>
-                </a>
+        <?php for ($i = 1; $i <= 3; $i++):
+            $img = $get_val("promo_row1_{$i}_img", '');
+            $url = $get_val("promo_row1_{$i}_url", '');
+            ?>
+            <div class="promo-banner-item">
+                <?php if (!empty($img)): ?>
+                    <?php if (!empty($url)): ?>
+                        <a href="<?php echo esc_url($url); ?>" class="promo-card-link">
+                            <img src="<?php echo esc_url($img); ?>"
+                                alt="<?php echo sprintf(esc_attr__('بنر تبلیغاتی %s', 'market'), $i); ?>" class="promo-card-img">
+                        </a>
+                    <?php else: ?>
+                        <div class="promo-card-link">
+                            <img src="<?php echo esc_url($img); ?>"
+                                alt="<?php echo sprintf(esc_attr__('بنر تبلیغاتی %s', 'market'), $i); ?>" class="promo-card-img">
+                        </div>
+                    <?php endif; ?>
+                <?php else: ?>
+                    <!-- کارت پیش‌فرض در صورت عدم آپلود تصویر توسط مدیر -->
+                    <div class="promo-banner-card promo-dark-card promo-default-card">
+                        <div class="promo-card-content">
+                            <span class="promo-card-sub"><?php esc_html_e('پیشنهاد ویژه', 'market'); ?></span>
+                            <h3 class="promo-card-title">
+                                <?php echo sprintf(esc_html__('بنر تبلیغاتی %s', 'market'), market_to_persian_numbers($i)); ?>
+                            </h3>
+                            <a href="<?php echo esc_url(function_exists('wc_get_page_permalink') ? wc_get_page_permalink('shop') : home_url('/shop/')); ?>"
+                                class="btn-promo-pill">
+                                <?php esc_html_e('مشاهده و خرید', 'market'); ?>
+                            </a>
+                        </div>
+                        <div class="promo-card-visual">
+                            <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"
+                                opacity="0.15">
+                                <rect x="3" y="3" width="18" height="14" rx="2"></rect>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                        </div>
+                    </div>
+                <?php endif; ?>
             </div>
-            <div class="promo-card-visual">
-                <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" opacity="0.15"><rect x="3" y="3" width="18" height="14" rx="2"></rect><circle cx="12" cy="10" r="3"></circle></svg>
-            </div>
-        </div>
-
-        <!-- Banner 2: باتری دوربین -->
-        <div class="promo-banner-card promo-dark-card promo-card-battery">
-            <div class="promo-card-content">
-                <span class="promo-card-sub"><?php esc_html_e('انرژی مطمئن برای لحظه‌های مهم', 'market'); ?></span>
-                <h3 class="promo-card-title"><?php esc_html_e('باتری دوربین', 'market'); ?></h3>
-                <a href="<?php echo esc_url(function_exists('wc_get_page_permalink') ? wc_get_page_permalink('shop') : home_url('/shop/')); ?>" class="btn-promo-pill">
-                    <?php esc_html_e('مشاهده و خرید', 'market'); ?>
-                </a>
-            </div>
-            <div class="promo-card-visual">
-                <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" opacity="0.15"><rect x="2" y="7" width="16" height="10" rx="2"></rect><line x1="22" y1="11" x2="22" y2="13"></line></svg>
-            </div>
-        </div>
-
-        <!-- Banner 3: سه‌پایه رومیزی -->
-        <div class="promo-banner-card promo-dark-card promo-card-tripod">
-            <div class="promo-card-content">
-                <span class="promo-card-sub"><?php esc_html_e('راهکاری ساده برای تولید محتوای روزمره و حرفه‌ای', 'market'); ?></span>
-                <h3 class="promo-card-title"><?php esc_html_e('سه‌پایه رومیزی موبایل', 'market'); ?></h3>
-                <a href="<?php echo esc_url(function_exists('wc_get_page_permalink') ? wc_get_page_permalink('shop') : home_url('/shop/')); ?>" class="btn-promo-pill">
-                    <?php esc_html_e('مشاهده و خرید', 'market'); ?>
-                </a>
-            </div>
-            <div class="promo-card-visual">
-                <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" opacity="0.15"><circle cx="12" cy="5" r="2"></circle><line x1="12" y1="10" x2="6" y2="22"></line><line x1="12" y1="10" x2="18" y2="22"></line></svg>
-            </div>
-        </div>
+        <?php endfor; ?>
     </div>
 </section>
-

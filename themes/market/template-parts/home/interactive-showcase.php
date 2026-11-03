@@ -1,54 +1,81 @@
 <?php
 /**
- * Market Theme — Interactive Feature Banner Section (Taj Bazar Style)
+ * Market Theme — Interactive Feature Banner Section (Dynamic Hotspots & Links)
  *
  * @package Market
  */
 
 defined('ABSPATH') || exit;
+
+$home_id = (int) get_option('page_on_front');
+if (!$home_id && get_the_ID()) {
+    $home_id = get_the_ID();
+}
+$meta = get_post_meta($home_id, '_market_home_data', true);
+if (!is_array($meta)) {
+    $meta = [];
+}
+
+$get_val = function ($key, $default = '') use ($meta) {
+    return (!empty($meta[$key])) ? $meta[$key] : $default;
+};
+
+$badge = $get_val('showcase_badge', 'جزئیات بیشتر، انتخابی دقیق‌تر');
+$title = $get_val('showcase_title', 'دنیای تجهیزات حرفه‌ای را کشف کنید');
+$desc  = $get_val('showcase_desc', 'هر محصول برای یک هدف ساخته شده است: از ثبت تصاویر خیره‌کننده تا تولید محتوای حرفه‌ای، تجهیزات موردنیاز خود را از میان مجموعه‌ای از محصولات تخصصی پیدا کنید و با اطمینان، ابزار مناسب برای مسیر خلاقیت خود را انتخاب کنید.');
+$img   = $get_val('showcase_img', '');
+
+$hotspots = isset($meta['showcase_hotspots']) && is_array($meta['showcase_hotspots']) ? $meta['showcase_hotspots'] : [];
+if (empty($hotspots)) {
+    $hotspots = [
+        ['x' => '18', 'y' => '48', 'label' => 'گیمبال و استابلایزر', 'url' => ''],
+        ['x' => '48', 'y' => '60', 'label' => 'دوربین و لنز', 'url' => ''],
+        ['x' => '54', 'y' => '32', 'label' => 'پنل نور LED', 'url' => ''],
+        ['x' => '78', 'y' => '45', 'label' => 'سه‌پایه حرفه‌ای', 'url' => ''],
+    ];
+}
 ?>
 <section class="home-section interactive-showcase-section" aria-label="<?php esc_attr_e('دنیای تجهیزات حرفه‌ای را کشف کنید', 'market'); ?>">
     <div class="section-title-wrap text-center max-w-2xl">
-        <span class="section-badge"><?php esc_html_e('جزئیات بیشتر، انتخابی دقیق‌تر', 'market'); ?></span>
-        <h2 class="section-title showcase-heading"><?php esc_html_e('دنیای تجهیزات حرفه‌ای را کشف کنید', 'market'); ?></h2>
-        <p class="showcase-desc">
-            <?php esc_html_e('هر محصول برای یک هدف ساخته شده است: از ثبت تصاویر خیره‌کننده تا تولید محتوای حرفه‌ای، تجهیزات موردنیاز خود را از میان مجموعه‌ای از محصولات تخصصی پیدا کنید و با اطمینان، ابزار مناسب برای مسیر خلاقیت خود را انتخاب کنید.', 'market'); ?>
-        </p>
+        <?php if (!empty($badge)) : ?>
+            <span class="section-badge"><?php echo esc_html($badge); ?></span>
+        <?php endif; ?>
+        <?php if (!empty($title)) : ?>
+            <h2 class="section-title showcase-heading"><?php echo esc_html($title); ?></h2>
+        <?php endif; ?>
+        <?php if (!empty($desc)) : ?>
+            <p class="showcase-desc">
+                <?php echo esc_html($desc); ?>
+            </p>
+        <?php endif; ?>
     </div>
 
     <div class="interactive-banner-container">
-        <div class="interactive-banner-bg">
-            <!-- Equipment Graphic Layout with SVG / CSS Shapes -->
+        <div class="interactive-banner-bg" style="<?php echo $img ? 'background-image: radial-gradient(circle at 50% 50%, rgba(39,39,42,0.4) 0%, rgba(24,24,27,0.85) 70%), url(' . esc_url($img) . '); background-size: cover; background-position: center;' : ''; ?>">
+            <!-- Interactive Hotspots Container -->
             <div class="interactive-stage">
-                <!-- Hotspot 1: گیمبال -->
-                <div class="hotspot-point" style="top: 48%; right: 18%;" data-tooltip="<?php esc_attr_e('گیمبال تثبیت‌کننده ۳ محوره', 'market'); ?>">
-                    <span class="hotspot-pulse"></span>
-                    <span class="hotspot-dot"></span>
-                    <span class="hotspot-label"><?php esc_html_e('گیمبال و استابلایزر', 'market'); ?></span>
-                </div>
-
-                <!-- Hotspot 2: لنز و دوربین -->
-                <div class="hotspot-point" style="top: 60%; right: 48%;" data-tooltip="<?php esc_attr_e('لنزهای تخصصی پرایم و زوم', 'market'); ?>">
-                    <span class="hotspot-pulse"></span>
-                    <span class="hotspot-dot"></span>
-                    <span class="hotspot-label"><?php esc_html_e('دوربین و لنز', 'market'); ?></span>
-                </div>
-
-                <!-- Hotspot 3: نور استودیویی LED -->
-                <div class="hotspot-point" style="top: 32%; right: 54%;" data-tooltip="<?php esc_attr_e('پنل نور ثابت LED و رینگ‌لایت', 'market'); ?>">
-                    <span class="hotspot-pulse"></span>
-                    <span class="hotspot-dot"></span>
-                    <span class="hotspot-label"><?php esc_html_e('پنل نور LED', 'market'); ?></span>
-                </div>
-
-                <!-- Hotspot 4: سه‌پایه حرفه‌ای -->
-                <div class="hotspot-point" style="top: 45%; right: 78%;" data-tooltip="<?php esc_attr_e('سه‌پایه‌های فیبر کربن عکاسی و فیلمبرداری', 'market'); ?>">
-                    <span class="hotspot-pulse"></span>
-                    <span class="hotspot-dot"></span>
-                    <span class="hotspot-label"><?php esc_html_e('سه‌پایه حرفه‌ای', 'market'); ?></span>
-                </div>
+                <?php foreach ($hotspots as $point) : 
+                    $x = isset($point['x']) ? floatval($point['x']) : 50;
+                    $y = isset($point['y']) ? floatval($point['y']) : 50;
+                    $label = isset($point['label']) ? $point['label'] : '';
+                    $url = isset($point['url']) ? $point['url'] : '';
+                    $has_link = !empty($url);
+                    $tag = $has_link ? 'a' : 'div';
+                ?>
+                    <<?php echo $tag; ?> 
+                        <?php if ($has_link) : ?>href="<?php echo esc_url($url); ?>" target="_blank" rel="noopener"<?php endif; ?>
+                        class="hotspot-point <?php echo $has_link ? 'has-link' : ''; ?>" 
+                        style="right: <?php echo esc_attr($x); ?>%; top: <?php echo esc_attr($y); ?>%;" 
+                        data-tooltip="<?php echo esc_attr($label); ?>"
+                    >
+                        <span class="hotspot-pulse"></span>
+                        <span class="hotspot-dot"></span>
+                        <?php if (!empty($label)) : ?>
+                            <span class="hotspot-label"><?php echo esc_html($label); ?></span>
+                        <?php endif; ?>
+                    </<?php echo $tag; ?>>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>
 </section>
-

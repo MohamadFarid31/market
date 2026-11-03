@@ -48,11 +48,12 @@ if (!function_exists('market_theme_setup')) {
 
         // Navigation Menus
         register_nav_menus([
-            'primary-menu'   => esc_html__('Primary Navigation | منوی اصلی', 'market'),
-            'category-menu'  => esc_html__('Category Mega Menu | دسته‌بندی‌ها', 'market'),
-            'mobile-menu'    => esc_html__('Mobile Drawer Menu | منوی موبایل', 'market'),
-            'footer-col-1'   => esc_html__('Footer Menu 1 | منوی فوتر اول', 'market'),
-            'footer-col-2'   => esc_html__('Footer Menu 2 | منوی فوتر دوم', 'market'),
+            'primary-menu'         => esc_html__('منوی اصلی دسکتاپ', 'market'),
+            'category-menu'        => esc_html__('مگامنوی دسته‌بندی‌ها', 'market'),
+            'mobile-menu'          => esc_html__('منوی کشویی موبایل', 'market'),
+            'footer-quick-links'   => esc_html__('فوتر ۱ - دسترسی سریع', 'market'),
+            'footer-categories'    => esc_html__('فوتر ۲ - دسته‌بندی‌ها', 'market'),
+            'footer-support'       => esc_html__('فوتر ۳ - پشتیبانی و راهنمایی', 'market'),
         ]);
 
         // Image Sizes

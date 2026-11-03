@@ -34,3 +34,9 @@ require_once MARKET_DIR . '/inc/custom-taxonomies.php';
 if (class_exists('WooCommerce')) {
     require_once MARKET_DIR . '/inc/woocommerce.php';
 }
+
+// 8. Theme Settings Page (Footer, Contact, About, Trust Badges)
+require_once MARKET_DIR . '/inc/theme-settings.php';
+
+// 9. Homepage Custom Banners & Meta Boxes
+require_once MARKET_DIR . '/inc/homepage-metaboxes.php';
