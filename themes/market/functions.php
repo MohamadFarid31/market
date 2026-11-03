@@ -40,3 +40,6 @@ require_once MARKET_DIR . '/inc/theme-settings.php';
 
 // 9. Homepage Custom Banners & Meta Boxes
 require_once MARKET_DIR . '/inc/homepage-metaboxes.php';
+
+// 10. Content Pages Custom Meta Boxes (Contact, Complaints, etc.)
+require_once MARKET_DIR . '/inc/content-page-metaboxes.php';

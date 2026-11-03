@@ -79,7 +79,7 @@ if (!function_exists('market_enqueue_assets')) {
             'page-templates/page-complaints.php',
             'page-templates/page-about.php',
             'page-templates/page-guide.php',
-        ])) {
+        ]) || is_page(['contact', 'contact-us', 'about', 'about-us', 'faq', 'guide', 'complaints'])) {
             wp_enqueue_style('market-page-content', $uri . '/assets/css/pages/content-pages.css', ['market-tokens'], $theme_version);
         }
 

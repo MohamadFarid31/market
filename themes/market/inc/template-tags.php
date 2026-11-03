@@ -66,3 +66,33 @@ if (!function_exists('market_post_thumbnail')) {
         }
     }
 }
+
+/**
+ * Handle Contact Form Submission
+ */
+add_action('admin_post_nopriv_market_contact_submit', 'market_handle_contact_submit');
+add_action('admin_post_market_contact_submit', 'market_handle_contact_submit');
+
+function market_handle_contact_submit() {
+    if (!isset($_POST['market_contact_nonce']) || !wp_verify_nonce($_POST['market_contact_nonce'], 'market_contact_form')) {
+        wp_die(esc_html__('درخواست نامعتبر است.', 'market'));
+    }
+
+    $first_name = isset($_POST['contact_first_name']) ? sanitize_text_field($_POST['contact_first_name']) : '';
+    $last_name  = isset($_POST['contact_last_name']) ? sanitize_text_field($_POST['contact_last_name']) : '';
+    $phone      = isset($_POST['contact_phone']) ? sanitize_text_field($_POST['contact_phone']) : '';
+    $email      = isset($_POST['contact_email']) ? sanitize_email($_POST['contact_email']) : '';
+    $subject    = isset($_POST['contact_subject']) ? sanitize_text_field($_POST['contact_subject']) : '';
+    $message    = isset($_POST['contact_message']) ? sanitize_textarea_field($_POST['contact_message']) : '';
+
+    $to = get_option('admin_email');
+    $mail_subject = sprintf('پیام جدید از فرم تماس: %s - %s %s', $subject, $first_name, $last_name);
+    $body = sprintf("نام: %s %s\nشماره تماس: %s\nایمیل: %s\nموضوع: %s\n\nمتن پیام:\n%s", $first_name, $last_name, $phone, $email, $subject, $message);
+
+    @wp_mail($to, $mail_subject, $body);
+
+    $referer = wp_get_referer();
+    $redirect = $referer ? add_query_arg('contact', 'success', $referer) : home_url('/contact-us/?contact=success');
+    wp_safe_redirect($redirect);
+    exit;
+}
