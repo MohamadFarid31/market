@@ -1,124 +1,199 @@
 /**
- * Market Theme — Taj Bazar Blog Article Card Components
+ * Market Theme — Taj Bazar Blog Article Card Component
  */
 
-.article-card {
-  background-color: transparent;
+.article-card.taj-article-card {
+  background-color: #ffffff;
+  border: 1px solid #e4e4e7;
+  border-radius: 14px;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   position: relative;
-  transition: transform var(--transition-fast);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
 }
 
-.article-card:hover {
+.article-card.taj-article-card:hover {
   transform: translateY(-4px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
 }
 
 /* Image Thumbnail Container */
-.article-card-thumb-wrap {
+.taj-article-card .article-card-thumb-wrap {
   position: relative;
   aspect-ratio: 16 / 10;
-  border-radius: var(--radius-xl);
   overflow: hidden;
-  background-color: #1e1e24;
-  margin-block-end: var(--space-3);
+  background-color: #f4f4f5;
+  width: 100%;
 }
 
-.article-thumb-link {
+.taj-article-card .article-thumb-link {
   display: block;
   width: 100%;
   height: 100%;
 }
 
-.article-thumb-img {
+.taj-article-card .article-thumb-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform var(--transition-normal);
+  display: block;
 }
 
-.article-card:hover .article-thumb-img {
+.taj-article-card:hover .article-thumb-img {
   transform: scale(1.05);
 }
 
-.article-thumb-placeholder {
+.taj-article-card .article-thumb-placeholder {
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #27272a 0%, #18181b 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f4f4f5 0%, #e4e4e7 100%);
 }
 
-/* Red Pill Badge */
-.article-badge-pill {
+/* Date Badge on Image (Matching Taj Bazar) */
+.taj-article-card .article-date-badge {
   position: absolute;
   top: 12px;
-  inset-inline-end: 12px;
-  background-color: var(--color-brand-badge);
-  color: #ffffff;
+  inset-inline-start: 12px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 4px 8px;
+  min-width: 44px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  z-index: 2;
+  user-select: none;
+}
+
+.taj-article-card .date-badge-day {
+  font-size: 15px;
+  font-weight: 800;
+  color: #18181b;
+  line-height: 1.1;
+}
+
+.taj-article-card .date-badge-month {
   font-size: 11px;
-  font-weight: var(--font-weight-bold);
+  font-weight: 600;
+  color: #71717a;
+  line-height: 1.2;
+}
+
+/* Red Category Pill Badge */
+.taj-article-card .article-badge-pill {
+  position: absolute;
+  bottom: 12px;
+  inset-inline-end: 12px;
+  background-color: var(--color-brand-badge, #ef394e);
+  color: #ffffff !important;
+  font-size: 11px;
+  font-weight: 700;
   padding: 3px 12px;
   border-radius: var(--radius-full);
   z-index: 2;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  text-decoration: none !important;
+  box-shadow: 0 2px 6px rgba(239, 57, 78, 0.3);
+  transition: background-color var(--transition-fast);
 }
 
-/* Content Area */
-.article-card-body {
+.taj-article-card .article-badge-pill:hover {
+  background-color: #dc2626;
+}
+
+/* Card Body */
+.taj-article-card .article-card-body {
+  padding: 16px;
   display: flex;
   flex-direction: column;
   flex: 1;
 }
 
-.article-card-title {
-  font-size: 15px;
-  font-weight: var(--font-weight-bold);
-  line-height: var(--line-height-normal);
-  margin-block-end: var(--space-2);
+.taj-article-card .article-card-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  line-height: 1.5;
+  margin: 0 0 8px 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  min-height: 2.8em;
+  min-height: 2.9em;
 }
 
-.article-card-title a {
-  color: var(--color-text-primary);
+.taj-article-card .article-card-title a {
+  color: #18181b;
   text-decoration: none;
   transition: color var(--transition-fast);
 }
 
-.article-card-title a:hover {
-  color: var(--color-primary);
+.taj-article-card .article-card-title a:hover {
+  color: var(--color-brand-badge, #ef394e);
 }
 
-.article-card-action {
-  margin-block-end: var(--space-2);
-}
-
-.article-more-link {
-  font-size: 13px;
-  font-weight: var(--font-weight-medium);
-  color: var(--color-primary);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  transition: color var(--transition-fast);
-}
-
-.article-more-link:hover {
-  color: var(--color-primary-hover);
-  text-decoration: underline;
-}
-
-/* Meta Area */
-.article-card-meta {
+/* Meta: Comments & Author */
+.taj-article-card .article-card-meta {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: 8px;
   font-size: 12px;
-  color: #a1a1aa;
+  color: #71717a;
+  margin-block-end: 8px;
 }
 
-.meta-dot {
-  color: #d4d4d8;
+.taj-article-card .article-comments-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.taj-article-card .article-comments-badge .comments-num {
+  color: var(--color-brand-badge, #ef394e);
+  font-weight: 700;
+}
+
+.taj-article-card .article-author {
+  color: #71717a;
+  font-weight: 500;
+}
+
+/* Excerpt */
+.taj-article-card .article-card-excerpt {
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: #71717a;
+  margin-block-end: 14px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Action Link */
+.taj-article-card .article-card-action {
+  margin-block-start: auto;
+}
+
+.taj-article-card .article-more-link {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-brand-badge, #ef394e);
+  text-decoration: none !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all var(--transition-fast);
+}
+
+.taj-article-card .article-more-link:hover {
+  color: #dc2626;
+  transform: translateX(-4px);
 }

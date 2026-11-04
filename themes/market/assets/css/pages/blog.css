@@ -1,55 +1,603 @@
 /**
- * Market Theme — Blog Archive & Single Post Styles
+ * Market Theme — Blog Archive & Single Post Styles (Taj Bazar Recreation)
+ *
+ * 1:1 reproduction of Taj Bazar Blog Archive and Single Article layouts.
+ * Features 2-column sidebar layout, article cards with date badges, related posts grid,
+ * and custom comments toggle.
  */
 
-.blog-layout {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-8);
-  margin-block-start: var(--space-6);
+/* ==========================================================================
+   1. Blog Archive Header
+   ========================================================================== */
+.taj-blog-main {
+  padding-block: var(--space-4) var(--space-16);
 }
 
-@media (min-width: 1024px) {
-  .blog-layout {
-    grid-template-columns: 1fr 320px;
+.taj-blog-header {
+  text-align: center;
+  margin-block-end: 32px;
+}
+
+.taj-blog-header .blog-main-title {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #18181b;
+  margin: 0 0 8px 0;
+  line-height: 1.35;
+}
+
+@media (min-width: 768px) {
+  .taj-blog-header .blog-main-title {
+    font-size: 2.2rem;
   }
 }
 
-.blog-posts-grid {
+.taj-blog-header .blog-subtitle {
+  font-size: 14px;
+  line-height: 1.8;
+  color: #71717a;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* ==========================================================================
+   2. Main Blog Layout (RTL: Article Left, Sidebar Right)
+   ========================================================================== */
+.taj-blog-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .taj-blog-layout {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 32px;
+  }
+}
+
+.taj-article-container {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+}
+
+.taj-posts-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-6);
+  gap: 20px;
 }
 
 @media (min-width: 640px) {
-  .blog-posts-grid {
+  .taj-posts-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-.single-post-article {
-  background-color: var(--color-bg-surface);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-xl);
-  padding: var(--space-6);
+.blog-pagination-wrap {
+  margin-block-start: 36px;
+  display: flex;
+  justify-content: center;
 }
 
-.single-post-header {
-  margin-block-end: var(--space-6);
+/* ==========================================================================
+   3. Single Article Layout
+   ========================================================================== */
+.taj-single-main {
+  padding-block: var(--space-4) var(--space-16);
 }
 
-.single-post-content {
-  font-size: var(--font-size-base);
-  line-height: var(--line-height-relaxed);
-  color: var(--color-text-primary);
+.taj-single-article {
+  background-color: #ffffff;
+  border: 1px solid #e4e4e7;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  margin-block-end: 32px;
 }
 
-.single-post-content p {
-  margin-block-end: var(--space-4);
+@media (min-width: 768px) {
+  .taj-single-article {
+    padding: 36px;
+  }
 }
 
-.single-post-thumb {
-  border-radius: var(--radius-lg);
+/* Header */
+.taj-article-header {
+  margin-block-end: 24px;
+}
+
+.taj-article-header .article-badge-wrap {
+  margin-block-end: 12px;
+}
+
+.taj-article-header .article-badge-pill {
+  background-color: var(--color-brand-badge, #ef394e);
+  color: #ffffff !important;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: var(--radius-full);
+  text-decoration: none !important;
+  display: inline-block;
+  box-shadow: 0 2px 6px rgba(239, 57, 78, 0.25);
+}
+
+.taj-single-title {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: #18181b;
+  line-height: 1.45;
+  margin: 0 0 14px 0;
+}
+
+@media (min-width: 768px) {
+  .taj-single-title {
+    font-size: 2.1rem;
+  }
+}
+
+.taj-single-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: #71717a;
+}
+
+.taj-single-meta .meta-comments-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-brand-badge, #ef394e);
+  font-weight: 700;
+}
+
+.taj-single-meta .author-name {
+  color: #18181b;
+  font-weight: 600;
+}
+
+.taj-single-meta .post-date {
+  color: #71717a;
+}
+
+/* Featured Thumbnail */
+.taj-single-thumb-wrap {
+  border-radius: 14px;
   overflow: hidden;
-  margin-block-end: var(--space-6);
+  margin-block-end: 28px;
+  background-color: #f4f4f5;
+  text-align: center;
+}
+
+.taj-single-thumb-img {
+  width: 100%;
+  height: auto;
+  max-height: 480px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Entry Content Typography */
+.taj-entry-content {
+  font-size: 14.5px;
+  line-height: 2.0;
+  color: #3f3f46;
+  text-align: justify;
+}
+
+.taj-entry-content h2 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #18181b;
+  margin-block-start: 32px;
+  margin-block-end: 12px;
+  line-height: 1.45;
+}
+
+.taj-entry-content h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #18181b;
+  margin-block-start: 24px;
+  margin-block-end: 10px;
+}
+
+.taj-entry-content p {
+  margin-block-end: 18px;
+}
+
+.taj-entry-content img {
+  border-radius: 12px;
+  max-width: 100%;
+  height: auto;
+  margin-block: 16px;
+}
+
+/* Tags Footer */
+.taj-article-footer {
+  margin-block-start: 32px;
+  padding-block-start: 20px;
+  border-block-start: 1px solid #f1f1f4;
+}
+
+.taj-post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-block-end: 24px;
+}
+
+.taj-tag-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  background-color: #fafafa;
+  border: 1px solid #e4e4e7;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #52525b;
+  text-decoration: none !important;
+  transition: all var(--transition-fast);
+}
+
+.taj-tag-pill:hover {
+  border-color: var(--color-brand-badge, #ef394e);
+  color: var(--color-brand-badge, #ef394e);
+  background-color: #ffffff;
+}
+
+/* Post Navigation Bar */
+.taj-post-nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 14px;
+  border-block-start: 1px solid #f1f1f4;
+}
+
+.taj-nav-arrow-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #52525b;
+  text-decoration: none !important;
+  transition: color var(--transition-fast);
+}
+
+.taj-nav-arrow-btn:hover {
+  color: var(--color-brand-badge, #ef394e);
+}
+
+.taj-grid-link-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  border: 1px solid #e4e4e7;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #71717a;
+  transition: all var(--transition-fast);
+}
+
+.taj-grid-link-btn:hover {
+  color: var(--color-brand-badge, #ef394e);
+  border-color: var(--color-brand-badge, #ef394e);
+}
+
+/* ==========================================================================
+   4. Related Posts Section (نوشته‌های مشابه)
+   ========================================================================== */
+.taj-related-posts-section {
+  margin-block-end: 36px;
+}
+
+.taj-section-header {
+  margin-block-end: 18px;
+}
+
+.taj-section-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #18181b;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.title-indicator-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-brand-badge, #ef394e);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.taj-related-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 640px) {
+  .taj-related-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ==========================================================================
+   5. Comments Section (دیدگاه کاربران)
+   ========================================================================== */
+.taj-comments-section {
+  background-color: #ffffff;
+  border: 1px solid #e4e4e7;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  margin-block-start: 24px;
+}
+
+@media (min-width: 768px) {
+  .taj-comments-section {
+    padding: 32px;
+  }
+}
+
+.taj-comments-header {
+  margin-block-end: 20px;
+}
+
+.taj-comments-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #18181b;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.comments-indicator-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-brand-badge, #ef394e);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* Empty State */
+.taj-comments-empty {
+  text-align: center;
+  padding: 28px 16px 16px;
+}
+
+.empty-comment-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #f4f4f5;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-block-end: 12px;
+}
+
+.empty-comment-text {
+  font-size: 13.5px;
+  color: #71717a;
+  margin: 0;
+}
+
+/* Toggle Button */
+.taj-comment-toggle-wrap {
+  margin-block-start: 16px;
+}
+
+.taj-comment-toggle-btn {
+  width: 100%;
+  height: 48px;
+  border: 1px solid #e4e4e7;
+  border-radius: 12px;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.taj-comment-toggle-btn:hover {
+  border-color: #d4d4d8;
+  background-color: #fafafa;
+}
+
+.toggle-btn-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #3f3f46;
+}
+
+.toggle-btn-chevron {
+  color: #a1a1aa;
+}
+
+/* Comment Form Wrap */
+.taj-comment-form-wrap {
+  margin-block-start: 24px;
+  padding-block-start: 20px;
+  border-block-start: 1px solid #f1f1f4;
+}
+
+.taj-comment-fields-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-block-end: 14px;
+}
+
+@media (min-width: 640px) {
+  .taj-comment-fields-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.taj-comment-textarea {
+  width: 100%;
+  border: 1px solid #d4d4d8;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 13.5px;
+  color: #18181b;
+  outline: none;
+  transition: border-color var(--transition-fast);
+  line-height: 1.7;
+}
+
+.taj-comment-textarea:focus {
+  border-color: var(--color-brand-badge, #ef394e);
+}
+
+.taj-comment-submit-btn {
+  height: 44px;
+  padding: 0 28px;
+  background-color: var(--color-brand-badge, #ef394e);
+  color: #ffffff !important;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  margin-block-start: 12px;
+}
+
+.taj-comment-submit-btn:hover {
+  background-color: #dc2626;
+  box-shadow: 0 4px 12px rgba(239, 57, 78, 0.25);
+}
+
+/* ==========================================================================
+   6. Sidebar Widgets (سایدبار وبلاگ تاج بازار)
+   ========================================================================== */
+.taj-blog-sidebar {
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .taj-blog-sidebar {
+    width: 290px;
+    flex-shrink: 0;
+  }
+}
+
+.taj-sidebar-widget {
+  background-color: #ffffff;
+  border: 1px solid #e4e4e7;
+  border-radius: 14px;
+  padding: 20px;
+  margin-block-end: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.taj-widget-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: #18181b;
+  margin: 0 0 16px 0;
+  padding-block-end: 10px;
+  border-block-end: 1px solid #f1f1f4;
+}
+
+/* Search Form Widget */
+.taj-sidebar-search-form .search-input-wrap {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.taj-sidebar-search-form .search-field {
+  flex: 1;
+  height: 40px;
+  border: 1px solid #d4d4d8;
+  border-radius: 8px;
+  padding: 0 12px;
+  font-size: 13px;
+  color: #18181b;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.taj-sidebar-search-form .search-field:focus {
+  border-color: var(--color-brand-badge, #ef394e);
+}
+
+.taj-sidebar-search-btn {
+  height: 40px;
+  padding: 0 16px;
+  background-color: var(--color-brand-badge, #ef394e);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.taj-sidebar-search-btn:hover {
+  background-color: #dc2626;
+}
+
+/* List Widgets (Recent Posts, Comments, Archives, Categories) */
+.taj-sidebar-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.taj-sidebar-list li {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #52525b;
+  border-block-end: 1px solid #f8f8f8;
+  padding-block-end: 8px;
+}
+
+.taj-sidebar-list li:last-child {
+  border-block-end: none;
+  padding-block-end: 0;
+}
+
+.taj-sidebar-list a {
+  color: #3f3f46;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.taj-sidebar-list a:hover {
+  color: var(--color-brand-badge, #ef394e);
+}
+
+.taj-sidebar-list .comment-author-link {
+  font-weight: 600;
+  color: #18181b;
 }

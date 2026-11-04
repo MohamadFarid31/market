@@ -11,9 +11,10 @@ if (!function_exists('market_enqueue_assets')) {
     /**
      * Enqueues theme styles and scripts conditionally.
      */
-    function market_enqueue_assets() {
+    function market_enqueue_assets()
+    {
         $theme_version = wp_get_theme()->get('Version');
-        $uri           = get_template_directory_uri();
+        $uri = get_template_directory_uri();
 
         // 1. Core Tokens & Global Architecture
         wp_enqueue_style('market-tokens', $uri . '/assets/css/tokens/tokens.css', [], $theme_version);
@@ -63,23 +64,26 @@ if (!function_exists('market_enqueue_assets')) {
             }
         }
 
-        if (is_home() || (is_archive() && !function_exists('is_woocommerce') ? true : (!is_woocommerce() && is_archive())) || is_search()) {
+        if (is_home() || is_page(['blog', 'mag', 'articles']) || (is_archive() && !function_exists('is_woocommerce') ? true : (!is_woocommerce() && is_archive())) || is_search()) {
             wp_enqueue_style('market-article-card', $uri . '/assets/css/components/article-card.css', ['market-tokens'], $theme_version);
             wp_enqueue_style('market-pagination', $uri . '/assets/css/components/pagination.css', ['market-tokens'], $theme_version);
             wp_enqueue_style('market-page-blog', $uri . '/assets/css/pages/blog.css', ['market-tokens'], $theme_version);
         }
 
         if (is_singular('post')) {
+            wp_enqueue_style('market-article-card', $uri . '/assets/css/components/article-card.css', ['market-tokens'], $theme_version);
             wp_enqueue_style('market-page-blog', $uri . '/assets/css/pages/blog.css', ['market-tokens'], $theme_version);
         }
 
-        if (is_page_template([
-            'page-templates/page-contact.php',
-            'page-templates/page-faq.php',
-            'page-templates/page-complaints.php',
-            'page-templates/page-about.php',
-            'page-templates/page-guide.php',
-        ]) || is_page(['contact', 'contact-us', 'about', 'about-us', 'faq', 'guide', 'complaints'])) {
+        if (
+            is_page_template([
+                'page-templates/page-contact.php',
+                'page-templates/page-faq.php',
+                'page-templates/page-complaints.php',
+                'page-templates/page-about.php',
+                'page-templates/page-guide.php',
+            ]) || is_page(['contact', 'contact-us', 'about', 'about-us', 'faq', 'guide', 'complaints'])
+        ) {
             wp_enqueue_style('market-page-content', $uri . '/assets/css/pages/content-pages.css', ['market-tokens'], $theme_version);
         }
 
@@ -95,10 +99,10 @@ if (!function_exists('market_enqueue_assets')) {
 
         // Localized Data for Vanilla JS
         wp_localize_script('market-main', 'marketData', [
-            'ajaxUrl'   => admin_url('admin-ajax.php'),
-            'nonce'     => wp_create_nonce('market_ajax_nonce'),
-            'isRtl'     => is_rtl(),
-            'cartUrl'   => function_exists('wc_get_cart_url') ? wc_get_cart_url() : '',
+            'ajaxUrl' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('market_ajax_nonce'),
+            'isRtl' => is_rtl(),
+            'cartUrl' => function_exists('wc_get_cart_url') ? wc_get_cart_url() : '',
         ]);
     }
 }
