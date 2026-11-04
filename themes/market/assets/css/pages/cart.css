@@ -1,56 +1,750 @@
 /**
- * Market Theme — Cart Page Styles
+ * Market Theme — Cart Page Styles (Taj Bazar Recreation)
+ *
+ * 1:1 recreation of Taj Bazar Desktop and Mobile Cart layouts.
+ * Features 2-column desktop grid, responsive card mobile view, red checkout buttons,
+ * and custom quantity steppers.
  */
 
-.cart-layout {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-8);
-  margin-block-start: var(--space-6);
+/* ==========================================================================
+   1. Cart Page Main Layout
+   ========================================================================== */
+.woocommerce-page-container {
+  padding-block: var(--space-4) var(--space-16);
+  width: 100%;
+}
+
+.taj-cart-page-wrapper,
+.woocommerce:has(.woocommerce-cart-form) {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
 }
 
 @media (min-width: 1024px) {
-  .cart-layout {
-    grid-template-columns: 1fr 360px;
+  .taj-cart-page-wrapper,
+  .woocommerce:has(.woocommerce-cart-form) {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 28px;
   }
 }
 
-.cart-table-wrapper {
-  background-color: var(--color-bg-surface);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-xl);
-  overflow-x: auto;
-  padding: var(--space-4);
+/* Right Column (Form & Products Card) */
+.taj-cart-form,
+.woocommerce-cart-form {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
 }
 
-.cart-totals-card {
-  background-color: var(--color-bg-surface);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-xl);
-  padding: var(--space-6);
-  align-self: start;
+.taj-cart-card {
+  background-color: #ffffff;
+  border: 1px solid #e4e4e7;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
 }
 
-.cart-totals-title {
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-bold);
-  margin-block-end: var(--space-4);
-  padding-block-end: var(--space-3);
-  border-block-end: 1px solid var(--color-border-subtle);
+/* Left Column (Cart Totals Card) */
+.taj-cart-collaterals,
+.cart-collaterals {
+  width: 100%;
 }
 
-.cart-totals-row {
+@media (min-width: 1024px) {
+  .taj-cart-collaterals,
+  .cart-collaterals {
+    width: 360px;
+    flex-shrink: 0;
+  }
+}
+
+/* ==========================================================================
+   2. Desktop Cart Table Styles
+   ========================================================================== */
+.taj-cart-table,
+.shop_table.cart {
+  width: 100%;
+  border-collapse: collapse;
+  border: none !important;
+  margin: 0;
+}
+
+.taj-cart-table thead th,
+.shop_table.cart thead th {
+  padding: 0 12px 16px 12px;
+  color: #71717a;
+  font-size: 13.5px;
+  font-weight: 600;
+  border-bottom: 1px solid #f1f1f4;
+  text-align: right;
+}
+
+.taj-cart-table thead th.product-price,
+.shop_table.cart thead th.product-price {
+  text-align: center;
+}
+
+.taj-cart-table thead th.product-quantity,
+.shop_table.cart thead th.product-quantity {
+  text-align: center;
+}
+
+.taj-cart-table thead th.product-subtotal,
+.shop_table.cart thead th.product-subtotal {
+  text-align: left;
+}
+
+.taj-cart-table tbody tr.cart_item,
+.shop_table.cart tbody tr.cart_item {
+  border-bottom: 1px solid #f4f4f5;
+  transition: background-color var(--transition-fast);
+}
+
+.taj-cart-table tbody tr.cart_item:last-child,
+.shop_table.cart tbody tr.cart_item:last-child {
+  border-bottom: none;
+}
+
+.taj-cart-table tbody td,
+.shop_table.cart tbody td {
+  padding: 18px 12px;
+  vertical-align: middle;
+  border: none;
+}
+
+/* Product Info Cell */
+.taj-cart-item-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Remove button */
+.taj-cart-remove-btn,
+.shop_table.cart a.remove {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #fee2e2;
+  color: #ef4444 !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none !important;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.taj-cart-remove-btn:hover,
+.shop_table.cart a.remove:hover {
+  background-color: #ef4444;
+  color: #ffffff !important;
+}
+
+/* Thumbnail */
+.taj-cart-table .product-thumbnail,
+.shop_table.cart .product-thumbnail {
+  width: 68px;
+  height: 68px;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.taj-cart-table .product-thumbnail img,
+.shop_table.cart .product-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 1px solid #f4f4f5;
+  background-color: #ffffff;
+}
+
+/* Title & Info */
+.product-info-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.taj-product-cart-title,
+.shop_table.cart .product-name a {
+  color: #18181b;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  line-height: 1.5;
+  transition: color var(--transition-fast);
+}
+
+.taj-product-cart-title:hover,
+.shop_table.cart .product-name a:hover {
+  color: var(--color-brand-badge);
+}
+
+/* Price Cell */
+.taj-cart-table td.product-price,
+.shop_table.cart td.product-price {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: #3f3f46;
+  white-space: nowrap;
+}
+
+/* Quantity Cell & Stepper */
+.taj-cart-table td.product-quantity,
+.shop_table.cart td.product-quantity {
+  text-align: center;
+}
+
+.taj-quantity-stepper {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #e4e4e7;
+  border-radius: 8px;
+  background-color: #ffffff;
+  overflow: hidden;
+  height: 38px;
+}
+
+.taj-quantity-stepper .qty-btn {
+  width: 32px;
+  height: 38px;
+  border: none;
+  background: transparent;
+  color: #71717a;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+  user-select: none;
+}
+
+.taj-quantity-stepper .qty-btn:hover {
+  background-color: #f4f4f5;
+  color: #18181b;
+}
+
+.taj-quantity-stepper input.qty {
+  width: 36px;
+  height: 38px;
+  border: none;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #18181b;
+  outline: none;
+  padding: 0;
+  -moz-appearance: textfield;
+  background: transparent;
+}
+
+.taj-quantity-stepper input.qty::-webkit-outer-spin-button,
+.taj-quantity-stepper input.qty::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Subtotal Cell */
+.taj-cart-table td.product-subtotal,
+.shop_table.cart td.product-subtotal {
+  text-align: left;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--color-brand-badge, #ef394e);
+  white-space: nowrap;
+}
+
+.taj-subtotal-val,
+.shop_table.cart td.product-subtotal .amount {
+  color: var(--color-brand-badge, #ef394e);
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   3. Coupon & Actions Row
+   ========================================================================== */
+.taj-cart-actions-row,
+.woocommerce-cart-form .actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-block-start: 20px;
+  padding-block-start: 18px;
+  border-block-start: 1px solid #f1f1f4;
+}
+
+.taj-coupon-box,
+.woocommerce-cart-form .coupon {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.taj-coupon-input,
+.woocommerce-cart-form .coupon input[type="text"] {
+  height: 42px;
+  width: 190px;
+  border: 1px solid #d4d4d8;
+  border-radius: 8px;
+  padding: 0 14px;
+  font-size: 13px;
+  color: #18181b;
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  background-color: #ffffff;
+}
+
+.taj-coupon-input:focus,
+.woocommerce-cart-form .coupon input[type="text"]:focus {
+  border-color: var(--color-brand-badge);
+  box-shadow: 0 0 0 3px rgba(239, 57, 78, 0.12);
+}
+
+.taj-apply-coupon-btn,
+.woocommerce-cart-form .coupon button[type="submit"] {
+  height: 42px;
+  background-color: var(--color-brand-badge, #ef394e);
+  color: #ffffff !important;
+  border: none;
+  border-radius: 8px;
+  padding: 0 22px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.taj-apply-coupon-btn:hover,
+.woocommerce-cart-form .coupon button[type="submit"]:hover {
+  background-color: #dc2626;
+  box-shadow: 0 3px 10px rgba(239, 57, 78, 0.25);
+}
+
+.taj-update-cart-btn,
+.woocommerce-cart-form button[name="update_cart"] {
+  height: 42px;
+  background-color: #f4f4f5;
+  color: #52525b;
+  border: 1px solid #e4e4e7;
+  border-radius: 8px;
+  padding: 0 18px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.taj-update-cart-btn:hover,
+.woocommerce-cart-form button[name="update_cart"]:hover {
+  background-color: #e4e4e7;
+  color: #18181b;
+}
+
+/* ==========================================================================
+   4. Cart Totals Card (جمع کل سبد خرید)
+   ========================================================================== */
+.taj-cart-totals-card,
+.cart-collaterals .cart_totals {
+  background-color: #ffffff;
+  border: 1px solid #e4e4e7;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  float: none !important;
+  width: 100% !important;
+}
+
+.taj-cart-totals-title,
+.cart-collaterals .cart_totals h2 {
+  font-size: 16px;
+  font-weight: 800;
+  color: #18181b;
+  margin: 0 0 18px 0;
+  text-align: center;
+}
+
+.taj-totals-table,
+.cart-collaterals .cart_totals table.shop_table {
+  width: 100%;
+  border-collapse: collapse;
+  border: none !important;
+  margin-block-end: 18px;
+}
+
+.taj-totals-row,
+.cart-collaterals .cart_totals table.shop_table tr {
   display: flex;
   justify-content: space-between;
-  padding-block: var(--space-2);
-  font-size: var(--font-size-sm);
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #f4f4f5;
 }
 
-.cart-totals-final {
-  font-size: var(--font-size-md);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-primary);
-  border-block-start: 1px solid var(--color-border-subtle);
-  padding-block-start: var(--space-3);
-  margin-block-start: var(--space-3);
+.taj-totals-row th,
+.cart-collaterals .cart_totals table.shop_table tr th {
+  color: #52525b;
+  font-size: 14px;
+  font-weight: 600;
+  border: none !important;
+  padding: 0;
+  text-align: right;
+  width: auto;
+}
+
+.taj-totals-row td,
+.cart-collaterals .cart_totals table.shop_table tr td {
+  color: #18181b;
+  font-size: 14px;
+  font-weight: 600;
+  border: none !important;
+  padding: 0;
+  text-align: left;
+}
+
+.taj-totals-final-row,
+.cart-collaterals .cart_totals table.shop_table tr.order-total {
+  border-bottom: none;
+  padding-block-start: 16px;
+}
+
+.taj-totals-final-row th,
+.cart-collaterals .cart_totals table.shop_table tr.order-total th {
+  color: #18181b;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.taj-totals-final-row td,
+.cart-collaterals .cart_totals table.shop_table tr.order-total td,
+.cart-collaterals .cart_totals table.shop_table tr.order-total .amount {
+  color: var(--color-brand-badge, #ef394e) !important;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+/* Proceed to Checkout Button */
+.taj-checkout-btn,
+.wc-proceed-to-checkout a.checkout-button {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 100% !important;
+  height: 48px !important;
+  background-color: var(--color-brand-badge, #ef394e) !important;
+  color: #ffffff !important;
+  border-radius: 10px !important;
+  font-size: 14.5px !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  border: none !important;
+  cursor: pointer;
+  transition: all var(--transition-fast) !important;
+  box-shadow: 0 4px 12px rgba(239, 57, 78, 0.25) !important;
+  margin-block-start: 8px !important;
+}
+
+.taj-checkout-btn:hover,
+.wc-proceed-to-checkout a.checkout-button:hover {
+  background-color: #dc2626 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(239, 57, 78, 0.35) !important;
+}
+
+/* ==========================================================================
+   5. Mobile Responsive Card Styles (Matching Taj Bazar Mobile PDF)
+   ========================================================================== */
+@media (max-width: 767px) {
+  .taj-cart-card {
+    padding: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+
+  .taj-cart-table thead,
+  .shop_table.cart thead {
+    display: none !important;
+  }
+
+  .taj-cart-table tbody,
+  .shop_table.cart tbody {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .taj-cart-table tbody tr.cart_item,
+  .shop_table.cart tbody tr.cart_item {
+    display: block;
+    position: relative;
+    background: #ffffff;
+    border: 1px solid #e4e4e7;
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  }
+
+  /* Remove Button at Top-Left */
+  .taj-cart-table .product-remove,
+  .shop_table.cart .product-remove {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 2;
+    padding: 0;
+  }
+
+  .taj-cart-remove-btn,
+  .shop_table.cart a.remove {
+    width: 26px;
+    height: 26px;
+    font-size: 18px;
+    background-color: #ffe4e6;
+    color: #f43f5e !important;
+  }
+
+  /* Product Header: Image & Name */
+  .taj-cart-table td.product-name,
+  .shop_table.cart td.product-name {
+    display: block;
+    padding: 0;
+    width: 100%;
+    border: none;
+  }
+
+  .taj-cart-item-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .taj-cart-table .product-thumbnail,
+  .shop_table.cart .product-thumbnail {
+    width: 62px;
+    height: 62px;
+  }
+
+  .product-info-col {
+    padding-inline-end: 28px; /* avoid collision with remove button */
+  }
+
+  .taj-product-cart-title,
+  .shop_table.cart .product-name a {
+    font-size: 13.5px;
+    font-weight: 700;
+    line-height: 1.45;
+  }
+
+  .taj-mobile-unit-price {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12.5px;
+    color: #71717a;
+    margin-block-start: 4px;
+  }
+
+  /* Hide Desktop Price in Mobile */
+  .taj-cart-table td.product-price,
+  .shop_table.cart td.product-price {
+    display: none !important;
+  }
+
+  /* Bottom Row: Quantity Stepper on Right, Subtotal on Left */
+  .taj-cart-table td.product-quantity,
+  .shop_table.cart td.product-quantity {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 12px 0 0 0;
+    border-top: 1px solid #f4f4f5;
+    margin-top: 12px;
+    float: right;
+    width: auto;
+  }
+
+  .taj-mobile-qty-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .taj-mobile-label {
+    font-size: 11px;
+    color: #a1a1aa;
+    font-weight: 600;
+  }
+
+  .taj-cart-table td.product-subtotal,
+  .shop_table.cart td.product-subtotal {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    padding: 24px 0 0 0;
+    float: left;
+    width: auto;
+    border: none;
+  }
+
+  .taj-cart-table td.product-subtotal .taj-mobile-label {
+    font-size: 13px;
+    color: #71717a;
+    font-weight: 500;
+  }
+
+  .taj-subtotal-val,
+  .shop_table.cart td.product-subtotal .amount {
+    font-size: 15px;
+    font-weight: 800;
+  }
+
+  /* Actions & Coupon Box in Mobile */
+  .taj-cart-actions-row,
+  .woocommerce-cart-form .actions {
+    clear: both;
+    background: #ffffff;
+    border: 1px solid #e4e4e7;
+    border-radius: 14px;
+    padding: 16px;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 14px;
+  }
+
+  .taj-coupon-box,
+  .woocommerce-cart-form .coupon {
+    display: flex;
+    width: 100%;
+    gap: 8px;
+  }
+
+  .taj-coupon-input,
+  .woocommerce-cart-form .coupon input[type="text"] {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+  }
+
+  .taj-apply-coupon-btn,
+  .woocommerce-cart-form .coupon button[type="submit"] {
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 0 16px;
+  }
+
+  .taj-update-cart-btn,
+  .woocommerce-cart-form button[name="update_cart"] {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* ==========================================================================
+   6. Empty Cart State
+   ========================================================================== */
+.cart-empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: #ffffff;
+  border: 1px solid #e4e4e7;
+  border-radius: 16px;
+  max-width: 580px;
+  margin: 30px auto;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.cart-empty-icon-wrap {
+  margin-block-end: 20px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background-color: #f4f4f5;
+}
+
+.cart-empty-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #18181b;
+  margin-block-end: 8px;
+}
+
+.cart-empty-desc {
+  font-size: 14px;
+  color: #71717a;
+  margin-block-end: 24px;
+}
+
+.taj-return-shop-btn,
+.cart-empty-state .return-to-shop a.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-brand-badge, #ef394e);
+  color: #ffffff !important;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none !important;
+  transition: all var(--transition-fast);
+  box-shadow: 0 4px 12px rgba(239, 57, 78, 0.25);
+}
+
+.taj-return-shop-btn:hover,
+.cart-empty-state .return-to-shop a.button:hover {
+  background-color: #dc2626;
+  box-shadow: 0 6px 16px rgba(239, 57, 78, 0.35);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   7. Fallback for Gutenberg WooCommerce Cart Blocks
+   ========================================================================== */
+.wp-block-woocommerce-cart,
+.wc-block-cart {
+  font-family: inherit;
+}
+
+.wc-block-cart__submit-button,
+.wc-block-components-checkout-button {
+  background-color: var(--color-brand-badge, #ef394e) !important;
+  color: #ffffff !important;
+  border-radius: 10px !important;
+  font-weight: 700 !important;
+  border: none !important;
+  box-shadow: 0 4px 12px rgba(239, 57, 78, 0.25) !important;
+}
+
+.wc-block-cart__submit-button:hover,
+.wc-block-components-checkout-button:hover {
+  background-color: #dc2626 !important;
+}
+
+.wc-block-components-totals-item__value {
+  color: var(--color-brand-badge, #ef394e) !important;
+  font-weight: 800 !important;
 }

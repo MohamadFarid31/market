@@ -303,7 +303,7 @@
 }
 
 /* ==========================================================================
-   3. Generic Pages (About, FAQ, Complaints, Guide)
+   3. Generic Pages (About, Complaints, Guide)
    ========================================================================== */
 .page-content-card {
   background-color: var(--color-bg-surface);
@@ -313,47 +313,206 @@
   margin-block-start: var(--space-6);
 }
 
-/* FAQ Semantic Accordion */
-.faq-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  margin-block-start: var(--space-6);
+/* ==========================================================================
+   4. Taj Bazar FAQ Page (سوالات متداول و راهنمای خرید)
+   ========================================================================== */
+.faq-page-main {
+  padding-block: var(--space-4) var(--space-16);
 }
 
-.faq-item {
-  background-color: var(--color-bg-subtle);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-md);
-  overflow: hidden;
+.faq-container {
+  max-width: 980px;
+  margin-inline: auto;
+}
+
+/* Header */
+.faq-header {
+  margin-block-end: var(--space-8);
+}
+
+.faq-eyebrow {
+  font-size: 14px;
+  font-weight: 700;
+  color: #18181b;
+  display: block;
+  margin-block-end: 8px;
+}
+
+.faq-main-title {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #18181b;
+  margin: 0 0 16px 0;
+  line-height: 1.35;
+}
+
+@media (min-width: 768px) {
+  .faq-main-title {
+    font-size: 2.2rem;
+  }
+}
+
+.faq-desc {
+  font-size: 14px;
+  line-height: 1.9;
+  color: #52525b;
+  max-width: 780px;
+  margin: 0;
+}
+
+/* Groups and Grids */
+.faq-section-block {
+  margin-block-end: var(--space-8);
+  display: flex;
+  flex-direction: column;
+}
+
+.faq-grid-2-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-block-end: var(--space-8);
+}
+
+@media (min-width: 1024px) {
+  .faq-grid-2-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-10);
+    align-items: start;
+  }
+}
+
+.faq-col {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Taj FAQ Item (Minimalist Divider Style) */
+.taj-faq-item {
+  border-block-end: 1px solid #f1f1f4;
+  padding-block: 16px;
   transition: all var(--transition-fast);
 }
 
-.faq-item summary {
-  padding: var(--space-4);
-  font-weight: var(--font-weight-medium);
-  cursor: pointer;
+.taj-faq-item:first-child {
+  border-block-start: 1px solid #f1f1f4;
+}
+
+.faq-question {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  list-style: none;
   user-select: none;
 }
 
-.faq-item[open] {
-  background-color: var(--color-bg-surface);
-  box-shadow: var(--shadow-sm);
+.faq-question::-webkit-details-marker {
+  display: none;
 }
 
-.faq-item[open] summary {
-  border-block-end: 1px solid var(--color-border-subtle);
+.faq-question span:first-child {
+  font-size: 15px;
+  font-weight: 700;
+  color: #18181b;
+  line-height: 1.5;
+  transition: color var(--transition-fast);
+}
+
+.taj-faq-item:hover .faq-question span:first-child,
+.taj-faq-item[open] .faq-question span:first-child {
+  color: var(--color-primary);
+}
+
+.faq-chevron {
+  color: #a1a1aa;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  transition: transform var(--transition-fast), color var(--transition-fast);
+}
+
+.taj-faq-item[open] .faq-chevron {
+  transform: rotate(180deg);
   color: var(--color-primary);
 }
 
 .faq-answer {
-  padding: var(--space-4);
-  font-size: var(--font-size-sm);
-  line-height: var(--line-height-normal);
-  color: var(--color-text-secondary);
+  padding-block-start: 12px;
+  padding-block-end: 4px;
+}
+
+.faq-answer p {
+  font-size: 13.5px;
+  line-height: 1.85;
+  color: #52525b;
+  margin: 0;
+}
+
+/* Support Call-to-Action Banner */
+.faq-support-banner {
+  background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+  border-radius: 20px;
+  padding: 36px 28px;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+  margin-block: var(--space-8);
+  box-shadow: 0 10px 25px -5px rgba(239, 68, 68, 0.25);
+}
+
+.faq-banner-badge {
+  background-color: #18181b;
+  color: #ffffff;
+  padding: 5px 18px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.faq-banner-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+}
+
+.faq-banner-desc {
+  font-size: 13.5px;
+  line-height: 1.85;
+  color: rgba(255, 255, 255, 0.95);
+  max-width: 680px;
+  margin: 0;
+}
+
+.faq-banner-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #18181b;
+  color: #ffffff !important;
+  padding: 10px 28px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none !important;
+  transition: all var(--transition-fast);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  margin-block-start: 6px;
+}
+
+.faq-banner-btn:hover {
+  background-color: #27272a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
 /* Process Stepper for Guide */
@@ -389,4 +548,143 @@
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-lg);
   margin-block-end: var(--space-4);
+}
+
+/* ==========================================================================
+   5. Taj Bazar Complaints & Suggestions Page (پیشنهادات و انتقادات)
+   ========================================================================== */
+.complaints-page-main {
+  padding-block: var(--space-4) var(--space-16);
+}
+
+.complaints-container {
+  max-width: 880px;
+  margin-inline: auto;
+}
+
+.complaints-header {
+  margin-block-end: var(--space-8);
+}
+
+.complaints-eyebrow {
+  font-size: 14px;
+  font-weight: 700;
+  color: #18181b;
+  display: block;
+  margin-block-end: 8px;
+}
+
+.complaints-main-title {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #18181b;
+  margin: 0 0 16px 0;
+  line-height: 1.35;
+}
+
+@media (min-width: 768px) {
+  .complaints-main-title {
+    font-size: 2.2rem;
+  }
+}
+
+.complaints-desc {
+  font-size: 14px;
+  line-height: 1.9;
+  color: #52525b;
+  max-width: 860px;
+  margin: 0;
+  text-align: justify;
+}
+
+.complaints-form-container {
+  width: 100%;
+}
+
+.taj-complaints-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Radio Group & Options */
+.taj-radio-group-wrap {
+  margin-block: 4px 6px;
+}
+
+.taj-radio-options-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px 32px;
+  margin-block-start: 8px;
+}
+
+.taj-radio-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: #3f3f46;
+  position: relative;
+}
+
+.taj-radio-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.taj-radio-custom {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #d4d4d8;
+  background-color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.taj-radio-custom::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--color-brand-badge);
+  transform: scale(0);
+  transition: transform var(--transition-fast);
+}
+
+.taj-radio-input:checked + .taj-radio-custom {
+  border-color: var(--color-brand-badge);
+}
+
+.taj-radio-input:checked + .taj-radio-custom::after {
+  transform: scale(1);
+}
+
+.taj-radio-input:checked ~ .taj-radio-text {
+  color: #18181b;
+  font-weight: 600;
+}
+
+.taj-radio-input:focus-visible + .taj-radio-custom {
+  box-shadow: 0 0 0 3px rgba(239, 57, 78, 0.2);
+}
+
+@media (max-width: 639px) {
+  .taj-radio-options-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
 }

@@ -96,3 +96,36 @@ function market_handle_contact_submit() {
     wp_safe_redirect($redirect);
     exit;
 }
+
+/**
+ * Handle Complaints & Suggestions Form Submission
+ */
+add_action('admin_post_nopriv_market_complaint_submit', 'market_handle_complaint_submit');
+add_action('admin_post_market_complaint_submit', 'market_handle_complaint_submit');
+
+function market_handle_complaint_submit() {
+    if (!isset($_POST['market_complaint_nonce']) || !wp_verify_nonce($_POST['market_complaint_nonce'], 'market_complaint_form')) {
+        wp_die(esc_html__('درخواست نامعتبر است.', 'market'));
+    }
+
+    $name        = isset($_POST['complaint_name']) ? sanitize_text_field($_POST['complaint_name']) : '';
+    $email       = isset($_POST['complaint_email']) ? sanitize_email($_POST['complaint_email']) : '';
+    $phone       = isset($_POST['complaint_phone']) ? sanitize_text_field($_POST['complaint_phone']) : '';
+    $subject     = isset($_POST['complaint_subject']) ? sanitize_text_field($_POST['complaint_subject']) : '';
+    $referral    = isset($_POST['complaint_referral']) ? sanitize_text_field($_POST['complaint_referral']) : '';
+    $details     = isset($_POST['complaint_details']) ? sanitize_textarea_field($_POST['complaint_details']) : '';
+
+    $to = get_option('admin_email');
+    $mail_subject = sprintf('پیشنهاد یا انتقاد جدید: %s - %s', $subject, $name);
+    $body = sprintf(
+        "نام و نام خانوادگی: %s\nایمیل: %s\nشماره تماس: %s\nموضوع: %s\nنحوه آشنایی: %s\n\nتوضیحات:\n%s",
+        $name, $email, $phone, $subject, $referral, $details
+    );
+
+    @wp_mail($to, $mail_subject, $body);
+
+    $referer = wp_get_referer();
+    $redirect = $referer ? add_query_arg('complaint', 'success', $referer) : home_url('/complaints/?complaint=success');
+    wp_safe_redirect($redirect);
+    exit;
+}

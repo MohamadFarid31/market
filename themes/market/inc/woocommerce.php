@@ -111,3 +111,17 @@ add_action('init', function () {
         update_option('woocommerce_coming_soon', 'no');
     }
 });
+
+/**
+ * 7. Cart & Checkout — Prefer Classic Taj Bazar Templates over Gutenberg Cart Block
+ *
+ * Ensures WooCommerce renders our custom templates (cart.php and cart-totals.php)
+ * matching Taj Bazar's clean 2-column desktop and responsive card mobile views.
+ */
+add_filter('the_content', function ($content) {
+    if (function_exists('is_cart') && is_cart() && has_block('woocommerce/cart')) {
+        return do_shortcode('[woocommerce_cart]');
+    }
+    return $content;
+}, 5);
+
