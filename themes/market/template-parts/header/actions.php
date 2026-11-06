@@ -25,10 +25,16 @@ $wishlist_url = home_url('/wishlist/');
         </button>
     <?php endif; ?>
 
+    <?php
+    $wishlist_count = (is_user_logged_in() && function_exists('market_get_user_wishlist')) ? count(market_get_user_wishlist()) : 0;
+    ?>
     <a href="<?php echo esc_url($wishlist_url); ?>" class="header-action-btn btn-ghost" aria-label="<?php esc_attr_e('علاقه‌مندی‌ها', 'market'); ?>">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
         </svg>
+        <span class="wishlist-count-badge" id="header-wishlist-count" style="<?php echo $wishlist_count > 0 ? '' : 'display: none;'; ?>">
+            <?php echo esc_html(market_to_persian_numbers($wishlist_count)); ?>
+        </span>
     </a>
 
     <a href="<?php echo esc_url($account_url); ?>" class="header-action-btn btn-ghost" aria-label="<?php esc_attr_e('حساب کاربری', 'market'); ?>">

@@ -87,6 +87,12 @@ if (!function_exists('market_enqueue_assets')) {
             wp_enqueue_style('market-page-content', $uri . '/assets/css/pages/content-pages.css', ['market-tokens'], $theme_version);
         }
 
+        if (is_page('wishlist') || is_page_template('page-templates/page-wishlist.php')) {
+            wp_enqueue_style('market-product-card', $uri . '/assets/css/components/product-card.css', ['market-tokens'], $theme_version);
+            wp_enqueue_style('market-empty', $uri . '/assets/css/components/empty-states.css', ['market-tokens'], $theme_version);
+            wp_enqueue_style('market-page-wishlist', $uri . '/assets/css/pages/wishlist.css', ['market-tokens', 'market-product-card'], $theme_version);
+        }
+
         // 4. Root Stylesheet (Metadata & RTL)
         wp_enqueue_style('market-style', get_stylesheet_uri(), ['market-tokens'], $theme_version);
 

@@ -33,6 +33,7 @@ require_once MARKET_DIR . '/inc/custom-taxonomies.php';
 // 7. WooCommerce Integration (Only when WooCommerce is active)
 if (class_exists('WooCommerce')) {
     require_once MARKET_DIR . '/inc/woocommerce.php';
+    require_once MARKET_DIR . '/inc/wishlist.php';
 }
 
 // 8. Theme Settings Page (Footer, Contact, About, Trust Badges)

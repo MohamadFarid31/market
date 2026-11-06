@@ -6,6 +6,7 @@
   "main": "create-categories.js",
   "scripts": {
     "create-categories": "node create-categories.js",
+    "create-products": "node create-mock-products.js",
     "sync-pages": "node sync-pages.js"
   },
   "keywords": [

@@ -36,6 +36,7 @@ This document outlines the complete template coverage, dynamic taxonomy routing,
 | **Suggestions & Complaints** | `page-templates/page-complaints.php` | Selected via Page Template in WP Admin | No | **Yes** | Header, Breadcrumbs, Secure Form (Sanitized, Nonce, Tracking ID generation), Footer |
 | **About Us (درباره ما)** | `page-templates/page-about.php` | Selected via Page Template in WP Admin | No | **Yes** | Header, Breadcrumbs, Story Section, Values/Stats Grid, Team Grid, Trust Badges, Footer |
 | **Order Guide (راهنمای خرید)** | `page-templates/page-guide.php` | Selected via Page Template in WP Admin | No | **Yes** | Header, Breadcrumbs, Visual Stepper (Search -> Cart -> Pay -> Delivery), FAQ links, Footer |
+| **Wishlist (علاقه‌مندی‌ها)** | `page-templates/page-wishlist.php` / `page-wishlist.php` | Selected via Page Template in WP Admin or `/wishlist/` slug | Yes (Product Card Grid, Add-to-cart AJAX, Stock Status, Price formatting) | **Yes** | Header, Breadcrumbs, Wishlist Badge, Toolbar, Product Grid (5-col/2-col), Empty State, Toast, Footer |
 
 ---
 

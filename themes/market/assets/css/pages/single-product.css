@@ -418,10 +418,15 @@
   transition: all var(--transition-fast);
 }
 
-.buybox-action-icon-btn:hover {
+.buybox-action-icon-btn:hover,
+.buybox-action-icon-btn.is-active {
   color: var(--color-primary);
   border-color: var(--color-primary);
   background-color: var(--color-primary-light);
+}
+
+.buybox-action-icon-btn.is-active svg {
+  fill: var(--color-primary);
 }
 
 /* Native Add to Cart Form + Stepper Row */
