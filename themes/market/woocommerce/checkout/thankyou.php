@@ -8,6 +8,49 @@
 defined('ABSPATH') || exit;
 ?>
 
+<!-- نوار پیشرفت مراحل خرید -->
+<div class="taj-checkout-stepper-wrapper">
+    <div class="taj-checkout-steps">
+        <a href="<?php echo esc_url(wc_get_cart_url()); ?>" class="taj-step is-completed">
+            <span class="taj-step-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </span>
+            <span class="taj-step-label"><?php esc_html_e('سبد خرید', 'market'); ?></span>
+        </a>
+
+        <div class="taj-step-divider is-completed"></div>
+
+        <div class="taj-step is-completed">
+            <span class="taj-step-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </span>
+            <span class="taj-step-label"><?php esc_html_e('مشخصات و تسویه حساب', 'market'); ?></span>
+        </div>
+
+        <div class="taj-step-divider is-completed"></div>
+
+        <div class="taj-step is-active <?php echo ($order && $order->has_status('failed')) ? 'is-failed' : 'is-completed'; ?>">
+            <span class="taj-step-icon">
+                <?php if ($order && $order->has_status('failed')) : ?>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                <?php else : ?>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                <?php endif; ?>
+            </span>
+            <span class="taj-step-label"><?php esc_html_e('ثبت نهایی سفارش', 'market'); ?></span>
+        </div>
+    </div>
+</div>
+
 <div class="taj-thankyou-wrapper woocommerce-order">
 
     <?php if ($order) :
@@ -30,7 +73,11 @@ defined('ABSPATH') || exit;
 
                 <div class="taj-status-actions">
                     <a href="<?php echo esc_url($order->get_checkout_payment_url()); ?>" class="button pay taj-btn-primary">
-                        <?php esc_html_e('تلاش مجدد برای پرداخت', 'market'); ?>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="23 4 23 10 17 10"></polyline>
+                            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                        </svg>
+                        <span><?php esc_html_e('تلاش مجدد برای پرداخت', 'market'); ?></span>
                     </a>
                     <?php if (is_user_logged_in()) : ?>
                         <a href="<?php echo esc_url(wc_get_page_permalink('myaccount')); ?>" class="button taj-btn-outline">

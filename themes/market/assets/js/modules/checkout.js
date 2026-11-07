@@ -3,20 +3,23 @@
  *
  * Handles client-side behaviors for the WooCommerce checkout page:
  * - Payment method card selection and active styling
- * - Coupon accordion toggle
- * - Order button loading indicator on form submission
+ * - Login & Coupon accordion toggle fail-safe
+ * - Place order button loading indicator on form submission
+ * - Smooth scroll to validation error notices on checkout_error
  * - Re-binding active states on WooCommerce AJAX `updated_checkout`
  *
  * @package Market
  */
 
 export function initCheckout() {
-  const checkoutForm = document.querySelector('form.checkout');
-  if (!checkoutForm) return;
+  const checkoutForm = document.querySelector('form.checkout, form.taj-pay-order-form');
+  if (!checkoutForm && !document.getElementById('order_review')) return;
 
   initPaymentMethodSelection();
-  initCouponToggle();
-  initSubmitButtonState(checkoutForm);
+  initToggleForms();
+  if (checkoutForm) {
+    initSubmitButtonState(checkoutForm);
+  }
   initAjaxListener();
 }
 
@@ -51,58 +54,97 @@ function initPaymentMethodSelection() {
     }
   });
 
-  // Also handle click on the entire card item
+  // Handle clicking on the entire card area outside the label
   paymentContainer.addEventListener('click', (e) => {
     const card = e.target.closest('.taj-payment-method-item');
     if (!card) return;
 
+    // If the click is directly on the label or input, the browser already handles it
+    if (e.target.closest('label') || e.target.matches('input[name="payment_method"]')) {
+      return;
+    }
+
     const radio = card.querySelector('input[name="payment_method"]');
-    if (radio && !radio.checked && e.target !== radio) {
+    if (radio && !radio.checked) {
       radio.checked = true;
-      radio.dispatchEvent(new Event('change', { bubbles: true }));
+      if (typeof jQuery !== 'undefined') {
+        jQuery(radio).trigger('change');
+      } else {
+        radio.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+      updateActivePaymentCard();
     }
   });
 }
 
 /**
- * 2. Coupon Form Toggle
+ * 2. Login & Coupon Forms Toggle Fail-safe
  */
-function initCouponToggle() {
-  document.addEventListener('click', (e) => {
-    const toggleLink = e.target.closest('.showcoupon');
-    if (!toggleLink) return;
+function initToggleForms() {
+  // If jQuery is NOT loaded, provide vanilla toggle behavior
+  if (typeof jQuery === 'undefined') {
+    document.addEventListener('click', (e) => {
+      // Coupon Toggle
+      const couponToggle = e.target.closest('.showcoupon');
+      if (couponToggle) {
+        e.preventDefault();
+        const form = document.querySelector('form.checkout_coupon');
+        if (form) {
+          const isHidden = window.getComputedStyle(form).display === 'none';
+          form.style.display = isHidden ? 'block' : 'none';
+          if (isHidden) {
+            const input = form.querySelector('input[name="coupon_code"]');
+            if (input) input.focus();
+          }
+        }
+      }
 
-    e.preventDefault();
-    const couponForm = document.querySelector('form.checkout_coupon');
-    if (!couponForm) return;
-
-    const isHidden = window.getComputedStyle(couponForm).display === 'none';
-    if (isHidden) {
-      couponForm.style.display = 'block';
-      const input = couponForm.querySelector('input[name="coupon_code"]');
-      if (input) input.focus();
-    } else {
-      couponForm.style.display = 'none';
-    }
-  });
+      // Login Toggle
+      const loginToggle = e.target.closest('.showlogin');
+      if (loginToggle) {
+        e.preventDefault();
+        const form = document.querySelector('form.woocommerce-form-login');
+        if (form) {
+          const isHidden = window.getComputedStyle(form).display === 'none';
+          form.style.display = isHidden ? 'block' : 'none';
+          if (isHidden) {
+            const input = form.querySelector('input[name="username"]');
+            if (input) input.focus();
+          }
+        }
+      }
+    });
+  }
 }
 
 /**
- * 3. Place Order Button Loading State
+ * 3. Place Order Button Loading State & Smooth Error Scroll
  */
 function initSubmitButtonState(form) {
   const placeOrderBtn = document.getElementById('place_order');
-  if (!placeOrderBtn) return;
 
   form.addEventListener('submit', () => {
-    // If form is valid and submitting, display loading indicator
-    placeOrderBtn.classList.add('is-loading');
+    if (placeOrderBtn) {
+      placeOrderBtn.classList.add('is-loading');
+    }
   });
 
-  // When WooCommerce checkout error occurs, remove loading
   if (typeof jQuery !== 'undefined') {
+    // When WooCommerce checkout error occurs
     jQuery(document.body).on('checkout_error', () => {
-      placeOrderBtn.classList.remove('is-loading');
+      if (placeOrderBtn) {
+        placeOrderBtn.classList.remove('is-loading');
+      }
+
+      // Smooth scroll to notices
+      const noticeBox = document.querySelector('.woocommerce-NoticeGroup-checkout, .woocommerce-error');
+      if (noticeBox) {
+        const top = noticeBox.getBoundingClientRect().top + window.pageYOffset - 80;
+        window.scrollTo({
+          top: Math.max(0, top),
+          behavior: 'smooth'
+        });
+      }
     });
   }
 }

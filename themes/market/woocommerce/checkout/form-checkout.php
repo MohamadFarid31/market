@@ -53,12 +53,14 @@ if (function_exists('WC') && WC()->cart && WC()->cart->is_empty() && !is_customi
 </div>
 
 <div class="taj-checkout-wrapper">
-    <?php
-    do_action('woocommerce_before_checkout_form', $checkout);
+    <div class="taj-checkout-before-form">
+        <?php do_action('woocommerce_before_checkout_form', $checkout); ?>
+    </div>
 
+    <?php
     // If checkout registration is disabled and not logged in, the user cannot checkout.
     if (!$checkout->is_registration_enabled() && $checkout->is_registration_required() && !is_user_logged_in()) {
-        echo esc_html(apply_filters('woocommerce_checkout_must_be_logged_in_message', __('برای تسویه حساب ابتدا باید وارد حساب کاربری خود شوید.', 'market')));
+        echo '<div class="woocommerce-info taj-checkout-must-login">' . esc_html(apply_filters('woocommerce_checkout_must_be_logged_in_message', __('برای تسویه حساب ابتدا باید وارد حساب کاربری خود شوید.', 'market'))) . '</div>';
         return;
     }
     ?>

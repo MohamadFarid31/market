@@ -15,10 +15,9 @@ if (!wc_coupons_enabled()) {
     <div class="woocommerce-form-coupon-toggle taj-coupon-toggle-bar">
         <div class="taj-coupon-notice">
             <span class="taj-coupon-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <path d="M16 12l-4-4-4 4"></path>
-                    <path d="M12 16V8"></path>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                    <line x1="7" y1="7" x2="7.01" y2="7"></line>
                 </svg>
             </span>
             <span class="taj-coupon-text"><?php esc_html_e('کد تخفیف دارید؟', 'market'); ?></span>

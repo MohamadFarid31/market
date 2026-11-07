@@ -140,7 +140,7 @@ add_filter('woocommerce_account_menu_items', function ($items) {
         'wishlist'        => __('علاقه‌مندی‌ها', 'market'),
         'customer-logout' => __('خروج', 'market'),
     ];
-}, 999);
+}, 999999);
 
 add_filter('woocommerce_get_endpoint_url', function ($url, $endpoint, $value, $permalink) {
     if ('wishlist' === $endpoint) {
@@ -150,10 +150,15 @@ add_filter('woocommerce_get_endpoint_url', function ($url, $endpoint, $value, $p
 }, 10, 4);
 
 add_filter('woocommerce_account_menu_item_classes', function ($classes, $endpoint) {
+    if ('orders' === $endpoint && function_exists('is_account_page') && is_account_page()) {
+        if (!function_exists('is_wc_endpoint_url') || !is_wc_endpoint_url() || is_wc_endpoint_url('view-order')) {
+            $classes[] = 'is-active';
+        }
+    }
     if ('wishlist' === $endpoint && function_exists('is_page') && is_page('wishlist')) {
         $classes[] = 'is-active';
     }
-    return $classes;
+    return array_unique((array) $classes);
 }, 10, 2);
 
 /**
@@ -168,35 +173,48 @@ add_action('template_redirect', function () {
         return;
     }
 
-    // Never redirect active endpoints: orders, view-order, logout, or password recovery
+    // Never redirect active allowed endpoints: orders, view-order, logout, lost-password, pay, thankyou
     if (function_exists('is_wc_endpoint_url') && (
         is_wc_endpoint_url('orders') ||
         is_wc_endpoint_url('view-order') ||
         is_wc_endpoint_url('customer-logout') ||
-        is_wc_endpoint_url('lost-password')
+        is_wc_endpoint_url('lost-password') ||
+        is_wc_endpoint_url('order-pay') ||
+        is_wc_endpoint_url('order-received')
     )) {
         return;
+    }
+
+    // If wishlist endpoint in account is accessed, redirect to dedicated /wishlist/ page
+    if (function_exists('is_wc_endpoint_url') && is_wc_endpoint_url('wishlist')) {
+        wp_safe_redirect(home_url('/wishlist/'));
+        exit;
     }
 
     $current_endpoint = function_exists('WC') && WC()->query ? WC()->query->get_current_endpoint() : '';
     $is_endpoint      = function_exists('is_wc_endpoint_url') && is_wc_endpoint_url();
 
-    $disabled_endpoints = ['dashboard', 'edit-address', 'edit-account', 'downloads', 'payment-methods', 'add-payment-method'];
-    $is_disabled        = in_array($current_endpoint, $disabled_endpoints, true);
-
-    // If on root my-account (default dashboard) or on a disabled endpoint, redirect to orders
-    if ((empty($current_endpoint) && !$is_endpoint) || $is_disabled) {
+    // If on root my-account (default dashboard) or on any disabled endpoint, redirect to orders
+    if ((empty($current_endpoint) && !$is_endpoint) || !in_array($current_endpoint, ['orders', 'view-order', 'customer-logout', 'lost-password'], true)) {
         wp_safe_redirect(wc_get_account_endpoint_url('orders'));
         exit;
     }
 });
 
 /**
- * Fallback: If root account content is rendered, display Orders instead of Dashboard
+ * Fallback: If root account content or dashboard is rendered, display Orders instead of Dashboard
  */
 add_action('woocommerce_account_content', function () {
-    if (function_exists('is_wc_endpoint_url') && !is_wc_endpoint_url() && function_exists('woocommerce_account_orders')) {
-        remove_action('woocommerce_account_content', 'woocommerce_account_dashboard');
+    if (function_exists('is_wc_endpoint_url') && !is_wc_endpoint_url()) {
+        remove_action('woocommerce_account_content', 'woocommerce_account_content', 10);
+        if (function_exists('woocommerce_account_orders')) {
+            woocommerce_account_orders();
+        }
+    }
+}, 1);
+
+add_action('woocommerce_account_dashboard', function () {
+    if (function_exists('woocommerce_account_orders')) {
         woocommerce_account_orders();
     }
 }, 1);
