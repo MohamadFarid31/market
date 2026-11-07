@@ -9,6 +9,7 @@ import { initSingleProduct } from './modules/single-product.js';
 import { initCart } from './modules/cart.js';
 import { initWishlist } from './modules/wishlist.js';
 import { initAccount } from './modules/account.js';
+import { initCheckout } from './modules/checkout.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
@@ -18,4 +19,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initCart();
   initWishlist();
   initAccount();
+  initCheckout();
 });

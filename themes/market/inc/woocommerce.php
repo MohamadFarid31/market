@@ -122,6 +122,9 @@ add_filter('the_content', function ($content) {
     if (function_exists('is_cart') && is_cart() && has_block('woocommerce/cart')) {
         return do_shortcode('[woocommerce_cart]');
     }
+    if (function_exists('is_checkout') && is_checkout() && !is_order_received_page() && has_block('woocommerce/checkout')) {
+        return do_shortcode('[woocommerce_checkout]');
+    }
     if (function_exists('is_account_page') && is_account_page() && (has_block('woocommerce/customer-account') || has_block('woocommerce/classic-shortcode'))) {
         return do_shortcode('[woocommerce_my_account]');
     }
