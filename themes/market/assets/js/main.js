@@ -8,6 +8,7 @@ import { initSliders } from './modules/slider.js';
 import { initSingleProduct } from './modules/single-product.js';
 import { initCart } from './modules/cart.js';
 import { initWishlist } from './modules/wishlist.js';
+import { initAccount } from './modules/account.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
@@ -16,4 +17,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initSingleProduct();
   initCart();
   initWishlist();
+  initAccount();
 });

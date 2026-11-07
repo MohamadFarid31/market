@@ -122,6 +122,160 @@ add_filter('the_content', function ($content) {
     if (function_exists('is_cart') && is_cart() && has_block('woocommerce/cart')) {
         return do_shortcode('[woocommerce_cart]');
     }
+    if (function_exists('is_account_page') && is_account_page() && (has_block('woocommerce/customer-account') || has_block('woocommerce/classic-shortcode'))) {
+        return do_shortcode('[woocommerce_my_account]');
+    }
     return $content;
 }, 5);
+
+/**
+ * 8. My Account — Limit Menu Items to Orders, Wishlist, and Logout
+ */
+add_filter('woocommerce_account_menu_items', function ($items) {
+    return [
+        'orders'          => __('سفارشات', 'market'),
+        'wishlist'        => __('علاقه‌مندی‌ها', 'market'),
+        'customer-logout' => __('خروج', 'market'),
+    ];
+}, 999);
+
+add_filter('woocommerce_get_endpoint_url', function ($url, $endpoint, $value, $permalink) {
+    if ('wishlist' === $endpoint) {
+        return home_url('/wishlist/');
+    }
+    return $url;
+}, 10, 4);
+
+add_filter('woocommerce_account_menu_item_classes', function ($classes, $endpoint) {
+    if ('wishlist' === $endpoint && function_exists('is_page') && is_page('wishlist')) {
+        $classes[] = 'is-active';
+    }
+    return $classes;
+}, 10, 2);
+
+/**
+ * Redirect My Account root (Dashboard) and removed endpoints to Orders
+ */
+add_action('template_redirect', function () {
+    if (!function_exists('is_account_page') || !is_account_page() || !is_user_logged_in()) {
+        return;
+    }
+
+    if (wp_doing_ajax() || (defined('REST_REQUEST') && REST_REQUEST)) {
+        return;
+    }
+
+    // Never redirect active endpoints: orders, view-order, logout, or password recovery
+    if (function_exists('is_wc_endpoint_url') && (
+        is_wc_endpoint_url('orders') ||
+        is_wc_endpoint_url('view-order') ||
+        is_wc_endpoint_url('customer-logout') ||
+        is_wc_endpoint_url('lost-password')
+    )) {
+        return;
+    }
+
+    $current_endpoint = function_exists('WC') && WC()->query ? WC()->query->get_current_endpoint() : '';
+    $is_endpoint      = function_exists('is_wc_endpoint_url') && is_wc_endpoint_url();
+
+    $disabled_endpoints = ['dashboard', 'edit-address', 'edit-account', 'downloads', 'payment-methods', 'add-payment-method'];
+    $is_disabled        = in_array($current_endpoint, $disabled_endpoints, true);
+
+    // If on root my-account (default dashboard) or on a disabled endpoint, redirect to orders
+    if ((empty($current_endpoint) && !$is_endpoint) || $is_disabled) {
+        wp_safe_redirect(wc_get_account_endpoint_url('orders'));
+        exit;
+    }
+});
+
+/**
+ * Fallback: If root account content is rendered, display Orders instead of Dashboard
+ */
+add_action('woocommerce_account_content', function () {
+    if (function_exists('is_wc_endpoint_url') && !is_wc_endpoint_url() && function_exists('woocommerce_account_orders')) {
+        remove_action('woocommerce_account_content', 'woocommerce_account_dashboard');
+        woocommerce_account_orders();
+    }
+}, 1);
+
+/**
+ * 9. My Account — Customer Order Stats Helper
+ *
+ * @param int $user_id
+ * @return array
+ */
+if (!function_exists('market_get_customer_order_stats')) {
+    function market_get_customer_order_stats($user_id = 0) {
+        if (!$user_id) {
+            $user_id = get_current_user_id();
+        }
+        if (!$user_id || !function_exists('wc_get_orders')) {
+            return [
+                'total'      => 0,
+                'processing' => 0,
+                'completed'  => 0,
+            ];
+        }
+
+        $all_ids = wc_get_orders([
+            'customer_id' => $user_id,
+            'limit'       => -1,
+            'return'      => 'ids',
+        ]);
+        $total = is_array($all_ids) ? count($all_ids) : 0;
+
+        $proc_ids = wc_get_orders([
+            'customer_id' => $user_id,
+            'status'      => ['processing', 'pending', 'on-hold'],
+            'limit'       => -1,
+            'return'      => 'ids',
+        ]);
+        $processing = is_array($proc_ids) ? count($proc_ids) : 0;
+
+        $comp_ids = wc_get_orders([
+            'customer_id' => $user_id,
+            'status'      => ['completed'],
+            'limit'       => -1,
+            'return'      => 'ids',
+        ]);
+        $completed = is_array($comp_ids) ? count($comp_ids) : 0;
+
+        return [
+            'total'      => $total,
+            'processing' => $processing,
+            'completed'  => $completed,
+        ];
+    }
+}
+
+/**
+ * 10. My Account — Status Badge Formatter
+ *
+ * @param string $status
+ * @return array{label: string, class: string}
+ */
+if (!function_exists('market_get_order_status_badge')) {
+    function market_get_order_status_badge($status) {
+        $status = str_replace('wc-', '', sanitize_key($status));
+        $statuses = [
+            'completed'  => ['label' => __('تکمیل شده', 'market'), 'class' => 'status-completed'],
+            'processing' => ['label' => __('در حال پردازش', 'market'), 'class' => 'status-processing'],
+            'pending'    => ['label' => __('در انتظار پرداخت', 'market'), 'class' => 'status-pending'],
+            'on-hold'    => ['label' => __('در انتظار بررسی', 'market'), 'class' => 'status-on-hold'],
+            'cancelled'  => ['label' => __('لغو شده', 'market'), 'class' => 'status-cancelled'],
+            'refunded'   => ['label' => __('مسترد شده', 'market'), 'class' => 'status-refunded'],
+            'failed'     => ['label' => __('ناموفق', 'market'), 'class' => 'status-failed'],
+        ];
+
+        if (isset($statuses[$status])) {
+            return $statuses[$status];
+        }
+
+        $label = function_exists('wc_get_order_status_name') ? wc_get_order_status_name($status) : $status;
+        return [
+            'label' => $label,
+            'class' => 'status-default',
+        ];
+    }
+}
 
