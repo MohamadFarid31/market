@@ -11,6 +11,7 @@ import { initWishlist } from './modules/wishlist.js';
 import { initAccount } from './modules/account.js';
 import { initCheckout } from './modules/checkout.js';
 import { initQuickView } from './modules/quick-view.js';
+import { initInteractiveShowcase } from './modules/interactive-showcase.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
@@ -22,4 +23,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initAccount();
   initCheckout();
   initQuickView();
+  initInteractiveShowcase();
 });

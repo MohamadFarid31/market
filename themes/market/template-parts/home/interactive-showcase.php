@@ -35,7 +35,7 @@ if (empty($hotspots)) {
     ];
 }
 ?>
-<section class="home-section interactive-showcase-section" aria-label="<?php esc_attr_e('دنیای تجهیزات حرفه‌ای را کشف کنید', 'market'); ?>">
+<section class="home-section interactive-showcase-section" aria-label="<?php echo esc_attr($title); ?>">
     <div class="section-title-wrap text-center max-w-2xl">
         <?php if (!empty($badge)) : ?>
             <span class="section-badge"><?php echo esc_html($badge); ?></span>
@@ -51,29 +51,62 @@ if (empty($hotspots)) {
     </div>
 
     <div class="interactive-banner-container">
-        <div class="interactive-banner-bg" style="<?php echo $img ? 'background-image: radial-gradient(circle at 50% 50%, rgba(39,39,42,0.4) 0%, rgba(24,24,27,0.85) 70%), url(' . esc_url($img) . '); background-size: cover; background-position: center;' : ''; ?>">
+        <div class="interactive-stage" id="interactiveStage">
+            <?php if (!empty($img)) : ?>
+                <img 
+                    src="<?php echo esc_url($img); ?>" 
+                    alt="<?php echo esc_attr($title); ?>" 
+                    class="interactive-banner-img" 
+                    loading="lazy"
+                >
+            <?php else : ?>
+                <div class="interactive-banner-fallback">
+                    <span><?php esc_html_e('تصویر بنر انتخاب نشده است', 'market'); ?></span>
+                </div>
+            <?php endif; ?>
+
             <!-- Interactive Hotspots Container -->
-            <div class="interactive-stage">
-                <?php foreach ($hotspots as $point) : 
+            <div class="hotspots-layer" id="hotspotsLayer">
+                <?php foreach ($hotspots as $index => $point) : 
                     $x = isset($point['x']) ? floatval($point['x']) : 50;
                     $y = isset($point['y']) ? floatval($point['y']) : 50;
-                    $label = isset($point['label']) ? $point['label'] : '';
-                    $url = isset($point['url']) ? $point['url'] : '';
+                    $label = isset($point['label']) ? trim($point['label']) : '';
+                    $url = isset($point['url']) ? trim($point['url']) : '';
                     $has_link = !empty($url);
-                    $tag = $has_link ? 'a' : 'div';
                 ?>
-                    <<?php echo $tag; ?> 
-                        <?php if ($has_link) : ?>href="<?php echo esc_url($url); ?>" target="_blank" rel="noopener"<?php endif; ?>
-                        class="hotspot-point <?php echo $has_link ? 'has-link' : ''; ?>" 
-                        style="right: <?php echo esc_attr($x); ?>%; top: <?php echo esc_attr($y); ?>%;" 
-                        data-tooltip="<?php echo esc_attr($label); ?>"
+                    <div 
+                        class="hotspot-point" 
+                        style="right: <?php echo esc_attr($x); ?>%; top: <?php echo esc_attr($y); ?>%;"
+                        data-x="<?php echo esc_attr($x); ?>"
+                        data-y="<?php echo esc_attr($y); ?>"
+                        data-index="<?php echo esc_attr($index); ?>"
                     >
-                        <span class="hotspot-pulse"></span>
-                        <span class="hotspot-dot"></span>
-                        <?php if (!empty($label)) : ?>
-                            <span class="hotspot-label"><?php echo esc_html($label); ?></span>
-                        <?php endif; ?>
-                    </<?php echo $tag; ?>>
+                        <button 
+                            type="button" 
+                            class="hotspot-trigger" 
+                            aria-label="<?php echo esc_attr($label ? $label : sprintf(__('نقطه تعاملی %d', 'market'), $index + 1)); ?>"
+                            aria-expanded="false"
+                        >
+                            <span class="hotspot-pulse"></span>
+                            <span class="hotspot-dot"></span>
+                        </button>
+
+                        <div class="hotspot-tooltip" role="tooltip" aria-hidden="true">
+                            <?php if (!empty($label)) : ?>
+                                <h4 class="hotspot-tooltip-title"><?php echo esc_html($label); ?></h4>
+                            <?php endif; ?>
+                            
+                            <?php if ($has_link) : ?>
+                                <a href="<?php echo esc_url($url); ?>" class="hotspot-tooltip-btn">
+                                    <?php esc_html_e('مشاهده محصولات', 'market'); ?>
+                                </a>
+                            <?php else : ?>
+                                <span class="hotspot-tooltip-btn hotspot-tooltip-btn--disabled">
+                                    <?php esc_html_e('مشاهده محصولات', 'market'); ?>
+                                </span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
                 <?php endforeach; ?>
             </div>
         </div>
