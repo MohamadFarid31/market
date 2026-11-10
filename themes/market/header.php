@@ -37,12 +37,12 @@ defined('ABSPATH') || exit;
 
             <?php get_template_part('template-parts/header/branding'); ?>
 
-            <div class="header-search hide-on-mobile">
+            <div class="header-search hide-on-mobile hide-on-tablet">
                 <?php get_template_part('template-parts/header/search-bar'); ?>
             </div>
 
             <!-- دکمه‌های دسکتاپ -->
-            <div class="hide-on-mobile">
+            <div class="hide-on-mobile hide-on-tablet">
                 <?php get_template_part('template-parts/header/actions'); ?>
             </div>
 
@@ -74,7 +74,7 @@ defined('ABSPATH') || exit;
         </div>
     </div>
 
-    <div class="header-nav-wrap hide-on-mobile">
+    <div class="header-nav-wrap hide-on-mobile hide-on-tablet">
         <?php get_template_part('template-parts/header/navigation-desktop'); ?>
     </div>
 </header>
