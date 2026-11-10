@@ -299,31 +299,31 @@
 
 .taj-toggle-coupon-link,
 .showcoupon {
-  color: #ef394e !important;
-  font-weight: 700;
-  text-decoration: none !important;
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+  text-decoration: none;
   margin-inline-start: auto;
-  transition: color 0.2s ease;
+  transition: color var(--transition-fast);
 }
 
 .taj-toggle-coupon-link:hover,
 .showcoupon:hover {
-  color: #dc2626 !important;
-  text-decoration: underline !important;
+  color: var(--color-primary-hover);
+  text-decoration: underline;
 }
 
 .taj-coupon-form,
 form.checkout_coupon {
-  background-color: #fafafa;
-  border: 1px solid #e4e4e7;
-  border-radius: 12px;
+  background-color: var(--color-bg-canvas);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-lg);
   padding: 16px 18px;
   margin-block-start: 12px;
 }
 
 .taj-coupon-desc {
-  font-size: 12.5px;
-  color: #71717a;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
   margin-block-end: 10px;
 }
 
@@ -338,19 +338,19 @@ form.checkout_coupon input[name="coupon_code"] {
   flex: 1;
   min-width: 0;
   height: 44px;
-  border: 1.5px solid #e4e4e7;
-  border-radius: 10px;
+  border: 1.5px solid var(--color-border-default);
+  border-radius: var(--radius-md);
   padding-inline: 14px;
-  font-size: 13.5px;
-  color: #18181b;
-  background-color: #ffffff;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-surface);
   transition: all 0.2s ease;
 }
 
 .taj-coupon-input:focus,
 form.checkout_coupon input[name="coupon_code"]:focus {
-  border-color: #ef394e;
-  box-shadow: 0 0 0 3px rgba(239, 57, 78, 0.12);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(229, 37, 52, 0.12);
   outline: none;
 }
 
@@ -358,12 +358,12 @@ form.checkout_coupon input[name="coupon_code"]:focus {
 form.checkout_coupon button[type="submit"] {
   height: 44px;
   padding-inline: 20px;
-  background-color: #18181b;
-  color: #ffffff !important;
+  background-color: var(--color-secondary);
+  color: var(--color-secondary-contrast);
   border: none;
-  border-radius: 10px;
-  font-size: 13.5px;
-  font-weight: 700;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.2s ease;
@@ -508,11 +508,11 @@ form.checkout_coupon button[type="submit"]:hover {
 
 .woocommerce-checkout abbr.required,
 .woocommerce-checkout .required {
-  color: #ef394e !important;
-  text-decoration: none !important;
-  font-weight: 700;
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: var(--font-weight-bold);
   margin-inline-start: 4px;
-  border-bottom: none !important;
+  border-bottom: none;
 }
 
 .woocommerce-checkout input[type="text"],
@@ -523,12 +523,12 @@ form.checkout_coupon button[type="submit"]:hover {
   width: 100%;
   height: 46px;
   padding-inline: 14px;
-  border: 1.5px solid #e4e4e7;
-  border-radius: 10px;
-  font-size: 14px;
+  border: 1.5px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
   font-family: inherit;
-  color: #18181b;
-  background-color: #ffffff;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-surface);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
   box-sizing: border-box;
 }
@@ -541,7 +541,7 @@ form.checkout_coupon button[type="submit"]:hover {
   .woocommerce-checkout input[type="password"],
   .woocommerce-checkout select,
   .woocommerce-checkout textarea {
-    font-size: 16px !important;
+    font-size: var(--font-size-base);
   }
 }
 
@@ -550,8 +550,8 @@ form.checkout_coupon button[type="submit"]:hover {
 .woocommerce-checkout input[type="tel"]:focus,
 .woocommerce-checkout input[type="password"]:focus,
 .woocommerce-checkout select:focus {
-  border-color: #ef394e;
-  box-shadow: 0 0 0 3px rgba(239, 57, 78, 0.12);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(229, 37, 52, 0.12);
   outline: none;
 }
 
@@ -588,74 +588,74 @@ form.checkout_coupon button[type="submit"]:hover {
    6. Custom Select2 Dropdown Styling
    ========================================================================== */
 .select2-container--default .select2-selection--single {
-  height: 46px !important;
-  border: 1.5px solid #e4e4e7 !important;
-  border-radius: 10px !important;
-  background-color: #ffffff !important;
-  display: flex !important;
-  align-items: center !important;
-  padding-inline: 14px !important;
-  transition: all 0.2s ease !important;
+  height: 46px;
+  border: 1.5px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-surface);
+  display: flex;
+  align-items: center;
+  padding-inline: 14px;
+  transition: all 0.2s ease;
 }
 
 .select2-container--default.select2-container--open .select2-selection--single,
 .select2-container--default.select2-container--focus .select2-selection--single {
-  border-color: #ef394e !important;
-  box-shadow: 0 0 0 3px rgba(239, 57, 78, 0.12) !important;
-  outline: none !important;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(229, 37, 52, 0.12);
+  outline: none;
 }
 
 .select2-container--default .select2-selection--single .select2-selection__rendered {
-  line-height: 44px !important;
-  padding: 0 !important;
-  font-size: 14px !important;
-  color: #18181b !important;
-  font-family: inherit !important;
+  line-height: 44px;
+  padding: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  font-family: inherit;
 }
 
 .select2-container--default .select2-selection--single .select2-selection__arrow {
-  height: 44px !important;
-  inset-inline-end: 12px !important;
-  inset-inline-start: auto !important;
+  height: 44px;
+  inset-inline-end: 12px;
+  inset-inline-start: auto;
 }
 
 .select2-dropdown {
-  border: 1px solid #e4e4e7 !important;
-  border-radius: 12px !important;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08) !important;
-  overflow: hidden !important;
-  z-index: 9999 !important;
-  font-family: inherit !important;
-  background-color: #ffffff !important;
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  z-index: 9999;
+  font-family: inherit;
+  background-color: var(--color-bg-surface);
 }
 
 .select2-search--dropdown {
-  padding: 8px !important;
+  padding: 8px;
 }
 
 .select2-search--dropdown .select2-search__field {
-  border: 1px solid #e4e4e7 !important;
-  border-radius: 8px !important;
-  padding: 8px 12px !important;
-  font-size: 13px !important;
-  font-family: inherit !important;
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  font-size: var(--font-size-13, 0.8125rem);
+  font-family: inherit;
 }
 
 .select2-results__option {
-  padding: 9px 14px !important;
-  font-size: 13.5px !important;
-  font-family: inherit !important;
+  padding: 9px 14px;
+  font-size: var(--font-size-sm);
+  font-family: inherit;
 }
 
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
-  background-color: #fef2f2 !important;
-  color: #ef394e !important;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
 }
 
 .select2-container--default .select2-results__option[aria-selected="true"] {
-  background-color: #fee2e2 !important;
-  color: #ef394e !important;
-  font-weight: 700 !important;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
 }
 
 /* ==========================================================================
@@ -892,13 +892,13 @@ table.woocommerce-checkout-review-order-table tbody tr:last-child {
 
 .taj-review-item td.product-total,
 table.woocommerce-checkout-review-order-table tbody td.product-total {
-  text-align: left !important;
-  font-size: 13.5px !important;
-  font-weight: 700 !important;
-  color: #18181b !important;
-  white-space: nowrap !important;
-  border: none !important;
-  padding: 0 !important;
+  text-align: left;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  border: none;
+  padding: 0;
 }
 
 /* Review Order Totals (Tfoot) */
@@ -906,46 +906,46 @@ table.woocommerce-checkout-review-order-table tbody td.product-total {
 table.woocommerce-checkout-review-order-table tfoot {
   display: flex;
   flex-direction: column;
-  border-top: 1px solid #f4f4f5;
+  border-top: 1px solid var(--color-border-subtle);
   padding-top: 10px;
   gap: 2px;
 }
 
 .taj-totals-row,
 table.woocommerce-checkout-review-order-table tfoot tr {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  padding: 8px 0 !important;
-  border-bottom: 1px solid #f8f8f9 !important;
-  border-top: none !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--color-border-subtle);
+  border-top: none;
 }
 
 .taj-totals-row th,
 table.woocommerce-checkout-review-order-table tfoot th {
-  font-size: 13.5px !important;
-  font-weight: 500 !important;
-  color: #71717a !important;
-  text-align: right !important;
-  border: none !important;
-  padding: 0 !important;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  text-align: right;
+  border: none;
+  padding: 0;
 }
 
 .taj-totals-row td,
 table.woocommerce-checkout-review-order-table tfoot td {
-  font-size: 13.5px !important;
-  font-weight: 600 !important;
-  color: #18181b !important;
-  text-align: left !important;
-  border: none !important;
-  padding: 0 !important;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  text-align: left;
+  border: none;
+  padding: 0;
 }
 
 .taj-discount-row th,
 .taj-discount-row td,
 .cart-discount th,
 .cart-discount td {
-  color: #10b981 !important;
+  color: var(--color-success);
 }
 
 /* Shipping Methods in Review Table */
@@ -964,42 +964,42 @@ table.woocommerce-checkout-review-order-table tfoot td {
   align-items: center;
   justify-content: flex-end;
   gap: 8px;
-  font-size: 13px;
-  color: #27272a;
+  font-size: var(--font-size-13, 0.8125rem);
+  color: var(--color-text-primary);
 }
 
 #shipping_method input[type="radio"] {
-  accent-color: #ef394e;
+  accent-color: var(--color-primary);
 }
 
 /* Final Order Total Row */
 .taj-final-total-row,
 table.woocommerce-checkout-review-order-table tfoot tr.order-total {
-  border-top: 2px dashed #e4e4e7 !important;
-  border-bottom: none !important;
-  padding: 14px 0 0 0 !important;
+  border-top: 2px dashed var(--color-border-default);
+  border-bottom: none;
+  padding: 14px 0 0 0;
   margin-top: 6px;
 }
 
 .taj-final-total-row th,
 table.woocommerce-checkout-review-order-table tfoot tr.order-total th {
-  font-size: 15px !important;
-  font-weight: 700 !important;
-  color: #18181b !important;
+  font-size: var(--font-size-15, 0.9375rem);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
 }
 
 .taj-final-total-row td,
 table.woocommerce-checkout-review-order-table tfoot tr.order-total td {
-  text-align: left !important;
+  text-align: left;
 }
 
 .taj-final-total-row td strong,
 .taj-final-total-row td .amount,
 table.woocommerce-checkout-review-order-table tfoot tr.order-total td strong,
 table.woocommerce-checkout-review-order-table tfoot tr.order-total td .amount {
-  color: #ef394e !important;
-  font-size: 18px !important;
-  font-weight: 800 !important;
+  color: var(--color-primary);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-extrabold);
 }
 
 /* ==========================================================================
@@ -1009,8 +1009,8 @@ table.woocommerce-checkout-review-order-table tfoot tr.order-total td .amount {
 #payment {
   margin-block-start: 20px;
   padding-block-start: 18px;
-  border-block-start: 1px solid #f4f4f5;
-  background: transparent !important;
+  border-block-start: 1px solid var(--color-border-subtle);
+  background: transparent;
 }
 
 .taj-payment-section-header {
@@ -1021,34 +1021,34 @@ table.woocommerce-checkout-review-order-table tfoot tr.order-total td .amount {
 }
 
 .taj-payment-header-icon {
-  color: #ef394e;
+  color: var(--color-primary);
   display: inline-flex;
 }
 
 .taj-payment-title {
   margin: 0;
-  font-size: 14.5px;
-  font-weight: 700;
-  color: #18181b;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
 }
 
 .taj-payment-methods-list,
 #payment ul.payment_methods {
   list-style: none;
-  margin: 0 0 16px 0 !important;
-  padding: 0 !important;
+  margin: 0 0 16px 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  border: none !important;
+  border: none;
 }
 
 .taj-payment-method-item,
 #payment ul.payment_methods li.wc_payment_method {
-  border: 1.5px solid #e4e4e7;
-  border-radius: 12px;
+  border: 1.5px solid var(--color-border-default);
+  border-radius: var(--radius-lg);
   padding: 12px 14px;
-  background-color: #ffffff;
+  background-color: var(--color-bg-surface);
   transition: all 0.2s ease;
   cursor: pointer;
   list-style: none;
@@ -1056,16 +1056,16 @@ table.woocommerce-checkout-review-order-table tfoot tr.order-total td .amount {
 
 .taj-payment-method-item:hover,
 #payment ul.payment_methods li.wc_payment_method:hover {
-  border-color: #d4d4d8;
-  background-color: #fafafa;
+  border-color: var(--color-border-strong);
+  background-color: var(--color-bg-canvas);
 }
 
 .taj-payment-method-item.is-selected,
 #payment ul.payment_methods li.wc_payment_method.is-selected,
 #payment ul.payment_methods li.wc_payment_method:has(input:checked) {
-  border-color: #ef394e !important;
-  background-color: #fef2f2 !important;
-  box-shadow: 0 0 0 1px #ef394e !important;
+  border-color: var(--color-primary);
+  background-color: var(--color-primary-light);
+  box-shadow: 0 0 0 1px var(--color-primary);
 }
 
 .taj-payment-method-label {
@@ -1172,31 +1172,31 @@ table.woocommerce-checkout-review-order-table tfoot tr.order-total td .amount {
 .woocommerce #place_order,
 .taj-btn-place-order,
 #place_order {
-  width: 100% !important;
-  height: 50px !important;
-  background: linear-gradient(135deg, #ef394e 0%, #dc2626 100%) !important;
-  background-color: #ef394e !important;
-  color: #ffffff !important;
-  border: none !important;
-  border-radius: 12px !important;
-  font-size: 15px !important;
-  font-weight: 700 !important;
-  font-family: inherit !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 10px !important;
-  cursor: pointer !important;
-  box-shadow: 0 4px 14px rgba(239, 57, 78, 0.3) !important;
-  transition: all 0.25s ease !important;
-  text-decoration: none !important;
+  width: 100%;
+  height: 50px;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
+  background-color: var(--color-primary);
+  color: var(--color-primary-contrast);
+  border: none;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-15, 0.9375rem);
+  font-weight: var(--font-weight-bold);
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(229, 37, 52, 0.3);
+  transition: all 0.25s ease;
+  text-decoration: none;
 }
 
 .taj-btn-place-order:hover,
 #place_order:hover {
-  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
+  background: linear-gradient(135deg, var(--color-primary-hover) 0%, var(--color-primary-active) 100%);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(239, 57, 78, 0.4) !important;
+  box-shadow: 0 8px 20px rgba(229, 37, 52, 0.4);
 }
 
 .taj-btn-place-order:active,
@@ -1300,16 +1300,16 @@ table.woocommerce-checkout-review-order-table tfoot tr.order-total td .amount {
 }
 
 .woocommerce-NoticeGroup-checkout .woocommerce-error {
-  list-style: none !important;
-  margin: 0 !important;
-  padding: 14px 18px !important;
-  background-color: #fef2f2 !important;
-  border: 1px solid #fee2e2 !important;
-  border-inline-start: 4px solid #ef4444 !important;
-  border-radius: 12px !important;
-  color: #991b1b !important;
-  font-size: 13.5px !important;
-  line-height: 1.6 !important;
+  list-style: none;
+  margin: 0;
+  padding: 14px 18px;
+  background-color: var(--color-danger-bg);
+  border: 1px solid var(--color-danger-bg);
+  border-inline-start: 4px solid var(--color-danger);
+  border-radius: var(--radius-lg);
+  color: var(--color-danger-text);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
 }
 
 .woocommerce-NoticeGroup-checkout .woocommerce-error li {
@@ -1436,19 +1436,19 @@ table.woocommerce-checkout-review-order-table tfoot tr.order-total td .amount {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background-color: #ef394e;
-  color: #ffffff !important;
+  background-color: var(--color-primary);
+  color: var(--color-primary-contrast);
   padding: 12px 24px;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 700;
-  text-decoration: none !important;
-  box-shadow: 0 4px 12px rgba(239, 57, 78, 0.25);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(229, 37, 52, 0.25);
   transition: all 0.2s ease;
 }
 
 .taj-btn-primary:hover {
-  background-color: #dc2626;
+  background-color: var(--color-primary-hover);
   transform: translateY(-1px);
 }
 
@@ -1457,20 +1457,20 @@ table.woocommerce-checkout-review-order-table tfoot tr.order-total td .amount {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background-color: #ffffff;
-  color: #18181b !important;
-  border: 1.5px solid #e4e4e7;
+  background-color: var(--color-bg-surface);
+  color: var(--color-text-primary);
+  border: 1.5px solid var(--color-border-default);
   padding: 12px 24px;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 600;
-  text-decoration: none !important;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
   transition: all 0.2s ease;
 }
 
 .taj-btn-outline:hover {
-  border-color: #d4d4d8;
-  background-color: #fafafa;
+  border-color: var(--color-border-strong);
+  background-color: var(--color-bg-canvas);
 }
 
 /* Order Details Table in Thank You */

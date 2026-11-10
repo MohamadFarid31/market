@@ -100,7 +100,7 @@ function market_render_theme_settings_page()
         return;
     }
     ?>
-    <div class="wrap" dir="rtl" style="max-width: 900px; font-family: Tahoma, sans-serif;">
+    <div class="wrap" dir="rtl" style="max-width: 900px; font-family: inherit, Tahoma, sans-serif;">
         <h1 style="color: #e52534; font-weight: bold; margin-bottom: 20px;">
             <?php esc_html_e('تنظیمات قالب', 'market'); ?>
         </h1>

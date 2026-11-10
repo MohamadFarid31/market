@@ -3,8 +3,8 @@
  */
 
 .site-footer {
-  background-color: #ffffff;
-  border-block-start: 1px solid #f1f1f4;
+  background-color: var(--color-bg-surface);
+  border-block-start: 1px solid var(--color-border-subtle);
   margin-block-start: var(--space-12);
   padding-block-start: var(--space-10);
   color: var(--color-text-secondary);
@@ -25,7 +25,7 @@
   align-items: center;
   gap: var(--space-4);
   padding-block-end: var(--space-6);
-  border-block-end: 1px solid #f1f1f4;
+  border-block-end: 1px solid var(--color-border-subtle);
   text-align: center;
 }
 
@@ -121,8 +121,8 @@
 }
 
 .footer-links-list a {
-  color: #52525b;
-  font-size: 13px;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-13, 0.8125rem);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
@@ -147,7 +147,7 @@
   height: 36px;
   border-radius: var(--radius-full);
   background-color: var(--color-brand-badge);
-  color: #ffffff;
+  color: var(--color-primary-contrast);
   text-decoration: none;
   box-shadow: 0 2px 6px rgba(229, 37, 52, 0.25);
   transition: transform var(--transition-fast), background-color var(--transition-fast);
@@ -161,9 +161,9 @@
 .newsletter-input-wrap {
   display: flex;
   align-items: center;
-  border: 1px solid #e4e4e7;
+  border: 1px solid var(--color-border-default);
   border-radius: var(--radius-md);
-  background-color: #fafafa;
+  background-color: var(--color-bg-canvas);
   overflow: hidden;
   max-width: 280px;
 }
@@ -172,7 +172,7 @@
   border: none;
   background: transparent;
   padding: 8px 12px;
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   color: var(--color-text-primary);
   flex: 1;
   outline: none;
@@ -180,11 +180,11 @@
 
 .newsletter-submit-btn {
   background-color: var(--color-brand-badge);
-  color: #ffffff;
+  color: var(--color-primary-contrast);
   border: none;
   padding: 8px 16px;
-  font-size: 12px;
-  font-weight: 700;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
   cursor: pointer;
   transition: background-color var(--transition-fast);
 }
@@ -201,7 +201,7 @@
   flex-direction: column;
   gap: var(--space-6);
   padding-block: var(--space-6);
-  border-block-start: 1px solid #f1f1f4;
+  border-block-start: 1px solid var(--color-border-subtle);
 }
 
 @media (min-width: 1024px) {
@@ -218,22 +218,22 @@
 }
 
 .footer-about-label {
-  font-size: 13px;
-  font-weight: 700;
+  font-size: var(--font-size-13, 0.8125rem);
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
 }
 
 .footer-about-title {
-  font-size: 16px;
-  font-weight: 800;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-extrabold);
   color: var(--color-primary);
   margin: 4px 0 10px 0;
 }
 
 .footer-about-desc {
-  font-size: 13px;
-  color: #71717a;
-  line-height: 1.85;
+  font-size: var(--font-size-13, 0.8125rem);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
   margin: 0;
 }
 
@@ -247,15 +247,15 @@
 .trust-badge-placeholder {
   width: 84px;
   height: 84px;
-  border: 1px solid #e4e4e7;
+  border: 1px solid var(--color-border-default);
   border-radius: var(--radius-lg);
-  background-color: #fafafa;
+  background-color: var(--color-bg-canvas);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
-  color: #a1a1aa;
-  font-weight: 600;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  font-weight: var(--font-weight-semibold);
 }
 
 /* ==========================================================================
@@ -263,7 +263,7 @@
    ========================================================================== */
 .footer-copyright-bar {
   background-color: var(--color-brand-badge);
-  color: #ffffff;
+  color: var(--color-primary-contrast);
   padding-block: 14px;
   margin-block-start: var(--space-6);
 }

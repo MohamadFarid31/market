@@ -93,20 +93,20 @@
   position: absolute;
   bottom: 12px;
   inset-inline-end: 12px;
-  background-color: var(--color-brand-badge, #ef394e);
-  color: #ffffff !important;
-  font-size: 11px;
-  font-weight: 700;
+  background-color: var(--color-brand-badge);
+  color: var(--color-primary-contrast);
+  font-size: var(--font-size-2xs, 0.6875rem);
+  font-weight: var(--font-weight-bold);
   padding: 3px 12px;
   border-radius: var(--radius-full);
   z-index: 2;
-  text-decoration: none !important;
+  text-decoration: none;
   box-shadow: 0 2px 6px rgba(239, 57, 78, 0.3);
   transition: background-color var(--transition-fast);
 }
 
 .taj-article-card .article-badge-pill:hover {
-  background-color: #dc2626;
+  background-color: var(--color-primary-hover);
 }
 
 /* Card Body */
@@ -183,10 +183,10 @@
 }
 
 .taj-article-card .article-more-link {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--color-brand-badge, #ef394e);
-  text-decoration: none !important;
+  font-size: var(--font-size-13, 0.8125rem);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-brand-badge);
+  text-decoration: none;
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -194,6 +194,6 @@
 }
 
 .taj-article-card .article-more-link:hover {
-  color: #dc2626;
+  color: var(--color-primary-hover);
   transform: translateX(-4px);
 }

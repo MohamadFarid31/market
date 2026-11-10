@@ -26,10 +26,10 @@
   --color-accent-light: #fff1f2;
   --color-accent-contrast: #ffffff;
 
-  /* Brand Specific Highlights */
-  --color-brand-red: #e52534;
-  --color-brand-badge: #ef394e;
-  --color-brand-dark: #18181b;
+  /* Brand Specific Highlights (Derived from Core Tokens for unified one-place edits) */
+  --color-brand-red: var(--color-primary);
+  --color-brand-badge: var(--color-accent);
+  --color-brand-dark: var(--color-secondary);
   --color-brand-dark-surface: #202024;
 
   /* ==========================================================================
@@ -87,7 +87,7 @@
      6. Typography Tokens (Persian fa-IR Optimized)
      ========================================================================== */
   --font-family-base: "Vazirmatn", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  --font-family-heading: "Vazirmatn", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-family-heading: var(--font-family-base);
   --font-family-mono: "Fira Code", monospace;
 
   --font-weight-regular: 400;
@@ -96,8 +96,12 @@
   --font-weight-bold: 700;
   --font-weight-extrabold: 800;
 
+  /* Relative rem font-size scale (Proportionally changes when root size changes) */
+  --font-size-2xs: 0.6875rem;  /* 11px */
   --font-size-xs: 0.75rem;     /* 12px */
+  --font-size-13: 0.8125rem;   /* 13px */
   --font-size-sm: 0.875rem;    /* 14px */
+  --font-size-15: 0.9375rem;   /* 15px */
   --font-size-base: 1rem;      /* 16px */
   --font-size-md: 1.125rem;    /* 18px */
   --font-size-lg: 1.25rem;     /* 20px */

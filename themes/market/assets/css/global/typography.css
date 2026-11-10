@@ -2,11 +2,13 @@
  * Market Theme — Persian Typography & Heading Scales
  */
 
+html,
 body,
 input,
 textarea,
 select,
-button {
+button,
+optgroup {
   font-family: var(--font-family-base);
   font-feature-settings: "kern" 1, "ss01" 1;
 }
@@ -17,7 +19,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-family-heading);
+  font-family: var(--font-family-heading, var(--font-family-base));
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-tight);
   color: var(--color-text-primary);

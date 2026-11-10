@@ -316,9 +316,17 @@
   border: none;
 }
 
+@media (max-width: 767px) {
+  .wishlist-card .product-card-btn {
+    height: 30px;
+    font-size: 11px;
+    padding-inline: 4px;
+  }
+}
+
 .wishlist-card .btn-add-to-cart {
   background-color: var(--color-brand-badge);
-  color: #ffffff !important;
+  color: var(--color-primary-contrast);
 }
 
 .wishlist-card .btn-add-to-cart:hover {
@@ -329,13 +337,13 @@
 
 .wishlist-card .btn-more-info {
   background-color: var(--color-bg-subtle);
-  color: #3f3f46 !important;
+  color: var(--color-text-secondary);
   border: 1px solid var(--color-border-default);
 }
 
 .wishlist-card .btn-more-info:hover {
   background-color: var(--color-border-default);
-  color: #18181b !important;
+  color: var(--color-text-primary);
 }
 
 /* Removal Animation */
@@ -415,10 +423,10 @@
   padding: 12px 30px;
   border-radius: 10px;
   background-color: var(--color-primary);
-  color: #ffffff !important;
-  font-size: 14px;
+  color: var(--color-primary-contrast);
+  font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
-  text-decoration: none !important;
+  text-decoration: none;
   transition: all var(--transition-fast);
   box-shadow: 0 4px 14px rgba(229, 37, 52, 0.25);
   border: none;

@@ -129,14 +129,14 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background-color: #fee2e2;
-  color: #ef4444 !important;
+  background-color: var(--color-danger-bg);
+  color: var(--color-danger);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
-  font-weight: 700;
-  text-decoration: none !important;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  text-decoration: none;
   transition: all var(--transition-fast);
   flex-shrink: 0;
   line-height: 1;
@@ -144,8 +144,8 @@
 
 .taj-cart-remove-btn:hover,
 .shop_table.cart a.remove:hover {
-  background-color: #ef4444;
-  color: #ffffff !important;
+  background-color: var(--color-danger);
+  color: var(--color-primary-contrast);
 }
 
 /* Thumbnail */
@@ -317,13 +317,13 @@
 .taj-apply-coupon-btn,
 .woocommerce-cart-form .coupon button[type="submit"] {
   height: 42px;
-  background-color: var(--color-brand-badge, #ef394e);
-  color: #ffffff !important;
+  background-color: var(--color-brand-badge);
+  color: var(--color-primary-contrast);
   border: none;
   border-radius: 8px;
   padding: 0 22px;
-  font-size: 13px;
-  font-weight: 700;
+  font-size: var(--font-size-13, 0.8125rem);
+  font-weight: var(--font-weight-bold);
   cursor: pointer;
   transition: all var(--transition-fast);
   display: inline-flex;
@@ -435,37 +435,37 @@
 .taj-totals-final-row td,
 .cart-collaterals .cart_totals table.shop_table tr.order-total td,
 .cart-collaterals .cart_totals table.shop_table tr.order-total .amount {
-  color: var(--color-brand-badge, #ef394e) !important;
-  font-size: 16px;
-  font-weight: 800;
+  color: var(--color-brand-badge);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-extrabold);
 }
 
 /* Proceed to Checkout Button */
 .taj-checkout-btn,
 .wc-proceed-to-checkout a.checkout-button {
-  display: flex !important;
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 100% !important;
-  height: 48px !important;
-  background-color: var(--color-brand-badge, #ef394e) !important;
-  color: #ffffff !important;
-  border-radius: 10px !important;
-  font-size: 14.5px !important;
-  font-weight: 700 !important;
-  text-decoration: none !important;
-  border: none !important;
+  width: 100%;
+  height: 48px;
+  background-color: var(--color-brand-badge);
+  color: var(--color-primary-contrast);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  text-decoration: none;
+  border: none;
   cursor: pointer;
-  transition: all var(--transition-fast) !important;
-  box-shadow: 0 4px 12px rgba(239, 57, 78, 0.25) !important;
-  margin-block-start: 8px !important;
+  transition: all var(--transition-fast);
+  box-shadow: 0 4px 12px rgba(239, 57, 78, 0.25);
+  margin-block-start: 8px;
 }
 
 .taj-checkout-btn:hover,
 .wc-proceed-to-checkout a.checkout-button:hover {
-  background-color: #dc2626 !important;
+  background-color: var(--color-primary-hover);
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(239, 57, 78, 0.35) !important;
+  box-shadow: 0 6px 16px rgba(239, 57, 78, 0.35);
 }
 
 /* ==========================================================================
@@ -518,9 +518,9 @@
   .shop_table.cart a.remove {
     width: 26px;
     height: 26px;
-    font-size: 18px;
-    background-color: #ffe4e6;
-    color: #f43f5e !important;
+    font-size: var(--font-size-md);
+    background-color: var(--color-danger-bg);
+    color: var(--color-danger);
   }
 
   /* Product Header: Image & Name */
@@ -703,20 +703,20 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-brand-badge, #ef394e);
-  color: #ffffff !important;
+  background-color: var(--color-brand-badge);
+  color: var(--color-primary-contrast);
   padding: 12px 28px;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 700;
-  text-decoration: none !important;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  text-decoration: none;
   transition: all var(--transition-fast);
   box-shadow: 0 4px 12px rgba(239, 57, 78, 0.25);
 }
 
 .taj-return-shop-btn:hover,
 .cart-empty-state .return-to-shop a.button:hover {
-  background-color: #dc2626;
+  background-color: var(--color-primary-hover);
   box-shadow: 0 6px 16px rgba(239, 57, 78, 0.35);
   transform: translateY(-1px);
 }
@@ -731,20 +731,20 @@
 
 .wc-block-cart__submit-button,
 .wc-block-components-checkout-button {
-  background-color: var(--color-brand-badge, #ef394e) !important;
-  color: #ffffff !important;
-  border-radius: 10px !important;
-  font-weight: 700 !important;
-  border: none !important;
-  box-shadow: 0 4px 12px rgba(239, 57, 78, 0.25) !important;
+  background-color: var(--color-brand-badge);
+  color: var(--color-primary-contrast);
+  border-radius: var(--radius-md);
+  font-weight: var(--font-weight-bold);
+  border: none;
+  box-shadow: 0 4px 12px rgba(239, 57, 78, 0.25);
 }
 
 .wc-block-cart__submit-button:hover,
 .wc-block-components-checkout-button:hover {
-  background-color: #dc2626 !important;
+  background-color: var(--color-primary-hover);
 }
 
 .wc-block-components-totals-item__value {
-  color: var(--color-brand-badge, #ef394e) !important;
-  font-weight: 800 !important;
+  color: var(--color-brand-badge);
+  font-weight: var(--font-weight-extrabold);
 }

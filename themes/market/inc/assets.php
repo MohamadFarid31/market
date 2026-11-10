@@ -16,8 +16,16 @@ if (!function_exists('market_enqueue_assets')) {
         $theme_version = wp_get_theme()->get('Version');
         $uri = get_template_directory_uri();
 
+        // 0. Global Typography Web Font (Vazirmatn Persian Font)
+        wp_enqueue_style(
+            'market-font-vazirmatn',
+            'https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap',
+            [],
+            null
+        );
+
         // 1. Core Tokens & Global Architecture
-        wp_enqueue_style('market-tokens', $uri . '/assets/css/tokens/tokens.css', [], $theme_version);
+        wp_enqueue_style('market-tokens', $uri . '/assets/css/tokens/tokens.css', ['market-font-vazirmatn'], $theme_version);
         wp_enqueue_style('market-reset', $uri . '/assets/css/global/reset.css', ['market-tokens'], $theme_version);
         wp_enqueue_style('market-typography', $uri . '/assets/css/global/typography.css', ['market-tokens'], $theme_version);
         wp_enqueue_style('market-utilities', $uri . '/assets/css/global/utilities.css', ['market-tokens'], $theme_version);

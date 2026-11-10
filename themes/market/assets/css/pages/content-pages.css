@@ -497,13 +497,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: #18181b;
-  color: #ffffff !important;
+  background-color: var(--color-secondary);
+  color: var(--color-secondary-contrast);
   padding: 10px 28px;
   border-radius: var(--radius-full);
-  font-size: 13px;
-  font-weight: 700;
-  text-decoration: none !important;
+  font-size: var(--font-size-13, 0.8125rem);
+  font-weight: var(--font-weight-bold);
+  text-decoration: none;
   transition: all var(--transition-fast);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   margin-block-start: 6px;
