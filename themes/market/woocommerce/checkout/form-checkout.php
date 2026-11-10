@@ -7,19 +7,26 @@
 
 defined('ABSPATH') || exit;
 
+// Failsafe: Ensure checkout stylesheet is enqueued even if template hook was missed
+if (!wp_style_is('market-page-checkout', 'enqueued') && !wp_style_is('market-page-checkout', 'done')) {
+    wp_enqueue_style('market-page-checkout', get_template_directory_uri() . '/assets/css/pages/checkout.css', ['market-tokens', 'market-buttons', 'market-forms'], wp_get_theme()->get('Version'));
+}
+
 // If cart is empty, show empty state
 if (function_exists('WC') && WC()->cart && WC()->cart->is_empty() && !is_customize_preview()) {
     wc_get_template('cart/cart-empty.php');
     return;
 }
+
+$cart_items_count = (function_exists('WC') && WC()->cart) ? WC()->cart->get_cart_contents_count() : 0;
 ?>
 
-<!-- ۱. نوار پیشرفت مراحل خرید -->
-<div class="taj-checkout-stepper-wrapper">
+<!-- ۱. نوار پیشرفت مراحل خرید (Desktop & Mobile Optimized) -->
+<nav class="taj-checkout-stepper-wrapper" aria-label="<?php esc_attr_e('مراحل خرید', 'market'); ?>">
     <div class="taj-checkout-steps">
         <a href="<?php echo esc_url(wc_get_cart_url()); ?>" class="taj-step is-completed">
             <span class="taj-step-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
             </span>
@@ -28,29 +35,23 @@ if (function_exists('WC') && WC()->cart && WC()->cart->is_empty() && !is_customi
 
         <div class="taj-step-divider is-completed"></div>
 
-        <div class="taj-step is-active">
+        <div class="taj-step is-active" aria-current="step">
             <span class="taj-step-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="2" y="4" width="20" height="16" rx="2"></rect>
-                    <line x1="2" y1="10" x2="22" y2="10"></line>
-                </svg>
+                <span class="taj-step-number">۲</span>
             </span>
-            <span class="taj-step-label"><?php esc_html_e('مشخصات و تسویه حساب', 'market'); ?></span>
+            <span class="taj-step-label"><?php esc_html_e('مشخصات و تسویه', 'market'); ?></span>
         </div>
 
         <div class="taj-step-divider"></div>
 
         <div class="taj-step is-pending">
             <span class="taj-step-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                </svg>
+                <span class="taj-step-number">۳</span>
             </span>
-            <span class="taj-step-label"><?php esc_html_e('ثبت نهایی سفارش', 'market'); ?></span>
+            <span class="taj-step-label"><?php esc_html_e('تکمیل سفارش', 'market'); ?></span>
         </div>
     </div>
-</div>
+</nav>
 
 <div class="taj-checkout-wrapper">
     <div class="taj-checkout-before-form">
@@ -89,7 +90,7 @@ if (function_exists('WC') && WC()->cart && WC()->cart->is_empty() && !is_customi
                 <?php endif; ?>
             </div>
 
-            <!-- ستون کناری: خلاصه سفارش، فاکتور و انتخاب درگاه -->
+            <!-- ستون کناری: خلاصه سفارش، فاکتور و انتخاب درگاه (Sticky Desktop) -->
             <aside class="taj-checkout-sidebar-col">
                 <div class="taj-checkout-sidebar-inner">
                     <?php do_action('woocommerce_checkout_before_order_review_heading'); ?>
@@ -103,7 +104,14 @@ if (function_exists('WC') && WC()->cart && WC()->cart->is_empty() && !is_customi
                                     <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                                 </svg>
                             </span>
-                            <h2 class="taj-card-title" id="order_review_heading"><?php esc_html_e('خلاصه سفارش', 'market'); ?></h2>
+                            <div class="taj-card-header-titles">
+                                <h2 class="taj-card-title" id="order_review_heading"><?php esc_html_e('خلاصه سفارش', 'market'); ?></h2>
+                                <?php if ($cart_items_count > 0) : ?>
+                                    <span class="taj-order-items-badge">
+                                        <?php echo esc_html(sprintf(_n('%s کالا', '%s کالا', $cart_items_count, 'market'), function_exists('market_to_persian_numbers') ? market_to_persian_numbers($cart_items_count) : $cart_items_count)); ?>
+                                    </span>
+                                <?php endif; ?>
+                            </div>
                         </div>
 
                         <div class="taj-card-body">
@@ -121,7 +129,7 @@ if (function_exists('WC') && WC()->cart && WC()->cart->is_empty() && !is_customi
                     <div class="taj-checkout-trust-badges">
                         <div class="taj-trust-badge-item">
                             <div class="taj-trust-badge-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                                     <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                                 </svg>
@@ -134,7 +142,7 @@ if (function_exists('WC') && WC()->cart && WC()->cart->is_empty() && !is_customi
 
                         <div class="taj-trust-badge-item">
                             <div class="taj-trust-badge-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                                 </svg>
                             </div>
@@ -146,9 +154,9 @@ if (function_exists('WC') && WC()->cart && WC()->cart->is_empty() && !is_customi
 
                         <div class="taj-trust-badge-item">
                             <div class="taj-trust-badge-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <rect x="1" y="3" width="15" height="13"></rect>
-                                    <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                                    <polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon>
                                     <circle cx="5.5" cy="18.5" r="2.5"></circle>
                                     <circle cx="18.5" cy="18.5" r="2.5"></circle>
                                 </svg>

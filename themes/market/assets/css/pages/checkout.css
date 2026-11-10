@@ -1,34 +1,94 @@
 /**
- * Market Theme — Checkout Page Styles (Taj Bazar Recreation)
+ * Market Theme — Modern Checkout Styles (Taj Bazar UX/UI)
  *
- * 1:1 recreation of Taj Bazar Desktop and Mobile Checkout layouts.
- * Features 2-column desktop grid with sticky summary/payment sidebar,
- * 3-step checkout progress stepper, clean form card fields, custom Select2 styling,
- * Taj Bazar brand red buttons, interactive payment gateway cards,
- * and comprehensive order confirmation (thank you) styles.
+ * Professional 2-column desktop checkout layout with sticky order review card,
+ * responsive mobile progress stepper, clean form cards, custom input/select styles,
+ * interactive payment gateway selection, and bulletproof WooCommerce overrides.
  *
  * @package Market
  */
 
 /* ==========================================================================
-   1. Checkout Stepper (Progress Bar)
+   0. WooCommerce Root Layout Resets & Specificity Enforcers
+   ========================================================================== */
+.woocommerce-checkout .woocommerce,
+.woocommerce-checkout form.checkout,
+.woocommerce form.checkout {
+  width: 100% !important;
+  float: none !important;
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  clear: both !important;
+}
+
+.woocommerce-checkout form.checkout::before,
+.woocommerce-checkout form.checkout::after,
+.woocommerce form.checkout::before,
+.woocommerce form.checkout::after,
+#customer_details::before,
+#customer_details::after {
+  content: "" !important;
+  display: none !important;
+}
+
+.woocommerce .col2-set,
+.woocommerce-page .col2-set,
+.woocommerce-checkout .col2-set,
+#customer_details {
+  float: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  clear: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 20px !important;
+}
+
+.woocommerce .col2-set .col-1,
+.woocommerce-page .col2-set .col-1,
+.woocommerce-checkout .col2-set .col-1,
+#customer_details .col-1,
+.woocommerce .col2-set .col-2,
+.woocommerce-page .col2-set .col-2,
+.woocommerce-checkout .col2-set .col-2,
+#customer_details .col-2 {
+  float: none !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  clear: none !important;
+}
+
+.woocommerce-checkout form.checkout #order_review,
+.woocommerce-checkout form.checkout #order_review_heading {
+  float: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+  clear: none !important;
+}
+
+/* ==========================================================================
+   1. Checkout Stepper (Progress Bar) — Desktop & Mobile
    ========================================================================== */
 .taj-checkout-stepper-wrapper {
-  margin-block-end: var(--space-8);
   width: 100%;
+  margin-block-end: 28px;
 }
 
 .taj-checkout-steps {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 680px;
+  max-width: 640px;
   margin-inline: auto;
-  padding: 16px 24px;
+  padding: 12px 24px;
   background-color: var(--color-bg-surface, #ffffff);
   border: 1px solid var(--color-border-default, #e4e4e7);
   border-radius: 16px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
   gap: 12px;
 }
 
@@ -39,8 +99,8 @@
   text-decoration: none !important;
   font-size: 13.5px;
   font-weight: 600;
-  color: var(--color-text-secondary, #71717a);
-  transition: all var(--transition-fast);
+  color: #71717a;
+  transition: all 0.2s ease;
   white-space: nowrap;
 }
 
@@ -52,11 +112,13 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: all var(--transition-fast);
+  font-size: 13.5px;
+  font-weight: 700;
+  transition: all 0.2s ease;
 }
 
 .taj-step.is-completed {
-  color: var(--color-text-primary, #18181b);
+  color: #18181b;
 }
 
 .taj-step.is-completed .taj-step-icon {
@@ -65,18 +127,18 @@
 }
 
 .taj-step.is-active {
-  color: var(--color-brand-badge, #ef394e);
+  color: #ef394e;
   font-weight: 700;
 }
 
 .taj-step.is-active .taj-step-icon {
-  background-color: var(--color-brand-badge, #ef394e);
+  background-color: #ef394e;
   color: #ffffff;
-  box-shadow: 0 4px 10px rgba(239, 57, 78, 0.35);
+  box-shadow: 0 4px 12px rgba(239, 57, 78, 0.35);
 }
 
 .taj-step.is-pending {
-  color: var(--color-text-muted, #a1a1aa);
+  color: #a1a1aa;
   font-weight: 500;
 }
 
@@ -90,43 +152,72 @@
   height: 2px;
   background-color: #e4e4e7;
   border-radius: 2px;
-  min-width: 20px;
+  min-width: 24px;
 }
 
 .taj-step-divider.is-completed {
   background-color: #10b981;
 }
 
+/* Stepper Mobile Polish — Compact 1-line display */
 @media (max-width: 640px) {
-  .taj-checkout-steps {
-    padding: 12px 14px;
-    gap: 8px;
+  .taj-checkout-stepper-wrapper {
+    margin-block-end: 18px;
   }
-  .taj-step-label {
+
+  .taj-checkout-steps {
+    padding: 8px 14px;
+    gap: 6px;
+    border-radius: 12px;
+  }
+
+  .taj-step {
+    gap: 6px;
+  }
+
+  .taj-step-icon {
+    width: 26px;
+    height: 26px;
+    font-size: 12px;
+  }
+
+  .taj-step.is-completed .taj-step-label,
+  .taj-step.is-pending .taj-step-label {
     display: none;
   }
+
   .taj-step.is-active .taj-step-label {
     display: inline-block;
-    font-size: 12.5px;
+    font-size: 12px;
+    font-weight: 700;
   }
+
   .taj-step-divider {
     min-width: 14px;
   }
 }
 
 /* ==========================================================================
-   2. Main Layout (2-Column Desktop Grid / Flex)
+   2. Main Layout (2-Column Desktop Grid with Sticky Sidebar)
    ========================================================================== */
 .taj-checkout-wrapper {
   width: 100%;
-  margin-block-end: var(--space-12);
+  margin-block-end: 48px;
+}
+
+@media (max-width: 768px) {
+  .taj-checkout-wrapper {
+    margin-block-end: 80px; /* Space for mobile sticky bottom bar */
+  }
 }
 
 .taj-checkout-layout {
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 24px;
   width: 100%;
+  position: relative;
+  align-items: stretch;
 }
 
 @media (min-width: 1024px) {
@@ -138,73 +229,56 @@
   }
 }
 
+/* Main Column (Customer Details, Billing, Shipping) */
 .taj-checkout-main-col {
   flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 }
 
+/* Sidebar Column (Sticky Order Review & Payment) */
 .taj-checkout-sidebar-col {
   width: 100%;
 }
 
 @media (min-width: 1024px) {
   .taj-checkout-sidebar-col {
-    width: 420px;
+    width: 400px;
     flex-shrink: 0;
   }
 
   .taj-checkout-sidebar-inner {
     position: sticky;
     top: 96px;
+    z-index: 10;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
   }
 }
 
 /* ==========================================================================
-   3. Notices, Login Toggle & Coupon Box
+   3. Coupon Notice & Accordion Form
    ========================================================================== */
-.woocommerce-NoticeGroup-checkout {
-  width: 100%;
-  margin-block-end: 20px;
-}
-
-.woocommerce-NoticeGroup-checkout .woocommerce-error {
-  list-style: none;
-  margin: 0;
-  padding: 14px 18px;
-  background-color: #fef2f2;
-  border: 1px solid #fee2e2;
-  border-inline-start: 4px solid #ef4444;
-  border-radius: 12px;
-  color: #991b1b;
-  font-size: 13.5px;
-  line-height: 1.6;
-}
-
-.woocommerce-NoticeGroup-checkout .woocommerce-error li {
-  margin-block-end: 4px;
-}
-
-.woocommerce-NoticeGroup-checkout .woocommerce-error li:last-child {
-  margin-block-end: 0;
-}
-
-/* Coupon Box Toggle */
 .taj-checkout-coupon-wrapper {
   margin-block-end: 20px;
+  width: 100%;
 }
 
 .taj-coupon-toggle-bar {
   background-color: #ffffff;
-  border: 1px solid #e4e4e7;
-  border-radius: 12px;
-  padding: 14px 18px;
+  border: 1px dashed #d4d4d8;
+  border-radius: 14px;
+  padding: 12px 18px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  transition: all 0.2s ease;
+}
+
+.taj-coupon-toggle-bar:hover {
+  border-color: #ef394e;
+  background-color: #fffbfa;
 }
 
 .taj-coupon-notice {
@@ -212,23 +286,24 @@
   align-items: center;
   gap: 10px;
   font-size: 13.5px;
-  color: #3f3f46;
+  color: #27272a;
 }
 
 .taj-coupon-icon {
-  color: var(--color-brand-badge, #ef394e);
+  color: #ef394e;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .taj-toggle-coupon-link,
 .showcoupon {
-  color: var(--color-brand-badge, #ef394e) !important;
+  color: #ef394e !important;
   font-weight: 700;
   text-decoration: none !important;
-  margin-inline-start: 4px;
-  transition: color var(--transition-fast);
+  margin-inline-start: auto;
+  transition: color 0.2s ease;
 }
 
 .taj-toggle-coupon-link:hover,
@@ -242,20 +317,20 @@ form.checkout_coupon {
   background-color: #fafafa;
   border: 1px solid #e4e4e7;
   border-radius: 12px;
-  padding: 18px;
+  padding: 16px 18px;
   margin-block-start: 12px;
 }
 
 .taj-coupon-desc {
-  font-size: 13px;
+  font-size: 12.5px;
   color: #71717a;
-  margin-block-end: 12px;
+  margin-block-end: 10px;
 }
 
 .taj-coupon-form-inner {
   display: flex;
   gap: 10px;
-  max-width: 480px;
+  max-width: 460px;
 }
 
 .taj-coupon-input,
@@ -263,18 +338,18 @@ form.checkout_coupon input[name="coupon_code"] {
   flex: 1;
   min-width: 0;
   height: 44px;
-  border: 1px solid #e4e4e7;
+  border: 1.5px solid #e4e4e7;
   border-radius: 10px;
   padding-inline: 14px;
   font-size: 13.5px;
   color: #18181b;
   background-color: #ffffff;
-  transition: all var(--transition-fast);
+  transition: all 0.2s ease;
 }
 
 .taj-coupon-input:focus,
 form.checkout_coupon input[name="coupon_code"]:focus {
-  border-color: var(--color-brand-badge, #ef394e);
+  border-color: #ef394e;
   box-shadow: 0 0 0 3px rgba(239, 57, 78, 0.12);
   outline: none;
 }
@@ -291,7 +366,7 @@ form.checkout_coupon button[type="submit"] {
   font-weight: 700;
   cursor: pointer;
   white-space: nowrap;
-  transition: all var(--transition-fast);
+  transition: all 0.2s ease;
 }
 
 .taj-btn-apply-coupon:hover,
@@ -300,7 +375,7 @@ form.checkout_coupon button[type="submit"]:hover {
 }
 
 /* ==========================================================================
-   4. Taj Checkout Card Component
+   4. Checkout Cards Component
    ========================================================================== */
 .taj-checkout-card {
   background-color: #ffffff;
@@ -308,33 +383,44 @@ form.checkout_coupon button[type="submit"]:hover {
   border-radius: 16px;
   padding: 24px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  width: 100%;
 }
 
-.taj-customer-details-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+@media (max-width: 640px) {
+  .taj-checkout-card {
+    padding: 16px 14px;
+    border-radius: 14px;
+  }
 }
 
 .taj-card-header {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-block-end: 22px;
-  padding-block-end: 16px;
+  margin-block-end: 20px;
+  padding-block-end: 14px;
   border-block-end: 1px solid #f4f4f5;
 }
 
 .taj-card-header-icon {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: 10px;
   background-color: #fef2f2;
-  color: var(--color-brand-badge, #ef394e);
+  color: #ef394e;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+}
+
+.taj-card-header-titles {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
 .taj-card-title,
@@ -345,6 +431,22 @@ form.checkout_coupon button[type="submit"]:hover {
   color: #18181b;
 }
 
+.taj-card-subtitle {
+  font-size: 12px;
+  color: #71717a;
+  display: block;
+  width: 100%;
+}
+
+.taj-order-items-badge {
+  background-color: #f4f4f5;
+  color: #52525b;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
 /* ==========================================================================
    5. Form Controls & Field Grid
    ========================================================================== */
@@ -353,7 +455,8 @@ form.checkout_coupon button[type="submit"]:hover {
 .woocommerce-shipping-fields__field-wrapper {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 16px;
+  gap: 14px;
+  width: 100%;
 }
 
 @media (min-width: 640px) {
@@ -361,12 +464,14 @@ form.checkout_coupon button[type="submit"]:hover {
   .woocommerce-billing-fields__field-wrapper,
   .woocommerce-shipping-fields__field-wrapper {
     grid-template-columns: 1fr 1fr;
+    gap: 16px;
   }
 
   .form-row-wide,
   .form-row.notes,
   #billing_address_1_field,
   #billing_address_2_field,
+  #billing_email_field,
   #shipping_address_1_field,
   #shipping_address_2_field,
   #order_comments_field {
@@ -388,19 +493,22 @@ form.checkout_coupon button[type="submit"]:hover {
   font-size: 13.5px;
   font-weight: 600;
   color: #27272a;
-  margin-block-end: 2px;
   line-height: 1.4;
+  margin: 0;
+  display: flex;
+  align-items: center;
 }
 
 .woocommerce-checkout .form-row label .optional {
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 400;
   color: #a1a1aa;
+  margin-inline-start: 6px;
 }
 
 .woocommerce-checkout abbr.required,
 .woocommerce-checkout .required {
-  color: var(--color-brand-badge, #ef394e) !important;
+  color: #ef394e !important;
   text-decoration: none !important;
   font-weight: 700;
   margin-inline-start: 4px;
@@ -413,15 +521,28 @@ form.checkout_coupon button[type="submit"]:hover {
 .woocommerce-checkout input[type="password"],
 .woocommerce-checkout select {
   width: 100%;
-  height: 44px;
+  height: 46px;
   padding-inline: 14px;
-  border: 1px solid #e4e4e7;
+  border: 1.5px solid #e4e4e7;
   border-radius: 10px;
   font-size: 14px;
-  font-family: var(--font-family-base);
+  font-family: inherit;
   color: #18181b;
   background-color: #ffffff;
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+@media (max-width: 640px) {
+  /* Prevent iOS 16px auto-zoom */
+  .woocommerce-checkout input[type="text"],
+  .woocommerce-checkout input[type="email"],
+  .woocommerce-checkout input[type="tel"],
+  .woocommerce-checkout input[type="password"],
+  .woocommerce-checkout select,
+  .woocommerce-checkout textarea {
+    font-size: 16px !important;
+  }
 }
 
 .woocommerce-checkout input[type="text"]:focus,
@@ -429,7 +550,7 @@ form.checkout_coupon button[type="submit"]:hover {
 .woocommerce-checkout input[type="tel"]:focus,
 .woocommerce-checkout input[type="password"]:focus,
 .woocommerce-checkout select:focus {
-  border-color: var(--color-brand-badge, #ef394e);
+  border-color: #ef394e;
   box-shadow: 0 0 0 3px rgba(239, 57, 78, 0.12);
   outline: none;
 }
@@ -443,60 +564,57 @@ form.checkout_coupon button[type="submit"]:hover {
 .woocommerce-checkout textarea,
 #order_comments {
   width: 100%;
-  min-height: 100px;
+  min-height: 96px;
   padding: 12px 14px;
-  border: 1px solid #e4e4e7;
+  border: 1.5px solid #e4e4e7;
   border-radius: 10px;
   font-size: 14px;
-  font-family: var(--font-family-base);
+  font-family: inherit;
   color: #18181b;
   background-color: #ffffff;
-  line-height: 1.6;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
   resize: vertical;
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  box-sizing: border-box;
 }
 
 .woocommerce-checkout textarea:focus,
 #order_comments:focus {
-  border-color: var(--color-brand-badge, #ef394e);
+  border-color: #ef394e;
   box-shadow: 0 0 0 3px rgba(239, 57, 78, 0.12);
   outline: none;
 }
 
 /* ==========================================================================
-   6. Select2 / SelectWoo Full Overrides
+   6. Custom Select2 Dropdown Styling
    ========================================================================== */
-.woocommerce-checkout .select2-container {
-  width: 100% !important;
-}
-
-.woocommerce-checkout .select2-container--default .select2-selection--single {
-  height: 44px !important;
-  border: 1px solid #e4e4e7 !important;
+.select2-container--default .select2-selection--single {
+  height: 46px !important;
+  border: 1.5px solid #e4e4e7 !important;
   border-radius: 10px !important;
   background-color: #ffffff !important;
   display: flex !important;
   align-items: center !important;
-  transition: all var(--transition-fast) !important;
+  padding-inline: 14px !important;
+  transition: all 0.2s ease !important;
 }
 
-.woocommerce-checkout .select2-container--default.select2-container--focus .select2-selection--single,
-.woocommerce-checkout .select2-container--default.select2-container--open .select2-selection--single {
-  border-color: var(--color-brand-badge, #ef394e) !important;
+.select2-container--default.select2-container--open .select2-selection--single,
+.select2-container--default.select2-container--focus .select2-selection--single {
+  border-color: #ef394e !important;
   box-shadow: 0 0 0 3px rgba(239, 57, 78, 0.12) !important;
+  outline: none !important;
 }
 
-.woocommerce-checkout .select2-container--default .select2-selection--single .select2-selection__rendered {
-  line-height: 42px !important;
-  padding-inline-start: 14px !important;
-  padding-inline-end: 32px !important;
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  line-height: 44px !important;
+  padding: 0 !important;
   font-size: 14px !important;
   color: #18181b !important;
-  font-family: var(--font-family-base) !important;
+  font-family: inherit !important;
 }
 
-.woocommerce-checkout .select2-container--default .select2-selection--single .select2-selection__arrow {
-  height: 42px !important;
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 44px !important;
   inset-inline-end: 12px !important;
   inset-inline-start: auto !important;
 }
@@ -507,7 +625,7 @@ form.checkout_coupon button[type="submit"]:hover {
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08) !important;
   overflow: hidden !important;
   z-index: 9999 !important;
-  font-family: var(--font-family-base) !important;
+  font-family: inherit !important;
   background-color: #ffffff !important;
 }
 
@@ -519,136 +637,222 @@ form.checkout_coupon button[type="submit"]:hover {
   border: 1px solid #e4e4e7 !important;
   border-radius: 8px !important;
   padding: 8px 12px !important;
-  font-family: var(--font-family-base) !important;
-  font-size: 13.5px !important;
-  outline: none !important;
-}
-
-.select2-search--dropdown .select2-search__field:focus {
-  border-color: var(--color-brand-badge, #ef394e) !important;
+  font-size: 13px !important;
+  font-family: inherit !important;
 }
 
 .select2-results__option {
-  padding: 10px 14px !important;
+  padding: 9px 14px !important;
   font-size: 13.5px !important;
-  color: #27272a !important;
-  transition: all var(--transition-fast) !important;
+  font-family: inherit !important;
 }
 
-.select2-results__option--highlighted[aria-selected] {
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
   background-color: #fef2f2 !important;
-  color: var(--color-brand-badge, #ef394e) !important;
+  color: #ef394e !important;
 }
 
-.select2-results__option[aria-selected="true"] {
-  background-color: var(--color-brand-badge, #ef394e) !important;
-  color: #ffffff !important;
+.select2-container--default .select2-results__option[aria-selected="true"] {
+  background-color: #fee2e2 !important;
+  color: #ef394e !important;
+  font-weight: 700 !important;
 }
 
 /* ==========================================================================
-   7. Shipping & Additional Fields Toggles
+   7. Shipping Switch & Checkbox Components
    ========================================================================== */
-.taj-shipping-toggle-header,
-.taj-additional-notes-header {
-  border-block-end: none;
-  margin-block-end: 16px;
-  padding-block-end: 0;
+.taj-shipping-toggle-box {
+  background-color: #fafafa;
+  border: 1px solid #e4e4e7;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-block-end: 18px;
+}
+
+.taj-shipping-toggle-heading {
+  margin: 0;
+  font-size: 14px;
+}
+
+.taj-shipping-switch-label {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  cursor: pointer;
+  margin: 0 !important;
+}
+
+.taj-switch-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.taj-switch-toggle {
+  width: 44px;
+  height: 24px;
+  background-color: #e4e4e7;
+  border-radius: 12px;
+  position: relative;
+  transition: background-color 0.25s ease;
+  flex-shrink: 0;
+}
+
+.taj-switch-toggle::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  inset-inline-start: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: transform 0.25s ease;
+}
+
+.taj-switch-input:checked + .taj-switch-toggle {
+  background-color: #ef394e;
+}
+
+.taj-switch-input:checked + .taj-switch-toggle::after {
+  transform: translateX(-20px); /* RTL slide */
+}
+
+html[dir="ltr"] .taj-switch-input:checked + .taj-switch-toggle::after {
+  transform: translateX(20px);
+}
+
+.taj-shipping-toggle-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.taj-shipping-toggle-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #18181b;
+}
+
+.taj-shipping-toggle-desc {
+  font-size: 12px;
+  color: #71717a;
+}
+
+.taj-shipping-address-wrap {
+  margin-block-start: 16px;
+}
+
+/* Create Account Toggle Box */
+.taj-create-account-toggle {
+  margin-block-start: 16px;
+  padding: 12px 14px;
+  background-color: #fafafa;
+  border: 1px solid #e4e4e7;
+  border-radius: 12px;
 }
 
 .taj-checkbox-label {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 10px;
+  font-size: 13.5px;
+  color: #27272a;
   cursor: pointer;
-  font-size: 14.5px;
-  font-weight: 700;
-  color: #18181b;
-  user-select: none;
   margin: 0;
 }
 
 .taj-checkbox-label input[type="checkbox"] {
   width: 18px;
   height: 18px;
-  accent-color: var(--color-brand-badge, #ef394e);
+  accent-color: #ef394e;
+  border-radius: 4px;
   cursor: pointer;
-  margin: 0;
-}
-
-.taj-shipping-additional-card {
-  margin-block-start: 24px;
-}
-
-.taj-shipping-address-wrap {
-  margin-block-start: 16px;
-  padding-block-start: 16px;
-  border-block-start: 1px solid #f4f4f5;
-}
-
-.taj-additional-fields-wrap {
-  margin-block-start: 24px;
-  padding-block-start: 20px;
-  border-block-start: 1px solid #f4f4f5;
+  flex-shrink: 0;
 }
 
 /* ==========================================================================
-   8. Order Review Items Table (Sidebar)
+   8. Order Review Card (Sidebar)
    ========================================================================== */
+.taj-order-review-card {
+  border-color: #e4e4e7;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+}
+
 .taj-review-order-table,
 table.woocommerce-checkout-review-order-table {
-  width: 100%;
-  border-collapse: collapse;
+  width: 100% !important;
+  border-collapse: collapse !important;
   border: none !important;
-  margin: 0;
+  margin: 0 !important;
 }
 
-.taj-review-order-table thead th,
-table.woocommerce-checkout-review-order-table thead th {
-  padding: 0 0 14px 0;
-  color: #71717a;
-  font-size: 13px;
-  font-weight: 600;
-  border-bottom: 1px solid #f4f4f5;
-  text-align: right;
+.taj-review-order-table thead,
+table.woocommerce-checkout-review-order-table thead {
+  display: none !important; /* Visual simplicity — headers not needed */
 }
 
-.taj-review-order-table thead th.product-total,
-table.woocommerce-checkout-review-order-table thead th.product-total {
-  text-align: left;
+/* Products List in Review Table */
+.taj-review-order-table tbody,
+table.woocommerce-checkout-review-order-table tbody {
+  display: block;
+  max-height: 240px;
+  overflow-y: auto;
+  padding-inline-end: 4px;
+  margin-block-end: 14px;
+}
+
+/* Custom Sleek Scrollbar */
+.taj-review-order-table tbody::-webkit-scrollbar,
+table.woocommerce-checkout-review-order-table tbody::-webkit-scrollbar {
+  width: 4px;
+}
+
+.taj-review-order-table tbody::-webkit-scrollbar-thumb,
+table.woocommerce-checkout-review-order-table tbody::-webkit-scrollbar-thumb {
+  background-color: #e4e4e7;
+  border-radius: 4px;
 }
 
 .taj-review-item,
-table.woocommerce-checkout-review-order-table tbody tr.cart_item {
-  border-bottom: 1px solid #f4f4f5;
+table.woocommerce-checkout-review-order-table tbody tr {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 10px 0 !important;
+  border-bottom: 1px solid #f4f4f5 !important;
+  gap: 12px !important;
 }
 
-.taj-review-item td,
-table.woocommerce-checkout-review-order-table tbody td {
-  padding: 14px 0;
-  vertical-align: middle;
-  border: none;
+.taj-review-item:last-child,
+table.woocommerce-checkout-review-order-table tbody tr:last-child {
+  border-bottom: none !important;
 }
 
 .taj-review-item-content {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex: 1;
+  min-width: 0;
 }
 
 .taj-review-item-thumb {
   width: 52px;
   height: 52px;
-  flex-shrink: 0;
   border-radius: 10px;
-  border: 1px solid #f4f4f5;
   overflow: hidden;
-  background-color: #ffffff;
+  border: 1px solid #f1f1f4;
+  flex-shrink: 0;
+  background-color: #fafafa;
 }
 
 .taj-review-item-thumb img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .taj-review-item-info {
@@ -656,25 +860,25 @@ table.woocommerce-checkout-review-order-table tbody td {
   flex-direction: column;
   gap: 4px;
   min-width: 0;
+  flex: 1;
 }
 
 .taj-review-item-title {
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 600;
   color: #18181b;
   line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
 .taj-review-item-meta {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 12px;
-  color: #71717a;
 }
 
 .taj-review-item-qty {
@@ -688,37 +892,53 @@ table.woocommerce-checkout-review-order-table tbody td {
 
 .taj-review-item td.product-total,
 table.woocommerce-checkout-review-order-table tbody td.product-total {
-  text-align: left;
-  font-size: 13.5px;
-  font-weight: 600;
-  color: #18181b;
-  white-space: nowrap;
+  text-align: left !important;
+  font-size: 13.5px !important;
+  font-weight: 700 !important;
+  color: #18181b !important;
+  white-space: nowrap !important;
+  border: none !important;
+  padding: 0 !important;
 }
 
-/* Review Totals Rows */
+/* Review Order Totals (Tfoot) */
+.taj-review-order-table tfoot,
+table.woocommerce-checkout-review-order-table tfoot {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid #f4f4f5;
+  padding-top: 10px;
+  gap: 2px;
+}
+
 .taj-totals-row,
 table.woocommerce-checkout-review-order-table tfoot tr {
-  border-bottom: 1px solid #f4f4f5;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 8px 0 !important;
+  border-bottom: 1px solid #f8f8f9 !important;
+  border-top: none !important;
 }
 
 .taj-totals-row th,
 table.woocommerce-checkout-review-order-table tfoot th {
-  padding: 12px 0;
-  font-size: 13.5px;
-  font-weight: 500;
-  color: #52525b;
-  text-align: right;
-  border: none;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+  color: #71717a !important;
+  text-align: right !important;
+  border: none !important;
+  padding: 0 !important;
 }
 
 .taj-totals-row td,
 table.woocommerce-checkout-review-order-table tfoot td {
-  padding: 12px 0;
-  font-size: 13.5px;
-  font-weight: 600;
-  color: #18181b;
-  text-align: left;
-  border: none;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  color: #18181b !important;
+  text-align: left !important;
+  border: none !important;
+  padding: 0 !important;
 }
 
 .taj-discount-row th,
@@ -728,14 +948,14 @@ table.woocommerce-checkout-review-order-table tfoot td {
   color: #10b981 !important;
 }
 
-/* Shipping Methods in Review Order */
+/* Shipping Methods in Review Table */
 #shipping_method {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   text-align: left;
 }
 
@@ -749,34 +969,35 @@ table.woocommerce-checkout-review-order-table tfoot td {
 }
 
 #shipping_method input[type="radio"] {
-  accent-color: var(--color-brand-badge, #ef394e);
+  accent-color: #ef394e;
 }
 
 /* Final Order Total Row */
 .taj-final-total-row,
 table.woocommerce-checkout-review-order-table tfoot tr.order-total {
+  border-top: 2px dashed #e4e4e7 !important;
   border-bottom: none !important;
+  padding: 14px 0 0 0 !important;
+  margin-top: 6px;
 }
 
 .taj-final-total-row th,
 table.woocommerce-checkout-review-order-table tfoot tr.order-total th {
-  padding: 16px 0 0 0;
-  font-size: 15px;
-  font-weight: 700;
-  color: #18181b;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: #18181b !important;
 }
 
 .taj-final-total-row td,
 table.woocommerce-checkout-review-order-table tfoot tr.order-total td {
-  padding: 16px 0 0 0;
-  text-align: left;
+  text-align: left !important;
 }
 
 .taj-final-total-row td strong,
 .taj-final-total-row td .amount,
 table.woocommerce-checkout-review-order-table tfoot tr.order-total td strong,
 table.woocommerce-checkout-review-order-table tfoot tr.order-total td .amount {
-  color: var(--color-brand-badge, #ef394e) !important;
+  color: #ef394e !important;
   font-size: 18px !important;
   font-weight: 800 !important;
 }
@@ -786,8 +1007,8 @@ table.woocommerce-checkout-review-order-table tfoot tr.order-total td .amount {
    ========================================================================== */
 .taj-checkout-payment-box,
 #payment {
-  margin-block-start: 24px;
-  padding-block-start: 20px;
+  margin-block-start: 20px;
+  padding-block-start: 18px;
   border-block-start: 1px solid #f4f4f5;
   background: transparent !important;
 }
@@ -796,16 +1017,17 @@ table.woocommerce-checkout-review-order-table tfoot tr.order-total td .amount {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-block-end: 16px;
+  margin-block-end: 14px;
 }
 
 .taj-payment-header-icon {
-  color: var(--color-brand-badge, #ef394e);
+  color: #ef394e;
+  display: inline-flex;
 }
 
 .taj-payment-title {
   margin: 0;
-  font-size: 15px;
+  font-size: 14.5px;
   font-weight: 700;
   color: #18181b;
 }
@@ -813,11 +1035,11 @@ table.woocommerce-checkout-review-order-table tfoot tr.order-total td .amount {
 .taj-payment-methods-list,
 #payment ul.payment_methods {
   list-style: none;
-  margin: 0 0 20px 0 !important;
+  margin: 0 0 16px 0 !important;
   padding: 0 !important;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   border: none !important;
 }
 
@@ -825,9 +1047,9 @@ table.woocommerce-checkout-review-order-table tfoot tr.order-total td .amount {
 #payment ul.payment_methods li.wc_payment_method {
   border: 1.5px solid #e4e4e7;
   border-radius: 12px;
-  padding: 14px 16px;
+  padding: 12px 14px;
   background-color: #ffffff;
-  transition: all var(--transition-fast);
+  transition: all 0.2s ease;
   cursor: pointer;
   list-style: none;
 }
@@ -841,53 +1063,51 @@ table.woocommerce-checkout-review-order-table tfoot tr.order-total td .amount {
 .taj-payment-method-item.is-selected,
 #payment ul.payment_methods li.wc_payment_method.is-selected,
 #payment ul.payment_methods li.wc_payment_method:has(input:checked) {
-  border-color: var(--color-brand-badge, #ef394e);
-  background-color: #fef2f2;
-  box-shadow: 0 0 0 1px var(--color-brand-badge, #ef394e);
+  border-color: #ef394e !important;
+  background-color: #fef2f2 !important;
+  box-shadow: 0 0 0 1px #ef394e !important;
 }
 
 .taj-payment-method-label {
   display: flex;
   align-items: center;
   gap: 10px;
-  width: 100%;
   cursor: pointer;
-  margin: 0 !important;
-  user-select: none;
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #18181b;
+  width: 100%;
 }
 
 .taj-radio-input,
-#payment input[type="radio"].input-radio {
+#payment input[type="radio"] {
+  accent-color: #ef394e;
   width: 18px;
   height: 18px;
-  accent-color: var(--color-brand-badge, #ef394e);
   cursor: pointer;
   margin: 0;
+  flex-shrink: 0;
 }
 
 .taj-payment-method-title {
-  font-size: 13.5px;
-  font-weight: 700;
-  color: #18181b;
   flex: 1;
 }
 
-.taj-payment-gateway-icon img,
-#payment ul.payment_methods li img {
+.taj-payment-gateway-icon img {
   max-height: 24px;
   width: auto;
   object-fit: contain;
-  margin-inline-start: 8px;
 }
 
 .taj-payment-box,
 #payment div.payment_box {
-  margin-block-start: 10px;
-  padding: 12px 14px;
+  margin-block-start: 8px;
+  padding: 10px 12px;
   background-color: #ffffff;
   border: 1px solid #f1f1f4;
   border-radius: 8px;
-  font-size: 12.5px;
+  font-size: 12px;
   color: #52525b;
   line-height: 1.6;
 }
@@ -897,106 +1117,141 @@ table.woocommerce-checkout-review-order-table tfoot tr.order-total td .amount {
   display: none !important;
 }
 
+/* No Gateway Alert Notice */
+.taj-no-gateways-notice {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 0 14px 0 !important;
+}
+
+.taj-notice-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background-color: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 10px;
+  color: #1e40af;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.taj-notice-inner svg {
+  color: #3b82f6;
+  flex-shrink: 0;
+}
+
 /* Privacy & Terms */
 .woocommerce-terms-and-conditions-wrapper,
 #payment .woocommerce-privacy-policy-text {
-  margin-block: 16px;
-  font-size: 12px;
+  margin-block: 12px;
+  font-size: 11.5px;
   color: #71717a;
   line-height: 1.6;
 }
 
 .woocommerce-terms-and-conditions-wrapper a,
 #payment .woocommerce-privacy-policy-text a {
-  color: var(--color-brand-badge, #ef394e);
+  color: #ef394e;
   font-weight: 600;
   text-decoration: none;
-}
-
-.woocommerce-terms-and-conditions-wrapper a:hover,
-#payment .woocommerce-privacy-policy-text a:hover {
-  text-decoration: underline;
 }
 
 /* Submit Place Order Button */
 .taj-place-order-wrapper {
   margin: 0 !important;
   padding: 0 !important;
+  width: 100% !important;
 }
 
+.woocommerce #respond input#submit.alt,
+.woocommerce a.button.alt,
+.woocommerce button.button.alt,
+.woocommerce input.button.alt,
+.woocommerce #place_order,
 .taj-btn-place-order,
 #place_order {
   width: 100% !important;
   height: 50px !important;
-  background-color: var(--color-brand-badge, #ef394e) !important;
+  background: linear-gradient(135deg, #ef394e 0%, #dc2626 100%) !important;
+  background-color: #ef394e !important;
   color: #ffffff !important;
   border: none !important;
   border-radius: 12px !important;
   font-size: 15px !important;
   font-weight: 700 !important;
-  font-family: var(--font-family-base) !important;
-  display: inline-flex !important;
+  font-family: inherit !important;
+  display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   gap: 10px !important;
   cursor: pointer !important;
-  transition: all var(--transition-fast) !important;
   box-shadow: 0 4px 14px rgba(239, 57, 78, 0.3) !important;
+  transition: all 0.25s ease !important;
   text-decoration: none !important;
-  position: relative;
 }
 
 .taj-btn-place-order:hover,
 #place_order:hover {
-  background-color: #dc2626 !important;
-  box-shadow: 0 6px 18px rgba(239, 57, 78, 0.4) !important;
-  transform: translateY(-1px);
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(239, 57, 78, 0.4) !important;
 }
 
 .taj-btn-place-order:active,
 #place_order:active {
   transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(239, 57, 78, 0.25) !important;
 }
 
-.taj-btn-place-order .taj-lock-icon {
+.taj-lock-icon {
   flex-shrink: 0;
 }
 
-/* Loading Spinner on Submit */
+/* Button Loading Spinner */
 .taj-btn-place-order.is-loading,
-#place_order.is-loading,
-.processing #place_order {
+#place_order.is-loading {
   opacity: 0.85;
   pointer-events: none;
 }
 
-.taj-btn-place-order.is-loading .taj-btn-spinner,
-.processing #place_order .taj-btn-spinner {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.4);
-  border-top-color: #ffffff;
+.taj-btn-spinner {
+  display: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
-  animation: taj-spin 0.6s linear infinite;
+  border-top-color: #ffffff;
+  animation: taj-spin 0.8s linear infinite;
+}
+
+.taj-btn-place-order.is-loading .taj-btn-spinner,
+#place_order.is-loading .taj-btn-spinner {
+  display: inline-block;
+}
+
+.taj-btn-place-order.is-loading .taj-lock-icon,
+#place_order.is-loading .taj-lock-icon {
+  display: none;
 }
 
 @keyframes taj-spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ==========================================================================
-   10. Security & Trust Badges
+   10. Trust & Security Badges
    ========================================================================== */
 .taj-checkout-trust-badges {
+  background-color: #fafafa;
+  border: 1px solid #e4e4e7;
+  border-radius: 14px;
+  padding: 14px 16px;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 18px;
-  background-color: #ffffff;
-  border: 1px solid #e4e4e7;
-  border-radius: 14px;
 }
 
 .taj-trust-badge-item {
@@ -1006,11 +1261,12 @@ table.woocommerce-checkout-review-order-table tfoot tr.order-total td .amount {
 }
 
 .taj-trust-badge-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background-color: #f4f4f5;
-  color: #52525b;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background-color: #ffffff;
+  border: 1px solid #e4e4e7;
+  color: #ef394e;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1020,47 +1276,89 @@ table.woocommerce-checkout-review-order-table tfoot tr.order-total td .amount {
 .taj-trust-badge-text {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 1px;
 }
 
 .taj-trust-badge-text strong {
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 700;
   color: #18181b;
 }
 
 .taj-trust-badge-text span {
-  font-size: 11.5px;
+  font-size: 11px;
   color: #71717a;
+  line-height: 1.3;
 }
 
 /* ==========================================================================
-   11. Order Confirmation (Thank You) Page Styles
+   11. Checkout Error & Validation Notices
+   ========================================================================== */
+.woocommerce-NoticeGroup-checkout {
+  width: 100%;
+  margin-block-end: 20px;
+}
+
+.woocommerce-NoticeGroup-checkout .woocommerce-error {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 14px 18px !important;
+  background-color: #fef2f2 !important;
+  border: 1px solid #fee2e2 !important;
+  border-inline-start: 4px solid #ef4444 !important;
+  border-radius: 12px !important;
+  color: #991b1b !important;
+  font-size: 13.5px !important;
+  line-height: 1.6 !important;
+}
+
+.woocommerce-NoticeGroup-checkout .woocommerce-error li {
+  margin-block-end: 4px;
+}
+
+.woocommerce-NoticeGroup-checkout .woocommerce-error li:last-child {
+  margin-block-end: 0;
+}
+
+.taj-checkout-must-login {
+  background-color: #fffbeb;
+  border: 1px solid #fef3c7;
+  border-inline-start: 4px solid #f59e0b;
+  border-radius: 12px;
+  padding: 16px 20px;
+  color: #92400e;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+
+/* ==========================================================================
+   12. Thank You Page Styles (Order Received)
    ========================================================================== */
 .taj-thankyou-wrapper {
+  max-width: 820px;
+  margin-inline: auto;
   width: 100%;
-  padding-block: var(--space-4) var(--space-12);
 }
 
 .taj-order-status-card {
   background-color: #ffffff;
   border: 1px solid #e4e4e7;
-  border-radius: 16px;
-  padding: 36px 24px;
+  border-radius: 20px;
+  padding: 36px 28px;
   text-align: center;
-  max-width: 820px;
-  margin-inline: auto;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+  margin-block-end: 28px;
 }
 
 .taj-status-icon-wrap {
-  width: 80px;
-  height: 80px;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-block-end: 20px;
+  margin-block-end: 18px;
 }
 
 .taj-status-icon-wrap.is-success {
@@ -1074,141 +1372,63 @@ table.woocommerce-checkout-review-order-table tfoot tr.order-total td .amount {
 }
 
 .taj-status-title {
-  font-size: 22px;
+  margin: 0 0 10px 0;
+  font-size: 20px;
   font-weight: 800;
   color: #18181b;
-  margin-block-end: 10px;
 }
 
 .taj-status-desc {
+  margin: 0 auto;
+  max-width: 540px;
   font-size: 14px;
   color: #71717a;
-  max-width: 540px;
-  margin-inline: auto;
-  margin-block-end: 28px;
   line-height: 1.6;
 }
 
-/* Metrics Grid */
-.taj-order-metrics-grid {
+.taj-order-overview-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 14px;
-  margin-block-end: 32px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-block: 24px;
+  padding: 16px;
+  background-color: #fafafa;
+  border: 1px solid #f1f1f4;
+  border-radius: 14px;
+  list-style: none;
   text-align: right;
 }
 
-.taj-metric-card {
-  background-color: #fafafa;
-  border: 1px solid #e4e4e7;
-  border-radius: 12px;
-  padding: 14px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+@media (min-width: 640px) {
+  .taj-order-overview-list {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
-.taj-metric-label {
+.taj-order-overview-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.taj-order-overview-item span {
   font-size: 12px;
   color: #71717a;
 }
 
-.taj-metric-value {
+.taj-order-overview-item strong {
   font-size: 14px;
   font-weight: 700;
   color: #18181b;
 }
 
-.taj-metric-card.is-total .taj-text-price {
-  color: var(--color-brand-badge, #ef394e);
-  font-size: 16px;
-  font-weight: 800;
-}
-
-/* Order Details Table in Thank You */
-.taj-thankyou-wrapper section.woocommerce-order-details {
-  background-color: #ffffff;
-  border: 1px solid #e4e4e7;
-  border-radius: 16px;
-  padding: 24px;
-  margin-block-start: 24px;
-  text-align: right;
-}
-
-.taj-thankyou-wrapper section.woocommerce-order-details .woocommerce-order-details__title {
-  font-size: 16px;
-  font-weight: 700;
-  color: #18181b;
-  margin-block-end: 18px;
-  padding-block-end: 12px;
-  border-block-end: 1px solid #f4f4f5;
-}
-
-.taj-thankyou-wrapper table.order_details {
-  width: 100%;
-  border-collapse: collapse;
-  border: none;
-}
-
-.taj-thankyou-wrapper table.order_details th,
-.taj-thankyou-wrapper table.order_details td {
-  padding: 12px;
-  border-bottom: 1px solid #f4f4f5;
-  font-size: 13.5px;
-}
-
-.taj-thankyou-wrapper table.order_details tfoot th {
-  color: #52525b;
-}
-
-.taj-thankyou-wrapper table.order_details tfoot td {
-  text-align: left;
-  font-weight: 700;
-}
-
-.taj-thankyou-wrapper table.order_details tfoot tr:last-child th,
-.taj-thankyou-wrapper table.order_details tfoot tr:last-child td {
-  color: var(--color-brand-badge, #ef394e);
-  font-size: 16px;
-  font-weight: 800;
-}
-
-/* Customer Addresses in Thank You */
-.taj-thankyou-wrapper section.woocommerce-customer-details {
-  background-color: #ffffff;
-  border: 1px solid #e4e4e7;
-  border-radius: 16px;
-  padding: 24px;
-  margin-block-start: 24px;
-  text-align: right;
-}
-
-.taj-thankyou-wrapper .woocommerce-customer-details h2 {
-  font-size: 16px;
-  font-weight: 700;
-  color: #18181b;
-  margin-block-end: 16px;
-}
-
-.taj-thankyou-wrapper .woocommerce-customer-details address {
-  font-style: normal;
-  line-height: 1.8;
-  color: #52525b;
-  font-size: 13.5px;
-  background-color: #fafafa;
-  border: 1px solid #e4e4e7;
-  border-radius: 12px;
-  padding: 16px;
-}
-
-/* Actions CTA */
-.taj-thankyou-actions {
+.taj-status-actions {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
+  gap: 12px;
   flex-wrap: wrap;
-  margin-block-start: 28px;
+  margin-block-start: 24px;
 }
 
 .taj-btn-primary {
@@ -1216,20 +1436,19 @@ table.woocommerce-checkout-review-order-table tfoot tr.order-total td .amount {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background-color: var(--color-brand-badge, #ef394e);
+  background-color: #ef394e;
   color: #ffffff !important;
   padding: 12px 24px;
   border-radius: 10px;
   font-size: 14px;
   font-weight: 700;
   text-decoration: none !important;
-  transition: all var(--transition-fast);
   box-shadow: 0 4px 12px rgba(239, 57, 78, 0.25);
+  transition: all 0.2s ease;
 }
 
 .taj-btn-primary:hover {
   background-color: #dc2626;
-  box-shadow: 0 6px 16px rgba(239, 57, 78, 0.35);
   transform: translateY(-1px);
 }
 
@@ -1246,7 +1465,7 @@ table.woocommerce-checkout-review-order-table tfoot tr.order-total td .amount {
   font-size: 14px;
   font-weight: 600;
   text-decoration: none !important;
-  transition: all var(--transition-fast);
+  transition: all 0.2s ease;
 }
 
 .taj-btn-outline:hover {
@@ -1254,45 +1473,75 @@ table.woocommerce-checkout-review-order-table tfoot tr.order-total td .amount {
   background-color: #fafafa;
 }
 
-/* ==========================================================================
-   12. Fallback for Gutenberg WooCommerce Checkout Blocks
-   ========================================================================== */
-.wp-block-woocommerce-checkout,
-.wc-block-checkout {
-  font-family: inherit;
+/* Order Details Table in Thank You */
+.taj-thankyou-wrapper section.woocommerce-order-details {
+  background-color: #ffffff;
+  border: 1px solid #e4e4e7;
+  border-radius: 16px;
+  padding: 24px;
+  margin-block-end: 20px;
 }
 
-.wc-block-checkout__submit-button,
-.wc-block-components-checkout-place-order-button {
-  background-color: var(--color-brand-badge, #ef394e) !important;
-  color: #ffffff !important;
-  border-radius: 12px !important;
-  font-weight: 700 !important;
-  border: none !important;
-  box-shadow: 0 4px 14px rgba(239, 57, 78, 0.3) !important;
+.taj-thankyou-wrapper .woocommerce-order-details__title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #18181b;
+  margin-block-end: 16px;
+  padding-block-end: 12px;
+  border-block-end: 1px solid #f4f4f5;
 }
 
-.wc-block-checkout__submit-button:hover,
-.wc-block-components-checkout-place-order-button:hover {
-  background-color: #dc2626 !important;
+.taj-thankyou-wrapper table.order_details {
+  width: 100%;
+  border-collapse: collapse;
+  border: none;
 }
 
-.wc-block-components-totals-item__value,
-.wc-block-components-totals-footer-item__value {
-  color: var(--color-brand-badge, #ef394e) !important;
-  font-weight: 800 !important;
+.taj-thankyou-wrapper table.order_details th,
+.taj-thankyou-wrapper table.order_details td {
+  padding: 12px 8px;
+  border-bottom: 1px solid #f4f4f5;
+  font-size: 13.5px;
 }
 
-.wc-block-components-radio-control__input:checked {
-  accent-color: var(--color-brand-badge, #ef394e) !important;
+.taj-thankyou-wrapper table.order_details tfoot th {
+  color: #71717a;
 }
 
-.wc-block-components-text-input input {
-  border-radius: 10px !important;
-  border-color: #e4e4e7 !important;
+.taj-thankyou-wrapper table.order_details tfoot td {
+  text-align: left;
+  font-weight: 700;
 }
 
-.wc-block-components-text-input input:focus {
-  border-color: var(--color-brand-badge, #ef394e) !important;
-  box-shadow: 0 0 0 3px rgba(239, 57, 78, 0.12) !important;
+.taj-thankyou-wrapper table.order_details tfoot tr:last-child th,
+.taj-thankyou-wrapper table.order_details tfoot tr:last-child td {
+  color: #ef394e;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+/* Customer Addresses in Thank You */
+.taj-thankyou-wrapper section.woocommerce-customer-details {
+  background-color: #ffffff;
+  border: 1px solid #e4e4e7;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.taj-thankyou-wrapper .woocommerce-customer-details h2 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #18181b;
+  margin-block-end: 14px;
+}
+
+.taj-thankyou-wrapper .woocommerce-customer-details address {
+  font-style: normal;
+  line-height: 1.8;
+  color: #52525b;
+  font-size: 13.5px;
+  background-color: #fafafa;
+  border: 1px solid #e4e4e7;
+  border-radius: 12px;
+  padding: 16px;
 }

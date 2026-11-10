@@ -30,7 +30,7 @@ if (!wp_doing_ajax()) {
                     wc_get_template('checkout/payment-method.php', ['gateway' => $gateway]);
                 }
             } else {
-                echo '<li class="woocommerce-notice woocommerce-notice--info woocommerce-info">' . esc_html(apply_filters('woocommerce_no_available_payment_methods_message', WC()->customer->get_billing_country() ? __('هیچ درگاه یا روش پرداختی متناسب با آدرس شما یافت نشد.', 'market') : __('لطفاً برای مشاهده روش‌های پرداخت معتبر، فیلدهای مشخصات و آدرس خود را تکمیل کنید.', 'market'))) . '</li>';
+                echo '<li class="taj-no-gateways-notice"><div class="taj-notice-inner"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg><span>' . esc_html(apply_filters('woocommerce_no_available_payment_methods_message', WC()->customer->get_billing_country() ? __('هیچ درگاه یا روش پرداختی متناسب با آدرس شما یافت نشد.', 'market') : __('لطفاً برای مشاهده روش‌های پرداخت معتبر، فیلدهای مشخصات و آدرس خود را تکمیل کنید.', 'market'))) . '</span></div></li>';
             }
             ?>
         </ul>

@@ -10,12 +10,15 @@ defined('ABSPATH') || exit;
 <div class="woocommerce-shipping-fields">
     <?php if (true === WC()->cart->needs_shipping_address()) : ?>
 
-        <div class="taj-card-header taj-shipping-toggle-header">
-            <h3 id="ship-to-different-address">
-                <label class="woocommerce-form__label woocommerce-form__label-for-checkbox checkbox taj-checkbox-label">
-                    <input id="ship-to-different-address-checkbox" class="woocommerce-form__input woocommerce-form__input-checkbox input-checkbox" <?php checked(apply_filters('woocommerce_ship_to_different_address_checked', 'shipping' === get_option('woocommerce_ship_to_destination') ? 1 : 0), 1); ?> type="checkbox" name="ship-to-different-address" value="1" />
-                    <span class="taj-checkbox-custom"></span>
-                    <span class="taj-shipping-toggle-text"><?php esc_html_e('ارسال سفارش به آدرس دیگری؟', 'market'); ?></span>
+        <div class="taj-shipping-toggle-box">
+            <h3 id="ship-to-different-address" class="taj-shipping-toggle-heading">
+                <label class="woocommerce-form__label woocommerce-form__label-for-checkbox checkbox taj-shipping-switch-label">
+                    <input id="ship-to-different-address-checkbox" class="woocommerce-form__input woocommerce-form__input-checkbox input-checkbox taj-switch-input" <?php checked(apply_filters('woocommerce_ship_to_different_address_checked', 'shipping' === get_option('woocommerce_ship_to_destination') ? 1 : 0), 1); ?> type="checkbox" name="ship-to-different-address" value="1" />
+                    <span class="taj-switch-toggle"></span>
+                    <span class="taj-shipping-toggle-content">
+                        <span class="taj-shipping-toggle-title"><?php esc_html_e('ارسال سفارش به آدرس دیگری؟', 'market'); ?></span>
+                        <span class="taj-shipping-toggle-desc"><?php esc_html_e('در صورتی که تحویل‌گیرنده فرد دیگری است، این گزینه را فعال کنید.', 'market'); ?></span>
+                    </span>
                 </label>
             </h3>
         </div>
@@ -54,7 +57,10 @@ defined('ABSPATH') || exit;
                     <polyline points="10 9 9 9 8 9"></polyline>
                 </svg>
             </span>
-            <h3 class="taj-card-title"><?php esc_html_e('توضیحات و یادداشت سفارش (اختیاری)', 'market'); ?></h3>
+            <div class="taj-card-header-titles">
+                <h3 class="taj-card-title"><?php esc_html_e('توضیحات و یادداشت سفارش (اختیاری)', 'market'); ?></h3>
+                <span class="taj-card-subtitle"><?php esc_html_e('نکات مربوط به زمان تحویل یا توضیحات مورد نظر را در این بخش بنویسید.', 'market'); ?></span>
+            </div>
         </div>
 
         <div class="woocommerce-additional-fields__field-wrapper">

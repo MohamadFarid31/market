@@ -55,13 +55,30 @@ if (!function_exists('market_enqueue_assets')) {
                 wp_enqueue_style('market-page-cart', $uri . '/assets/css/pages/cart.css', ['market-tokens'], $theme_version);
             }
 
-            if (is_checkout()) {
-                wp_enqueue_style('market-page-checkout', $uri . '/assets/css/pages/checkout.css', ['market-tokens'], $theme_version);
-            }
-
             if (is_account_page()) {
                 wp_enqueue_style('market-page-account', $uri . '/assets/css/pages/account.css', ['market-tokens'], $theme_version);
             }
+        }
+
+        // Robust Checkout Page Detection (covers custom slugs, shortcodes, and blocks)
+        $is_checkout = false;
+        if (function_exists('is_checkout') && is_checkout()) {
+            $is_checkout = true;
+        } elseif (function_exists('is_page') && is_page(['checkout', 'pardakht', 'پرداخت', 'تسویه-حساب', 'checkout-2', 'pay', 'order-pay'])) {
+            $is_checkout = true;
+        } elseif (is_singular() && function_exists('has_block') && has_block('woocommerce/checkout')) {
+            $is_checkout = true;
+        } elseif (is_singular() && get_post() && function_exists('has_shortcode') && has_shortcode(get_post()->post_content, 'woocommerce_checkout')) {
+            $is_checkout = true;
+        } elseif (!empty($_SERVER['REQUEST_URI'])) {
+            $req_uri = rawurldecode($_SERVER['REQUEST_URI']);
+            if (preg_match('#/(checkout|pardakht|پرداخت|تسویه-حساب)#i', $req_uri)) {
+                $is_checkout = true;
+            }
+        }
+
+        if ($is_checkout) {
+            wp_enqueue_style('market-page-checkout', $uri . '/assets/css/pages/checkout.css', ['market-tokens', 'market-buttons', 'market-forms'], $theme_version);
         }
 
         if (is_home() || is_page(['blog', 'mag', 'articles']) || (is_archive() && !function_exists('is_woocommerce') ? true : (!is_woocommerce() && is_archive())) || is_search()) {

@@ -6,6 +6,11 @@
  */
 
 defined('ABSPATH') || exit;
+
+// Failsafe: Ensure checkout stylesheet is enqueued on order-received page
+if (!wp_style_is('market-page-checkout', 'enqueued') && !wp_style_is('market-page-checkout', 'done')) {
+    wp_enqueue_style('market-page-checkout', get_template_directory_uri() . '/assets/css/pages/checkout.css', ['market-tokens', 'market-buttons', 'market-forms'], wp_get_theme()->get('Version'));
+}
 ?>
 
 <!-- نوار پیشرفت مراحل خرید -->

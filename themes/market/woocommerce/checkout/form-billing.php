@@ -15,7 +15,10 @@ defined('ABSPATH') || exit;
                 <circle cx="12" cy="7" r="4"></circle>
             </svg>
         </span>
-        <h3 class="taj-card-title"><?php echo esc_html(apply_filters('woocommerce_billing_fields_heading', __('اطلاعات صورت‌حساب و تحویل‌گیرنده', 'market'))); ?></h3>
+        <div class="taj-card-header-titles">
+            <h3 class="taj-card-title"><?php echo esc_html(apply_filters('woocommerce_billing_fields_heading', __('اطلاعات صورت‌حساب و تحویل‌گیرنده', 'market'))); ?></h3>
+            <span class="taj-card-subtitle"><?php esc_html_e('لطفاً مشخصات فردی و آدرس دقیق پستی را جهت هماهنگی و ارسال ثبت کنید.', 'market'); ?></span>
+        </div>
     </div>
 
     <?php do_action('woocommerce_before_checkout_billing_form', $checkout); ?>
@@ -37,12 +40,13 @@ defined('ABSPATH') || exit;
     <div class="woocommerce-account-fields taj-account-create-fields">
         <?php if (!$checkout->is_registration_required()) : ?>
 
-            <p class="form-row form-row-wide create-account">
+            <div class="form-row form-row-wide create-account taj-create-account-toggle">
                 <label class="woocommerce-form__label woocommerce-form__label-for-checkbox checkbox taj-checkbox-label">
-                    <input class="woocommerce-form__input woocommerce-form__input-checkbox input-checkbox" id="createaccount" <?php checked((true === $checkout->get_value('createaccount') || (true === apply_filters('woocommerce_create_account_default_checked', false))), true); ?> type="checkbox" name="createaccount" value="1" />
-                    <span><?php esc_html_e('می‌خواهم حساب کاربری ایجاد شود', 'market'); ?></span>
+                    <input class="woocommerce-form__input woocommerce-form__input-checkbox input-checkbox taj-checkbox-input" id="createaccount" <?php checked((true === $checkout->get_value('createaccount') || (true === apply_filters('woocommerce_create_account_default_checked', false))), true); ?> type="checkbox" name="createaccount" value="1" />
+                    <span class="taj-checkbox-custom"></span>
+                    <span class="taj-checkbox-text"><?php esc_html_e('می‌خواهم حساب کاربری ایجاد شود تا سفارشات بعدی سریع‌تر انجام شود', 'market'); ?></span>
                 </label>
-            </p>
+            </div>
 
         <?php endif; ?>
 

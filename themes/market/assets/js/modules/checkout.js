@@ -17,10 +17,29 @@ export function initCheckout() {
 
   initPaymentMethodSelection();
   initToggleForms();
+  initShippingToggle();
   if (checkoutForm) {
     initSubmitButtonState(checkoutForm);
   }
   initAjaxListener();
+}
+
+/**
+ * Ship to Different Address Toggle Fallback
+ */
+function initShippingToggle() {
+  const checkbox = document.getElementById('ship-to-different-address-checkbox');
+  const shippingWrap = document.querySelector('.taj-shipping-address-wrap, .shipping_address');
+  if (!checkbox || !shippingWrap) return;
+
+  function updateShippingVisibility() {
+    shippingWrap.style.display = checkbox.checked ? 'block' : 'none';
+  }
+
+  // Initial check (respect server-side checked state)
+  updateShippingVisibility();
+
+  checkbox.addEventListener('change', updateShippingVisibility);
 }
 
 /**
