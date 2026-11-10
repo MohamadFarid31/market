@@ -8,7 +8,7 @@
 defined('ABSPATH') || exit;
 
 // Theme constants
-define('MARKET_VERSION', '1.0.0');
+define('MARKET_VERSION', '1.0.1');
 define('MARKET_DIR', get_template_directory());
 define('MARKET_URI', get_template_directory_uri());
 

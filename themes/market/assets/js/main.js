@@ -10,6 +10,7 @@ import { initCart } from './modules/cart.js';
 import { initWishlist } from './modules/wishlist.js';
 import { initAccount } from './modules/account.js';
 import { initCheckout } from './modules/checkout.js';
+import { initQuickView } from './modules/quick-view.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
@@ -20,4 +21,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initWishlist();
   initAccount();
   initCheckout();
+  initQuickView();
 });

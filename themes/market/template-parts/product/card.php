@@ -41,29 +41,31 @@ $is_purchasable = $product->is_purchasable() && $is_in_stock && $has_price && $p
     </div>
 
     <div class="product-card-content">
-        <h3 class="product-card-title">
-            <a href="<?php echo esc_url($product->get_permalink()); ?>">
-                <?php echo esc_html($product->get_name()); ?>
-            </a>
-        </h3>
+        <div class="product-card-info-wrap">
+            <h3 class="product-card-title">
+                <a href="<?php echo esc_url($product->get_permalink()); ?>">
+                    <?php echo esc_html($product->get_name()); ?>
+                </a>
+            </h3>
 
-        <?php if (!empty($sku) || !empty($brand_name)) : ?>
-            <div class="product-card-subtitle">
-                <?php echo esc_html(!empty($sku) ? $sku : $brand_name); ?>
-            </div>
-        <?php endif; ?>
-
-        <div class="product-card-pricing">
-            <?php if (!empty($price_html)) : ?>
-                <div class="product-price">
-                    <?php echo $price_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+            <?php if (!empty($sku) || !empty($brand_name)) : ?>
+                <div class="product-card-subtitle">
+                    <?php echo esc_html(!empty($sku) ? $sku : $brand_name); ?>
                 </div>
-            <?php else : ?>
-                <span class="product-call-for-price"><?php esc_html_e('تماس بگیرید', 'market'); ?></span>
             <?php endif; ?>
+
+            <div class="product-card-pricing">
+                <?php if (!empty($price_html)) : ?>
+                    <div class="product-price">
+                        <?php echo $price_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                    </div>
+                <?php else : ?>
+                    <span class="product-call-for-price"><?php esc_html_e('تماس بگیرید', 'market'); ?></span>
+                <?php endif; ?>
+            </div>
         </div>
 
-        <!-- دکمه خرید یا اطلاعات بیشتر مخصوص موبایل / هاور دسکتاپ -->
+        <!-- دکمه خرید، نمایش سریع و اقدامات کارت (هاور دسکتاپ و موبایل) -->
         <div class="product-card-action-wrap">
             <?php if ($is_purchasable) : ?>
                 <a href="<?php echo esc_url($product->add_to_cart_url()); ?>" data-product_id="<?php echo esc_attr($product_id); ?>" class="product-card-btn btn-add-to-cart ajax_add_to_cart" aria-label="<?php esc_attr_e('افزودن به سبد خرید', 'market'); ?>">
@@ -74,6 +76,16 @@ $is_purchasable = $product->is_purchasable() && $is_in_stock && $has_price && $p
                     <?php esc_html_e('اطلاعات بیشتر', 'market'); ?>
                 </a>
             <?php endif; ?>
+
+            <div class="product-action-icons-group">
+                <button type="button" class="product-action-icon-btn product-quick-view-btn" data-product-id="<?php echo esc_attr($product_id); ?>" aria-label="<?php esc_attr_e('نمایش سریع', 'market'); ?>">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <span class="taj-tooltip"><?php esc_html_e('نمایش سریع', 'market'); ?></span>
+                </button>
+            </div>
         </div>
     </div>
 </div>

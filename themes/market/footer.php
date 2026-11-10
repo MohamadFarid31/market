@@ -16,6 +16,7 @@ defined('ABSPATH') || exit;
 </footer>
 
 <?php get_template_part('template-parts/navigation/mobile-bottom-bar'); ?>
+<?php get_template_part('template-parts/modal/quick-view-modal'); ?>
 
 <?php wp_footer(); ?>
 </body>

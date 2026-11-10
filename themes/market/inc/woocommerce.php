@@ -306,3 +306,223 @@ if (!function_exists('market_get_order_status_badge')) {
     }
 }
 
+/**
+ * 11. Quick View AJAX Handler (Taj Bazar Style Modal — Matching Image 1)
+ */
+function market_ajax_quick_view() {
+    check_ajax_referer('market_ajax_nonce', 'nonce');
+
+    $product_id = isset($_POST['product_id']) ? intval($_POST['product_id']) : 0;
+    if (!$product_id) {
+        wp_send_json_error(['message' => __('شناسه محصول نامعتبر است.', 'market')]);
+    }
+
+    $product = wc_get_product($product_id);
+    if (!$product || !$product->is_visible()) {
+        wp_send_json_error(['message' => __('محصول یافت نشد.', 'market')]);
+    }
+
+    $product_name   = $product->get_name();
+    $permalink      = $product->get_permalink();
+    $sku            = $product->get_sku();
+    $brand_terms    = get_the_terms($product_id, 'product_brand');
+    $brand_name     = (!empty($brand_terms) && !is_wp_error($brand_terms)) ? $brand_terms[0]->name : '';
+    $price_html     = $product->get_price_html();
+    $has_price      = !empty($product->get_price()) && (float) $product->get_price() > 0;
+    $is_in_stock    = $product->is_in_stock();
+    $is_purchasable = $product->is_purchasable() && $is_in_stock && $has_price && $product->is_type('simple');
+
+    // Main image
+    $main_image_id  = $product->get_image_id();
+    $main_image_url = $main_image_id ? wp_get_attachment_image_url($main_image_id, 'large') : wc_placeholder_img_src('large');
+
+    // Gallery images
+    $gallery_ids = (array) $product->get_gallery_image_ids();
+    if ($main_image_id && !in_array($main_image_id, $gallery_ids)) {
+        array_unshift($gallery_ids, $main_image_id);
+    }
+
+    // Categories
+    $categories_html = wc_get_product_category_list($product_id, '، ');
+
+    // Attributes & Specifications list
+    $attributes_data = [];
+    $attributes = $product->get_attributes();
+    if (!empty($attributes)) {
+        foreach ($attributes as $attr) {
+            $label = wc_attribute_label($attr->get_name());
+            $values = [];
+            if ($attr->is_taxonomy()) {
+                $terms = wc_get_product_terms($product_id, $attr->get_name(), ['fields' => 'names']);
+                $values = !is_wp_error($terms) ? $terms : [];
+            } else {
+                $values = $attr->get_options();
+            }
+            if (!empty($values)) {
+                $attributes_data[] = [
+                    'label' => $label,
+                    'value' => implode('، ', (array) $values),
+                ];
+            }
+        }
+    }
+
+    if ($product->has_weight()) {
+        $weight_unit = get_option('woocommerce_weight_unit', 'کیلوگرم');
+        $attributes_data[] = [
+            'label' => __('وزن', 'market'),
+            'value' => market_to_persian_numbers($product->get_weight()) . ' ' . $weight_unit,
+        ];
+    }
+
+    if ($product->has_dimensions()) {
+        $attributes_data[] = [
+            'label' => __('ابعاد', 'market'),
+            'value' => market_to_persian_numbers($product->get_dimensions(false)),
+        ];
+    }
+
+    $short_desc = $product->get_short_description();
+
+    ob_start();
+    ?>
+    <div class="qv-modal-grid">
+        <!-- ستون اطلاعات و خرید محصول (سمت راست در RTL) -->
+        <div class="qv-details-col">
+            <h2 class="qv-title">
+                <a href="<?php echo esc_url($permalink); ?>"><?php echo esc_html($product_name); ?></a>
+            </h2>
+
+            <?php if (!empty($sku)) : ?>
+                <div class="qv-subtitle"><?php echo esc_html($sku); ?></div>
+            <?php endif; ?>
+
+            <?php if (!empty($brand_name)) : ?>
+                <div class="qv-brand"><?php echo esc_html($brand_name); ?></div>
+            <?php endif; ?>
+
+            <div class="qv-price-wrap">
+                <?php if (!empty($price_html)) : ?>
+                    <div class="qv-price"><?php echo $price_html; ?></div>
+                <?php else : ?>
+                    <span class="qv-call-price"><?php esc_html_e('تماس بگیرید', 'market'); ?></span>
+                <?php endif; ?>
+            </div>
+
+            <?php if (!empty($attributes_data)) : ?>
+                <ul class="qv-attributes-list">
+                    <?php foreach ($attributes_data as $attr) : ?>
+                        <li>
+                            <span class="qv-attr-dot">•</span>
+                            <span class="qv-attr-label"><?php echo esc_html($attr['label']); ?>:</span>
+                            <span class="qv-attr-value"><?php echo esc_html($attr['value']); ?></span>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php elseif (!empty($short_desc)) : ?>
+                <div class="qv-short-desc">
+                    <?php echo wp_kses_post($short_desc); ?>
+                </div>
+            <?php endif; ?>
+
+            <div class="qv-actions-row">
+                <?php if ($is_purchasable) : ?>
+                    <button type="button" class="btn-taj-red qv-add-to-cart-btn" data-product-id="<?php echo esc_attr($product_id); ?>">
+                        <span class="qv-btn-text"><?php esc_html_e('افزودن به سبد خرید', 'market'); ?></span>
+                        <span class="qv-btn-spinner" style="display: none;">
+                            <svg class="spinner" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10" stroke-dasharray="32" stroke-linecap="round"></circle></svg>
+                        </span>
+                    </button>
+                    <div class="qv-quantity-wrap">
+                        <button type="button" class="qv-qty-btn qv-qty-plus" aria-label="<?php esc_attr_e('افزایش', 'market'); ?>">+</button>
+                        <input type="number" class="qv-qty-input" value="1" min="1" max="99" readonly>
+                        <button type="button" class="qv-qty-btn qv-qty-minus" aria-label="<?php esc_attr_e('کاهش', 'market'); ?>">-</button>
+                    </div>
+                <?php else : ?>
+                    <a href="<?php echo esc_url($permalink); ?>" class="btn-taj-red qv-more-info-btn">
+                        <?php esc_html_e('اطلاعات بیشتر', 'market'); ?>
+                    </a>
+                <?php endif; ?>
+            </div>
+
+            <div class="qv-divider"></div>
+
+            <?php if (!empty($categories_html)) : ?>
+                <div class="qv-meta-categories">
+                    <span class="qv-meta-label"><?php esc_html_e('دسته:', 'market'); ?></span>
+                    <span class="qv-meta-links"><?php echo $categories_html; ?></span>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <!-- ستون گالری و عکس محصول (سمت چپ در RTL) -->
+        <div class="qv-gallery-col">
+            <div class="qv-main-image-frame">
+                <a href="<?php echo esc_url($permalink); ?>">
+                    <img id="qv-active-img" src="<?php echo esc_url($main_image_url); ?>" alt="<?php echo esc_attr($product_name); ?>">
+                </a>
+            </div>
+            <?php if (!empty($gallery_ids) && count($gallery_ids) > 1) : ?>
+                <div class="qv-gallery-thumbs-row">
+                    <?php foreach ($gallery_ids as $gid) :
+                        $thumb_url = wp_get_attachment_image_url($gid, 'medium');
+                        $full_url  = wp_get_attachment_image_url($gid, 'large');
+                        if ($thumb_url && $full_url) : ?>
+                            <button type="button" class="qv-gallery-thumb-btn <?php echo ($full_url === $main_image_url) ? 'is-active' : ''; ?>" data-full-src="<?php echo esc_url($full_url); ?>" aria-label="<?php esc_attr_e('تصویر محصول', 'market'); ?>">
+                                <img src="<?php echo esc_url($thumb_url); ?>" alt="">
+                            </button>
+                        <?php endif;
+                    endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+    <?php
+    $html = ob_get_clean();
+
+    wp_send_json_success(['html' => $html]);
+}
+add_action('wp_ajax_market_quick_view', 'market_ajax_quick_view');
+add_action('wp_ajax_nopriv_market_quick_view', 'market_ajax_quick_view');
+
+/**
+ * 12. Quick View AJAX Add to Cart (with quantity support)
+ */
+function market_ajax_quick_add_to_cart() {
+    check_ajax_referer('market_ajax_nonce', 'nonce');
+
+    if (!function_exists('WC')) {
+        wp_send_json_error(['message' => __('ووکامرس فعال نیست.', 'market')]);
+    }
+
+    $product_id = isset($_POST['product_id']) ? intval($_POST['product_id']) : 0;
+    $quantity   = isset($_POST['quantity']) ? max(1, intval($_POST['quantity'])) : 1;
+
+    if (!$product_id) {
+        wp_send_json_error(['message' => __('محصول نامعتبر است.', 'market')]);
+    }
+
+    $passed_validation = apply_filters('woocommerce_add_to_cart_validation', true, $product_id, $quantity);
+
+    if ($passed_validation && false !== WC()->cart->add_to_cart($product_id, $quantity)) {
+        do_action('woocommerce_ajax_added_to_cart', $product_id);
+
+        $count = WC()->cart->get_cart_contents_count();
+
+        // Get updated mini cart
+        ob_start();
+        woocommerce_mini_cart();
+        $mini_cart_html = ob_get_clean();
+
+        wp_send_json_success([
+            'count'     => market_to_persian_numbers($count),
+            'mini_cart' => $mini_cart_html,
+            'message'   => __('محصول با موفقیت به سبد خرید افزوده شد.', 'market'),
+        ]);
+    } else {
+        wp_send_json_error(['message' => __('خطا در افزودن محصول به سبد خرید.', 'market')]);
+    }
+}
+add_action('wp_ajax_market_quick_add_to_cart', 'market_ajax_quick_add_to_cart');
+add_action('wp_ajax_nopriv_market_quick_add_to_cart', 'market_ajax_quick_add_to_cart');
+

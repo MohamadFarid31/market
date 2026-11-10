@@ -12,28 +12,13 @@
   position: relative;
   transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
   padding: var(--space-3);
-  text-align: center;
-}
-
-.product-card::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  inset-inline: 20px;
-  height: 3px;
-  background-color: transparent;
-  border-radius: 9999px;
-  transition: background-color var(--transition-fast);
+  text-align: right;
 }
 
 .product-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
   border-color: #e4e4e7;
-}
-
-.product-card:hover::after {
-  background-color: var(--color-brand-badge);
 }
 
 /* Top Actions: Wishlist Heart & Sale Pill */
@@ -115,8 +100,10 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  align-items: center;
+  align-items: stretch;
+  text-align: right;
   gap: 4px;
+  width: 100%;
 }
 
 .product-card-title {
@@ -130,6 +117,8 @@
   overflow: hidden;
   height: 2.8em;
   margin: 0;
+  text-align: right;
+  width: 100%;
 }
 
 .product-card-title a {
@@ -145,11 +134,14 @@
   font-size: 11px;
   color: #a1a1aa;
   font-family: var(--font-family-base);
-  direction: ltr;
+  text-align: right;
+  direction: rtl;
+  unicode-bidi: plaintext;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+  width: 100%;
 }
 
 .product-card-category {
@@ -159,84 +151,381 @@
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+  text-align: right;
+  width: 100%;
 }
 
 /* Pricing Section */
 .product-card-pricing {
   margin-block-start: auto;
   padding-block-start: var(--space-2);
+  width: 100%;
+  text-align: left;
 }
 
 .product-card-pricing .product-price,
 .product-card-pricing .price {
-  font-size: 15px;
-  font-weight: var(--font-weight-bold);
-  color: var(--color-primary);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  width: 100%;
+  gap: 2px;
 }
 
+/* Strikethrough regular price (shown ABOVE main price with smaller font size) */
 .product-card-pricing del {
+  order: 1;
   color: #a1a1aa;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: var(--font-weight-regular);
   text-decoration: line-through;
-  margin-inline-end: 6px;
+  line-height: 1.25;
+  margin: 0;
+  margin-left: 0 !important;
+  margin-right: auto !important;
+  text-align: left !important;
+  display: block;
+  width: fit-content;
 }
 
+.product-card-pricing del .amount,
+.product-card-pricing del bdi {
+  color: #a1a1aa;
+  font-size: 11px;
+  font-weight: var(--font-weight-regular);
+  text-decoration: line-through;
+}
+
+/* Main active sale price (shown BELOW strikethrough price) */
 .product-card-pricing ins {
+  order: 2;
   text-decoration: none;
   color: var(--color-primary);
+  font-size: 14px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.25;
+  margin: 0;
+  margin-left: 0 !important;
+  margin-right: auto !important;
+  text-align: left !important;
+  display: block;
+  width: fit-content;
+}
+
+.product-card-pricing ins .amount,
+.product-card-pricing ins bdi {
+  color: var(--color-primary);
+  font-size: 14px;
+  font-weight: var(--font-weight-bold);
+  text-decoration: none;
+}
+
+/* Single regular price when not discounted */
+.product-card-pricing .product-price > .amount,
+.product-card-pricing .product-price > bdi,
+.product-card-pricing .price > .amount,
+.product-card-pricing .price > bdi {
+  color: var(--color-primary);
+  font-size: 14px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.25;
+  margin-left: 0 !important;
+  margin-right: auto !important;
+  text-align: left !important;
+  display: block;
+  width: fit-content;
 }
 
 .product-call-for-price {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: var(--font-weight-bold);
   color: var(--color-primary);
-  display: inline-block;
+  display: block;
+  text-align: left !important;
+  margin-left: 0 !important;
+  margin-right: auto !important;
   padding: 2px 0;
+  width: fit-content;
 }
 
 /* ==========================================================================
-   Action Button: Mobile Always Visible / Desktop Hover
+   Action & Quick View Buttons Layout
    ========================================================================== */
 .product-card-action-wrap {
   width: 100%;
   margin-block-start: var(--space-2);
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .product-card-btn {
-  width: 100%;
+  flex: 1;
   height: 38px;
   background-color: var(--color-brand-badge);
-  color: #ffffff !important;
+  color: var(--color-primary-contrast);
   border-radius: var(--radius-md);
-  font-size: 13px;
+  font-size: var(--font-size-13, 0.8125rem);
   font-weight: var(--font-weight-bold);
-  text-decoration: none !important;
+  text-decoration: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all var(--transition-fast);
   border: none;
+  white-space: nowrap;
 }
 
-.product-card-btn:hover {
+.product-card-btn.btn-more-info {
+  background-color: var(--color-bg-subtle);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border-default);
+}
+
+.product-card-btn.btn-more-info:hover {
+  background-color: var(--color-border-default);
+  color: var(--color-text-primary);
+}
+
+.product-card-btn.btn-add-to-cart:hover {
   background-color: var(--color-primary-hover);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(239, 57, 78, 0.25);
+  box-shadow: 0 4px 12px rgba(229, 37, 52, 0.25);
 }
 
-/* On Desktop (>= 1024px), card remains sleek with 5 columns; button appears smoothly on hover */
+.product-action-icons-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.product-action-icon-btn {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-md);
+  background-color: #ffffff;
+  border: 1px solid #e4e4e7;
+  color: #52525b;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.product-action-icon-btn:hover {
+  background-color: #fef2f2;
+  border-color: var(--color-brand-badge);
+  color: var(--color-brand-badge);
+  transform: translateY(-1px);
+}
+
+/* Taj Tooltip (Matching Image 2) */
+.taj-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background-color: #18181b;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.taj-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: #18181b transparent transparent transparent;
+}
+
+.product-action-icon-btn:hover .taj-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ==========================================================================
+   Desktop Hover Animation (Title/Price Slide Up, Buttons Appear)
+   ========================================================================== */
 @media (min-width: 1024px) {
+  .product-card {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .product-card-content {
+    position: relative;
+    justify-content: flex-end;
+  }
+
+  .product-card-info-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+    will-change: transform;
+  }
+
+  .product-card:hover .product-card-info-wrap {
+    transform: translateY(-46px);
+  }
+
   .product-card-action-wrap {
-    display: none;
+    position: absolute;
+    bottom: var(--space-3);
+    inset-inline: var(--space-3);
+    width: calc(100% - (2 * var(--space-3)));
+    margin-block-start: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(16px);
+    transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0.3s;
+    pointer-events: none;
+    z-index: 3;
   }
 
   .product-card:hover .product-card-action-wrap {
-    display: block;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
   }
 }
+
+@media (max-width: 1023px) {
+  .product-card-info-wrap {
+    transform: none !important;
+  }
+
+  .product-card-action-wrap {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    pointer-events: auto;
+    width: 100%;
+    margin-block-start: 6px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .product-action-icon-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: var(--radius-md);
+  }
+
+  .product-action-icon-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .taj-tooltip {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   Mobile Responsive Adjustments (Sleek & Compact Cards)
+   ========================================================================== */
+@media (max-width: 767px) {
+  .product-card {
+    padding: 8px;
+    border-radius: var(--radius-lg);
+  }
+
+  .product-card-top-actions {
+    top: 6px;
+    padding-inline: 6px;
+  }
+
+  .product-wishlist-btn {
+    padding: 2px;
+  }
+
+  .product-wishlist-btn svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .product-sale-pill {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 6px;
+  }
+
+  .product-card-thumb {
+    margin-block-start: 16px;
+    margin-block-end: 6px;
+  }
+
+  .product-card-title {
+    font-size: 11px;
+    line-height: 1.35;
+    height: 2.7em;
+  }
+
+  .product-card-subtitle {
+    font-size: 10px;
+  }
+
+  .product-card-category {
+    font-size: 10px;
+  }
+
+  .product-card-pricing {
+    padding-block-start: 4px;
+  }
+
+  .product-card-pricing del,
+  .product-card-pricing del .amount,
+  .product-card-pricing del bdi {
+    font-size: 10px;
+  }
+
+  .product-card-pricing ins,
+  .product-card-pricing ins .amount,
+  .product-card-pricing ins bdi,
+  .product-card-pricing .product-price > .amount,
+  .product-card-pricing .product-price > bdi,
+  .product-card-pricing .price > .amount,
+  .product-card-pricing .price > bdi {
+    font-size: 12px;
+  }
+
+  .product-call-for-price {
+    font-size: 11px;
+  }
+
+  .product-card-action-wrap {
+    margin-block-start: 6px;
+  }
+
+  .product-card-btn {
+    height: 30px;
+    font-size: 11px;
+    padding-inline: 4px;
+    border-radius: var(--radius-md);
+  }
+}
+
