@@ -29,22 +29,35 @@
   background-color: var(--color-bg-surface);
   box-shadow: var(--shadow-xl);
   z-index: var(--z-drawer);
-  transform: translateX(-100%);
-  transition: transform var(--transition-normal), visibility var(--transition-normal);
-  display: flex;
   flex-direction: column;
-  visibility: hidden;
-  pointer-events: none;
-}
-
-[dir="rtl"] .drawer {
-  transform: translateX(100%);
+  display: none;
 }
 
 .drawer.is-open {
-  transform: translateX(0) !important;
-  visibility: visible;
-  pointer-events: auto;
+  display: flex !important;
+  animation: drawerSlideIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes drawerSlideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+[dir="ltr"] .drawer.is-open {
+  animation-name: drawerSlideInLtr;
+}
+
+@keyframes drawerSlideInLtr {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 
 .drawer-header {
