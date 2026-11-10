@@ -66,6 +66,65 @@ function market_render_homepage_banners_box($post) {
         ];
     }
 
+    $circle_badge = isset($meta['circle_badge']) ? $meta['circle_badge'] : '';
+    $circle_title = isset($meta['circle_title']) ? $meta['circle_title'] : '';
+
+    $circle_categories = isset($meta['circle_categories']) && is_array($meta['circle_categories']) ? $meta['circle_categories'] : [];
+    if (empty($circle_categories)) {
+        $circle_categories = [
+            [
+                'title' => 'نورپردازی',
+                'img'   => '',
+                'url'   => function_exists('wc_get_page_permalink') ? wc_get_page_permalink('shop') : home_url('/shop/'),
+            ],
+            [
+                'title' => 'باتری و شارژرهای اصلی',
+                'img'   => '',
+                'url'   => function_exists('wc_get_page_permalink') ? wc_get_page_permalink('shop') : home_url('/shop/'),
+            ],
+            [
+                'title' => 'باتری و شارژرهای کپی',
+                'img'   => '',
+                'url'   => function_exists('wc_get_page_permalink') ? wc_get_page_permalink('shop') : home_url('/shop/'),
+            ],
+            [
+                'title' => 'میکروفون یقه‌ای',
+                'img'   => '',
+                'url'   => function_exists('wc_get_page_permalink') ? wc_get_page_permalink('shop') : home_url('/shop/'),
+            ],
+            [
+                'title' => 'لوازم جانبی دوربین',
+                'img'   => '',
+                'url'   => function_exists('wc_get_page_permalink') ? wc_get_page_permalink('shop') : home_url('/shop/'),
+            ],
+            [
+                'title' => 'پایه دوربین و رومیزی',
+                'img'   => '',
+                'url'   => function_exists('wc_get_page_permalink') ? wc_get_page_permalink('shop') : home_url('/shop/'),
+            ],
+        ];
+    }
+
+    $wc_categories = [];
+    if (taxonomy_exists('product_cat')) {
+        $terms = get_terms([
+            'taxonomy'   => 'product_cat',
+            'hide_empty' => false,
+        ]);
+        if (!is_wp_error($terms) && !empty($terms)) {
+            foreach ($terms as $t) {
+                $thumb_id = get_term_meta($t->term_id, 'thumbnail_id', true);
+                $thumb_url = $thumb_id ? wp_get_attachment_url($thumb_id) : '';
+                $wc_categories[] = [
+                    'id'    => $t->term_id,
+                    'name'  => $t->name,
+                    'link'  => get_term_link($t),
+                    'thumb' => $thumb_url ? $thumb_url : '',
+                ];
+            }
+        }
+    }
+
     $hotspots = isset($meta['showcase_hotspots']) && is_array($meta['showcase_hotspots']) ? $meta['showcase_hotspots'] : [];
     if (empty($hotspots)) {
         $hotspots = [
@@ -109,6 +168,60 @@ function market_render_homepage_banners_box($post) {
             align-items: center;
             gap: 16px;
             flex-wrap: wrap;
+        }
+        .market-cat-circle-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 14px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            transition: border-color 0.2s ease;
+        }
+        .market-cat-circle-card:hover {
+            border-color: #cbd5e1;
+        }
+        .market-cat-circle-preview {
+            width: 82px;
+            height: 82px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            border: 2px solid #e4e4e7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .market-cat-circle-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 50%;
+            display: block;
+        }
+        .market-cat-inputs {
+            flex: 1;
+            min-width: 280px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .market-cat-inputs input,
+        .market-cat-inputs select {
+            width: 100%;
+            padding: 7px 10px;
+            border-radius: 4px;
+            border: 1px solid #cbd5e1;
+            font-size: 13px;
         }
         .market-slide-preview, .market-promo-preview {
             width: 140px;
@@ -244,9 +357,80 @@ function market_render_homepage_banners_box($post) {
             </div>
         </div>
 
-        <!-- ۲. ردیف اول ۳ بنر تبلیغاتی -->
+        <!-- ۲. دسته‌بندی‌های دایره‌ای (همه تجهیزات موردنیاز شما، در یک نگاه) -->
         <div class="market-meta-section">
-            <h3><?php esc_html_e('۲. ردیف اول ۳ بنر تبلیغاتی (۳ بنر کنار هم)', 'market'); ?></h3>
+            <h3>
+                <span><?php esc_html_e('۲. دسته‌بندی‌های دایره‌ای (همه تجهیزات موردنیاز شما، در یک نگاه)', 'market'); ?></span>
+                <button type="button" class="button button-primary" id="addCircleCategoryBtn">
+                    <?php esc_html_e('+ افزودن دسته‌بندی جدید', 'market'); ?>
+                </button>
+            </h3>
+            <p class="description" style="margin-bottom: 14px;">
+                <?php esc_html_e('این دسته‌بندی‌ها به صورت اسلایدر اتوماتیک ۳تایی در یک ردیف در صفحه اصلی نمایش داده می‌شوند. برای هر آیتم می‌توانید تصویر درون دایره سفید، عنوان دسته‌بندی و لینک مقصد را تنظیم کنید (یا از منوی کشویی دسته‌بندی‌های موجود فروشگاه انتخاب نمایید):', 'market'); ?>
+            </p>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; background: #f1f5f9; padding: 12px; border-radius: 6px;">
+                <div>
+                    <label style="font-weight: 600; display: block; margin-bottom: 4px;"><?php esc_html_e('تیتر نشان بالای بخش', 'market'); ?></label>
+                    <input type="text" name="market_home[circle_badge]" value="<?php echo esc_attr($circle_badge); ?>" placeholder="<?php esc_attr_e('همه تجهیزات موردنیاز شما، در یک نگاه', 'market'); ?>" style="width: 100%;">
+                </div>
+                <div>
+                    <label style="font-weight: 600; display: block; margin-bottom: 4px;"><?php esc_html_e('عنوان اصلی بخش', 'market'); ?></label>
+                    <input type="text" name="market_home[circle_title]" value="<?php echo esc_attr($circle_title); ?>" placeholder="<?php esc_attr_e('دسته‌بندی محصولات', 'market'); ?>" style="width: 100%;">
+                </div>
+            </div>
+
+            <div id="circleCategoriesContainer">
+                <?php foreach ($circle_categories as $c_idx => $c_item) : 
+                    $c_title = isset($c_item['title']) ? $c_item['title'] : '';
+                    $c_img = isset($c_item['img']) ? $c_item['img'] : '';
+                    $c_url = isset($c_item['url']) ? $c_item['url'] : '';
+                ?>
+                    <div class="market-cat-circle-card" data-index="<?php echo $c_idx; ?>">
+                        <div class="market-cat-circle-preview" title="<?php esc_attr_e('پیش‌نمایش تصویر در دایره سفید با بردر طوسی', 'market'); ?>">
+                            <?php if ($c_img) : ?>
+                                <img src="<?php echo esc_url($c_img); ?>" alt="<?php echo esc_attr($c_title); ?>">
+                            <?php else : ?>
+                                <span style="font-size: 11px; color: #94a3b8; text-align: center;"><?php esc_html_e('بدون تصویر', 'market'); ?></span>
+                            <?php endif; ?>
+                        </div>
+
+                        <div class="market-cat-inputs">
+                            <?php if (!empty($wc_categories)) : ?>
+                                <select class="cat-quick-picker" style="background: #ffffff; color: #334155; border-color: #cbd5e1;">
+                                    <option value="">-- انتخاب سریع از دسته‌بندی‌های ووکامرس (پر کردن خودکار) --</option>
+                                    <?php foreach ($wc_categories as $wc_cat) : ?>
+                                        <option value="<?php echo esc_attr($wc_cat['id']); ?>" 
+                                                data-name="<?php echo esc_attr($wc_cat['name']); ?>" 
+                                                data-link="<?php echo esc_url($wc_cat['link']); ?>" 
+                                                data-thumb="<?php echo esc_url($wc_cat['thumb']); ?>">
+                                            <?php echo esc_html($wc_cat['name']); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            <?php endif; ?>
+
+                            <div style="display: flex; gap: 8px;">
+                                <input type="text" name="market_home[circle_categories][<?php echo $c_idx; ?>][title]" class="cat-circle-title-input" value="<?php echo esc_attr($c_title); ?>" placeholder="<?php esc_attr_e('عنوان دسته‌بندی (مثلاً: نورپردازی)', 'market'); ?>" style="flex: 1;">
+                                <button type="button" class="button cat-circle-upload-btn"><?php esc_html_e('انتخاب تصویر دایره', 'market'); ?></button>
+                                <button type="button" class="button cat-circle-clear-btn" title="<?php esc_attr_e('حذف تصویر', 'market'); ?>">✕</button>
+                            </div>
+
+                            <div style="display: flex; gap: 8px;">
+                                <input type="text" name="market_home[circle_categories][<?php echo $c_idx; ?>][img]" class="cat-circle-img-input" value="<?php echo esc_url($c_img); ?>" placeholder="<?php esc_attr_e('آدرس تصویر درون دایره (PNG یا JPG)...', 'market'); ?>" style="flex: 1;">
+                                <input type="url" name="market_home[circle_categories][<?php echo $c_idx; ?>][url]" class="cat-circle-url-input" value="<?php echo esc_url($c_url); ?>" placeholder="<?php esc_attr_e('لینک دسته‌بندی (https://... یا /shop/)', 'market'); ?>" style="flex: 1;" dir="ltr">
+                            </div>
+                        </div>
+
+                        <button type="button" class="button btn-remove-item remove-cat-circle-btn"><?php esc_html_e('حذف', 'market'); ?></button>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+
+        <!-- ۳. ردیف اول ۳ بنر تبلیغاتی -->
+        <div class="market-meta-section">
+            <h3><?php esc_html_e('۳. ردیف اول ۳ بنر تبلیغاتی (۳ بنر کنار هم)', 'market'); ?></h3>
             <p class="description" style="margin-bottom: 14px;">
                 <?php esc_html_e('تصویر طراحی‌شده و لینک هر یک از ۳ بنر ردیف اول را مشخص کنید:', 'market'); ?>
             </p>
@@ -277,9 +461,9 @@ function market_render_homepage_banners_box($post) {
             </div>
         </div>
 
-        <!-- ۳. بنر عریض کشف دنیای تجهیزات و نقاط تعاملی (Hotspots) -->
+        <!-- ۴. بنر عریض کشف دنیای تجهیزات و نقاط تعاملی (Hotspots) -->
         <div class="market-meta-section">
-            <h3><?php esc_html_e('۳. بنر عریض و نقاط تعاملی (Interactive Hotspots)', 'market'); ?></h3>
+            <h3><?php esc_html_e('۴. بنر عریض و نقاط تعاملی (Interactive Hotspots)', 'market'); ?></h3>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 12px;">
                 <div>
                     <label style="font-weight: 600; display: block; margin-bottom: 4px;"><?php esc_html_e('بج بالای بنر', 'market'); ?></label>
@@ -359,9 +543,9 @@ function market_render_homepage_banners_box($post) {
             </div>
         </div>
 
-        <!-- ۴. ردیف دوم ۳ بنر تبلیغاتی -->
+        <!-- ۵. ردیف دوم ۳ بنر تبلیغاتی -->
         <div class="market-meta-section">
-            <h3><?php esc_html_e('۴. ردیف دوم ۳ بنر تبلیغاتی (۳ بنر کنار هم)', 'market'); ?></h3>
+            <h3><?php esc_html_e('۵. ردیف دوم ۳ بنر تبلیغاتی (۳ بنر کنار هم)', 'market'); ?></h3>
             <p class="description" style="margin-bottom: 14px;">
                 <?php esc_html_e('تصویر و لینک ۳ بنر ردیف دوم را مشخص کنید:', 'market'); ?>
             </p>
@@ -393,9 +577,108 @@ function market_render_homepage_banners_box($post) {
         </div>
     </div>
 
+    <!-- Template for Adding New Circle Category Item -->
+    <template id="tmplCircleCategoryRow">
+        <div class="market-cat-circle-card" data-index="__INDEX__">
+            <div class="market-cat-circle-preview" title="<?php esc_attr_e('پیش‌نمایش تصویر در دایره سفید با بردر طوسی', 'market'); ?>">
+                <span style="font-size: 11px; color: #94a3b8; text-align: center;"><?php esc_html_e('بدون تصویر', 'market'); ?></span>
+            </div>
+            <div class="market-cat-inputs">
+                <?php if (!empty($wc_categories)) : ?>
+                    <select class="cat-quick-picker" style="background: #ffffff; color: #334155; border-color: #cbd5e1;">
+                        <option value="">-- انتخاب سریع از دسته‌بندی‌های ووکامرس (پر کردن خودکار) --</option>
+                        <?php foreach ($wc_categories as $wc_cat) : ?>
+                            <option value="<?php echo esc_attr($wc_cat['id']); ?>" 
+                                    data-name="<?php echo esc_attr($wc_cat['name']); ?>" 
+                                    data-link="<?php echo esc_url($wc_cat['link']); ?>" 
+                                    data-thumb="<?php echo esc_url($wc_cat['thumb']); ?>">
+                                <?php echo esc_html($wc_cat['name']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                <?php endif; ?>
+                <div style="display: flex; gap: 8px;">
+                    <input type="text" name="market_home[circle_categories][__INDEX__][title]" class="cat-circle-title-input" placeholder="<?php esc_attr_e('عنوان دسته‌بندی (مثلاً: لنز دوربین)', 'market'); ?>" style="flex: 1;">
+                    <button type="button" class="button cat-circle-upload-btn"><?php esc_html_e('انتخاب تصویر دایره', 'market'); ?></button>
+                    <button type="button" class="button cat-circle-clear-btn" title="<?php esc_attr_e('حذف تصویر', 'market'); ?>">✕</button>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <input type="text" name="market_home[circle_categories][__INDEX__][img]" class="cat-circle-img-input" placeholder="<?php esc_attr_e('آدرس تصویر درون دایره (PNG یا JPG)...', 'market'); ?>" style="flex: 1;">
+                    <input type="url" name="market_home[circle_categories][__INDEX__][url]" class="cat-circle-url-input" placeholder="<?php esc_attr_e('لینک دسته‌بندی (https://... یا /shop/)', 'market'); ?>" style="flex: 1;" dir="ltr">
+                </div>
+            </div>
+            <button type="button" class="button btn-remove-item remove-cat-circle-btn"><?php esc_html_e('حذف', 'market'); ?></button>
+        </div>
+    </template>
+
     <!-- Admin Interactive Script -->
     <script>
     jQuery(document).ready(function($) {
+        // افزودن دسته‌بندی دایره‌ای جدید
+        $('#addCircleCategoryBtn').on('click', function() {
+            var container = $('#circleCategoriesContainer');
+            var uniqueIdx = new Date().getTime();
+            var tmpl = $('#tmplCircleCategoryRow').html();
+            var newCard = tmpl.replace(/__INDEX__/g, uniqueIdx);
+            container.append(newCard);
+        });
+
+        // حذف دسته‌بندی دایره‌ای
+        $(document).on('click', '.remove-cat-circle-btn', function() {
+            $(this).closest('.market-cat-circle-card').remove();
+        });
+
+        // انتخاب سریع از دسته‌بندی‌های ووکامرس
+        $(document).on('change', '.cat-quick-picker', function() {
+            var opt = $(this).find('option:selected');
+            if (!opt.val()) return;
+            var card = $(this).closest('.market-cat-circle-card');
+            var name = opt.data('name');
+            var link = opt.data('link');
+            var thumb = opt.data('thumb');
+
+            if (name) {
+                card.find('.cat-circle-title-input').val(name);
+            }
+            if (link) {
+                card.find('.cat-circle-url-input').val(link);
+            }
+            if (thumb) {
+                card.find('.cat-circle-img-input').val(thumb);
+                card.find('.market-cat-circle-preview').html('<img src="' + thumb + '" alt="' + name + '">');
+            }
+        });
+
+        // آپلود تصویر دسته‌بندی دایره‌ای
+        $(document).on('click', '.cat-circle-upload-btn', function(e) {
+            e.preventDefault();
+            var btn = $(this);
+            var card = btn.closest('.market-cat-circle-card');
+            var input = card.find('.cat-circle-img-input');
+            var preview = card.find('.market-cat-circle-preview');
+
+            var mediaModal = wp.media({
+                title: 'انتخاب یا آپلود تصویر دسته‌بندی دایره‌ای',
+                button: { text: 'استفاده از این تصویر' },
+                multiple: false
+            });
+
+            mediaModal.on('select', function() {
+                var attachment = mediaModal.state().get('selection').first().toJSON();
+                input.val(attachment.url);
+                preview.html('<img src="' + attachment.url + '">');
+            });
+
+            mediaModal.open();
+        });
+
+        // پاک کردن تصویر دایره‌ای
+        $(document).on('click', '.cat-circle-clear-btn', function(e) {
+            e.preventDefault();
+            var card = $(this).closest('.market-cat-circle-card');
+            card.find('.cat-circle-img-input').val('');
+            card.find('.market-cat-circle-preview').html('<span style="font-size: 11px; color: #94a3b8; text-align: center;">بدون تصویر</span>');
+        });
         // ۱. مدیریت آپلود تصاویر با مدیا لایبرری
         $(document).on('click', '.slide-upload-btn', function(e) {
             e.preventDefault();
@@ -561,13 +844,34 @@ function market_save_homepage_meta($post_id) {
             }
         }
 
-        // 2. Promo Row 1 (Banners 1, 2, 3)
+        // 2. Circle Categories (دسته‌بندی‌های دایره‌ای)
+        $clean['circle_badge'] = !empty($raw['circle_badge']) ? sanitize_text_field($raw['circle_badge']) : '';
+        $clean['circle_title'] = !empty($raw['circle_title']) ? sanitize_text_field($raw['circle_title']) : '';
+
+        if (!empty($raw['circle_categories']) && is_array($raw['circle_categories'])) {
+            $clean['circle_categories'] = [];
+            foreach ($raw['circle_categories'] as $cat) {
+                $title = !empty($cat['title']) ? sanitize_text_field($cat['title']) : '';
+                $img   = !empty($cat['img']) ? esc_url_raw(trim($cat['img'])) : '';
+                $url   = !empty($cat['url']) ? esc_url_raw(trim($cat['url'])) : '';
+
+                if (!empty($title) || !empty($img) || !empty($url)) {
+                    $clean['circle_categories'][] = [
+                        'title' => $title,
+                        'img'   => $img,
+                        'url'   => $url,
+                    ];
+                }
+            }
+        }
+
+        // 3. Promo Row 1 (Banners 1, 2, 3)
         for ($i = 1; $i <= 3; $i++) {
             $clean["promo_row1_{$i}_img"] = !empty($raw["promo_row1_{$i}_img"]) ? esc_url_raw(trim($raw["promo_row1_{$i}_img"])) : '';
             $clean["promo_row1_{$i}_url"] = !empty($raw["promo_row1_{$i}_url"]) ? esc_url_raw(trim($raw["promo_row1_{$i}_url"])) : '';
         }
 
-        // 3. Showcase Section & Hotspots
+        // 4. Showcase Section & Hotspots
         $clean['showcase_badge'] = !empty($raw['showcase_badge']) ? sanitize_text_field($raw['showcase_badge']) : '';
         $clean['showcase_title'] = !empty($raw['showcase_title']) ? sanitize_text_field($raw['showcase_title']) : '';
         $clean['showcase_desc']  = !empty($raw['showcase_desc']) ? sanitize_textarea_field($raw['showcase_desc']) : '';
@@ -587,7 +891,7 @@ function market_save_homepage_meta($post_id) {
             }
         }
 
-        // 4. Promo Row 2 (Banners 1, 2, 3)
+        // 5. Promo Row 2 (Banners 1, 2, 3)
         for ($i = 1; $i <= 3; $i++) {
             $clean["promo_row2_{$i}_img"] = !empty($raw["promo_row2_{$i}_img"]) ? esc_url_raw(trim($raw["promo_row2_{$i}_img"])) : '';
             $clean["promo_row2_{$i}_url"] = !empty($raw["promo_row2_{$i}_url"]) ? esc_url_raw(trim($raw["promo_row2_{$i}_url"])) : '';

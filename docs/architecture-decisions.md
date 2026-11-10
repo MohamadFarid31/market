@@ -135,6 +135,43 @@ In Phase 3, we constructed the installable, technically functional raw theme fou
 
 ---
 
+## ADR-005: 3-Item Auto-Carousel & Tailored CMS Repeater for Circular Categories
+
+### Status
+Accepted
+
+### Date
+2026-11-10
+
+### Context
+The homepage circular categories section ("همه تجهیزات موردنیاز شما، در یک نگاه") previously rendered a static 6-column / 3-column CSS grid. The client requested:
+1. Converting the section into an auto-scrolling single-row carousel displaying exactly 3 items at a time with periodic smooth auto-scrolling.
+2. Complete administration control from the Front Page editor in WP Admin ("ویرایش برگه"): allowing admins to select/define categories, upload images displayed inside the white circle with grey border, specify custom category destination links, and add/remove items dynamically.
+
+### Decision
+1. **Frontend Carousel Architecture:**
+   - Single-row viewport with responsive item sizing: `calc((100% - 2 * gap) / 3)`.
+   - Hardware-accelerated CSS `transform: translateX(...)` with RTL-aware positioning.
+   - Built-in autoplay (interval: 3.5s) with pause-on-hover and pause-on-touch interaction.
+   - Touch drag / swipe support for mobile RTL users.
+   - Previous/Next navigation chevrons and active pagination dots.
+   - Safe fallback when items <= 3 (centered display, navigation inactive).
+2. **Admin Meta Box Repeater in `inc/homepage-metaboxes.php`:**
+   - Added Section 2: "دسته‌بندی‌های دایره‌ای (همه تجهیزات موردنیاز شما، در یک نگاه)" to the homepage meta box.
+   - Allows setting custom section badge text and main title.
+   - Interactive repeater card with:
+     - Live preview matching the frontend white circle with grey border (`border: 2px solid #e4e4e7`).
+     - Quick-picker `<select>` populated from WooCommerce `product_cat` terms that automatically populates Title, Link, and Category Thumbnail into the card.
+     - Custom Title text input, Custom Link URL input, and WordPress Media Library image uploader/clear buttons.
+     - Native HTML5 `<template id="tmplCircleCategoryRow">` for clean client-side card cloning.
+   - Sanitization and late-escaping adhering strictly to WordPress security standards (`sanitize_text_field`, `esc_url_raw`, `esc_html`, `esc_url`, `esc_attr`).
+
+### Consequences
+- **Positive:** Zero third-party slider dependencies (pure lightweight ES module & CSS), perfect RTL behavior, total client autonomy in WP Admin without page builders, and responsive mobile-first UX.
+- **Negative:** None. Fully backwards-compatible with graceful fallback to defaults when meta is not yet saved.
+
+---
+
 ## ADR Template for Future Decisions
 
 ```markdown
