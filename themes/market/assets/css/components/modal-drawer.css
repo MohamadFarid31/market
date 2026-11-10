@@ -29,7 +29,7 @@
   background-color: var(--color-bg-surface);
   box-shadow: var(--shadow-xl);
   z-index: var(--z-drawer);
-  transform: translateX(100%);
+  transform: translateX(-100%);
   transition: transform var(--transition-normal);
   display: flex;
   flex-direction: column;

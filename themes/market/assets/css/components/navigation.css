@@ -345,78 +345,416 @@
 }
 
 /* ==========================================================================
-   4. Mobile Navigation Drawer (عمق ۳ سطحی با آکاردئون لمسی)
+   4. Mobile Navigation Drawer (عمق چندسطحی با آکاردئون آبشاری و انیمیشن مدرن)
    ========================================================================== */
+.drawer-header-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.drawer-logo-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-md);
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+.drawer-title {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.drawer-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.drawer-close-btn:hover {
+  background-color: var(--color-bg-subtle);
+  color: var(--color-primary);
+}
+
+.mobile-search-wrapper {
+  margin-block-end: var(--space-4);
+}
+
+.mobile-nav-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
 .mobile-nav-list {
   list-style: none;
   padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
 }
 
-.mobile-nav-list li {
+.mobile-nav-item {
   border-block-end: 1px solid var(--color-border-subtle);
+}
+
+.mobile-nav-item:last-child {
+  border-block-end: none;
 }
 
 .mobile-nav-item-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 }
 
-.mobile-nav-list a {
-  display: block;
+.mobile-nav-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
   flex: 1;
-  padding-block: var(--space-3);
+  padding: var(--space-3) var(--space-2);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
   color: var(--color-text-primary);
   text-decoration: none;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
 }
 
-.mobile-submenu-toggle {
-  background: none;
-  border: none;
-  padding: var(--space-2) var(--space-3);
-  cursor: pointer;
-  color: var(--color-text-secondary);
-  display: flex;
+.mobile-nav-link:hover,
+.mobile-nav-item.current-menu-item > .mobile-nav-link {
+  color: var(--color-primary);
+}
+
+.mobile-nav-item.current-menu-item > .mobile-nav-link {
+  font-weight: var(--font-weight-bold);
+}
+
+.mobile-nav-icon {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 22px;
+  height: 22px;
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+  transition: color var(--transition-fast);
 }
 
-.mobile-submenu-toggle svg {
+.mobile-nav-link:hover .mobile-nav-icon,
+.mobile-nav-item.current-menu-item .mobile-nav-icon {
+  color: var(--color-primary);
+}
+
+.mobile-nav-label {
+  line-height: 1.4;
+}
+
+/* دکمه ریشه دسته‌بندی کالاها (Root Accordion Trigger) */
+.mobile-nav-toggle-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: var(--space-3) var(--space-2);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  border-radius: var(--radius-md);
+  text-align: inherit;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.mobile-cat-root-icon {
+  color: var(--color-primary);
+}
+
+.mobile-nav-toggle-row:hover,
+.mobile-categories-accordion-item.is-expanded > .mobile-nav-item-inner .mobile-nav-toggle-row,
+.mobile-cat-root-toggle[aria-expanded="true"] {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+/* المان و آیکون چرخشی فلش (Arrow Down / Up) */
+.mobile-arrow-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-inline-start: auto;
+  padding-inline-start: var(--space-2);
+}
+
+.mobile-arrow-icon {
   width: 18px;
   height: 18px;
-  transition: transform var(--transition-normal);
+  stroke-width: 2;
+  color: var(--color-text-muted);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), color 0.25s ease;
+  transform-origin: center;
+  flex-shrink: 0;
 }
 
-li.is-expanded > .mobile-nav-item-inner .mobile-submenu-toggle svg {
+/* چرخش ۱۸۰ درجه هنگام باز شدن آکاردئون (Arrow Up) */
+.mobile-categories-accordion-item.is-expanded > .mobile-nav-item-inner .mobile-arrow-icon,
+.mobile-cat-root-toggle[aria-expanded="true"] .mobile-arrow-icon,
+li.is-expanded > .mobile-nav-item-inner .mobile-arrow-icon,
+li.is-expanded > .mobile-nav-item-inner .mobile-submenu-toggle .mobile-arrow-icon {
   transform: rotate(180deg);
+  color: var(--color-primary);
 }
 
-.mobile-nav-list .sub-menu {
-  display: none;
+/* دکمه تاگل زیردسته‌ها */
+.mobile-submenu-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  border-radius: var(--radius-md);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.mobile-submenu-toggle:hover {
+  background-color: var(--color-bg-subtle);
+  color: var(--color-primary);
+}
+
+/* ساختار انیمیشنی آبشاری چندسطحی با CSS Grid (بسیار روان و ۶۰ فریم) */
+.mobile-accordion-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-accordion-content.is-open,
+.is-expanded > .mobile-accordion-content {
+  grid-template-rows: 1fr;
+}
+
+.mobile-accordion-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.mobile-accordion-inner > * {
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-accordion-content.is-open > .mobile-accordion-inner > *,
+.is-expanded > .mobile-accordion-content > .mobile-accordion-inner > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* سطح ۱: لیست دسته‌بندی‌های کالاها */
+.mobile-sub-menu {
   list-style: none;
   padding: 0;
   margin: 0;
+}
+
+.mobile-cat-list-level-1 {
+  background-color: var(--color-bg-subtle);
+  border-radius: var(--radius-md);
+  margin-block: var(--space-2);
+  padding: var(--space-2) var(--space-2);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.mobile-cat-item {
+  border-block-end: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.mobile-cat-item:last-child {
+  border-block-end: none;
+}
+
+.mobile-cat-item .mobile-nav-link {
+  font-size: var(--font-size-xs);
+  padding-block: var(--space-2);
+}
+
+.mobile-bullet-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary);
+  opacity: 0.5;
+  display: inline-block;
+  flex-shrink: 0;
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+.mobile-cat-item:hover .mobile-bullet-dot,
+.mobile-cat-item.is-expanded .mobile-bullet-dot {
+  opacity: 1;
+  transform: scale(1.3);
+}
+
+/* سطح ۲: لیست زیردسته‌ها */
+.mobile-cat-list-level-2 {
+  background-color: var(--color-bg-surface);
+  border-radius: var(--radius-md);
+  margin-block: var(--space-1) var(--space-2);
+  margin-inline-start: var(--space-3);
+  padding: var(--space-2);
+  border: 1px solid var(--color-border-subtle);
+  box-shadow: var(--shadow-sm);
+}
+
+.mobile-view-all-item {
+  margin-block-end: var(--space-2);
+  border-block-end: 1px dashed var(--color-border-subtle);
+  padding-block-end: var(--space-2);
+}
+
+.mobile-view-all-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-3);
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.mobile-view-all-link:hover {
+  background-color: var(--color-primary);
+  color: #ffffff;
+}
+
+.mobile-view-all-arrow {
+  flex-shrink: 0;
+  transition: transform var(--transition-fast);
+}
+
+.mobile-view-all-link:hover .mobile-view-all-arrow {
+  transform: translateX(-3px);
+}
+
+.mobile-subcat-leaf {
+  border-block-end: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.mobile-subcat-leaf:last-child {
+  border-block-end: none;
+}
+
+.mobile-sub-dash {
+  color: var(--color-text-muted);
+  font-weight: bold;
+  margin-inline-end: 4px;
+}
+
+/* سطح ۳: زیرزیردسته‌ها (در صورت وجود) */
+.mobile-cat-list-level-3 {
   background-color: var(--color-bg-subtle);
   border-radius: var(--radius-sm);
-  margin-block-end: var(--space-2);
+  margin-block: var(--space-1);
+  margin-inline-start: var(--space-4);
+  padding: var(--space-1) var(--space-2);
 }
 
-li.is-expanded > .sub-menu {
-  display: block;
+/* بخش پیوندهای سفارشی وردپرس */
+.mobile-menu-divider {
+  height: 1px;
+  background-color: var(--color-border-subtle);
+  margin-block: var(--space-4);
 }
 
-.mobile-nav-list .sub-menu li a {
-  padding-inline-start: var(--space-4);
+.mobile-custom-menu-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.mobile-custom-menu-heading {
   font-size: var(--font-size-xs);
-  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-muted);
+  padding-inline: var(--space-2);
 }
 
-.mobile-nav-list .sub-menu .sub-menu li a {
-  padding-inline-start: var(--space-8);
+/* پاورقی کشوی موبایل */
+.mobile-drawer-footer {
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--color-bg-canvas);
+  border-block-start: 1px solid var(--color-border-subtle);
+}
+
+.mobile-drawer-contact-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.mobile-drawer-contact-btn:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.mobile-drawer-contact-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.mobile-drawer-contact-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.contact-hint {
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+.contact-number {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
+  direction: ltr;
+  text-align: right;
 }
 
 /* ==========================================================================

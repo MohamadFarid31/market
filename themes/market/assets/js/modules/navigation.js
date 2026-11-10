@@ -1,5 +1,7 @@
 /**
- * Market Theme — Navigation, Digikala Mega Menu & Drawer Module
+ * Market Theme — Navigation, Digikala Mega Menu & Mobile Drawer Module
+ *
+ * @package Market
  */
 
 export function initNavigation() {
@@ -12,30 +14,36 @@ export function initNavigation() {
  * ۱. مدیریت باز و بسته شدن کشوی منوی موبایل
  */
 function initMobileDrawer() {
-  const toggleBtn = document.querySelector('[data-toggle="mobile-nav"]');
+  const toggleBtns = document.querySelectorAll('[data-toggle="mobile-nav"]');
   const drawer = document.getElementById('mobile-nav-drawer');
   const overlay = document.getElementById('mobile-nav-overlay');
-  const closeBtn = document.querySelector('[data-close="mobile-nav"]');
+  const closeBtns = document.querySelectorAll('[data-close="mobile-nav"]');
 
-  if (!toggleBtn || !drawer || !overlay) return;
+  if (!drawer || !overlay) return;
 
   function openNav() {
     drawer.classList.add('is-open');
     overlay.classList.add('is-active');
     document.body.style.overflow = 'hidden';
-    toggleBtn.setAttribute('aria-expanded', 'true');
+    toggleBtns.forEach((btn) => btn.setAttribute('aria-expanded', 'true'));
   }
 
   function closeNav() {
     drawer.classList.remove('is-open');
     overlay.classList.remove('is-active');
     document.body.style.overflow = '';
-    toggleBtn.setAttribute('aria-expanded', 'false');
+    toggleBtns.forEach((btn) => btn.setAttribute('aria-expanded', 'false'));
   }
 
-  toggleBtn.addEventListener('click', openNav);
+  toggleBtns.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openNav();
+    });
+  });
+
   overlay.addEventListener('click', closeNav);
-  if (closeBtn) closeBtn.addEventListener('click', closeNav);
+  closeBtns.forEach((btn) => btn.addEventListener('click', closeNav));
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && drawer.classList.contains('is-open')) {
@@ -45,7 +53,7 @@ function initMobileDrawer() {
 }
 
 /**
- * ۲. مدیریت تعاملی مگامنوی سبک دیجی‌کالا
+ * ۲. مدیریت تعاملی مگامنوی سبک دیجی‌کالا (دسکتاپ)
  */
 function initMegaMenu() {
   const megaWrap = document.getElementById('header-mega-menu-wrap');
@@ -53,7 +61,6 @@ function initMegaMenu() {
   const catItems = document.querySelectorAll('.mega-menu-cat-item');
   const panels = document.querySelectorAll('.mega-menu-panel');
 
-  // دکمه باز/بستن کلیک برای موبایل و تبلت یا کلیک کاربر
   if (megaWrap && megaBtn) {
     megaBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -99,44 +106,109 @@ function initMegaMenu() {
 }
 
 /**
- * ۳. مدیریت دکمه‌های آکاردئونی زیرمنوها در کشوی موبایل
+ * ۳. مدیریت دکمه‌های آکاردئونی آبشاری چندسطحی در کشوی موبایل
  */
 function initMobileAccordion() {
-  const mobileList = document.querySelector('.mobile-nav-list');
-  if (!mobileList) return;
+  const drawer = document.getElementById('mobile-nav-drawer');
+  if (!drawer) return;
 
-  const parentItems = mobileList.querySelectorAll('li.menu-item-has-children');
+  // الف) تاگل بخش اصلی دسته‌بندی‌ها (Root Category Accordion)
+  const rootToggles = drawer.querySelectorAll('.mobile-cat-root-toggle');
+  rootToggles.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const parentItem = btn.closest('.mobile-categories-accordion-item');
+      if (!parentItem) return;
 
-  parentItems.forEach((li) => {
-    // جلوگیری از اضافه شدن دکمه تکراری
-    if (li.querySelector('.mobile-submenu-toggle')) return;
+      const isExpanded = parentItem.classList.toggle('is-expanded');
+      btn.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+
+      const content = parentItem.querySelector(':scope > .mobile-accordion-content');
+      if (content) {
+        content.classList.toggle('is-open', isExpanded);
+      }
+    });
+  });
+
+  // ب) تاگل زیردسته‌های چندسطحی کالاها
+  const catParentItems = drawer.querySelectorAll('.mobile-cat-has-children');
+  catParentItems.forEach((li) => {
+    const toggleBtn = li.querySelector(':scope > .mobile-nav-item-inner > .mobile-submenu-toggle');
+    const titleLink = li.querySelector(':scope > .mobile-nav-item-inner > .mobile-subcat-title-link');
+    const content = li.querySelector(':scope > .mobile-accordion-content');
+
+    function toggleSubmenu(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      const isExpanded = li.classList.toggle('is-expanded');
+      if (toggleBtn) {
+        toggleBtn.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+      }
+      if (content) {
+        content.classList.toggle('is-open', isExpanded);
+      }
+    }
+
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', toggleSubmenu);
+    }
+
+    // اگر روی عنوان دسته دارای زیردسته هم کلیک شد، زیردسته‌ها به شکل آبشاری باز/بسته شوند
+    if (titleLink) {
+      titleLink.addEventListener('click', toggleSubmenu);
+    }
+  });
+
+  // ج) پشتیبانی از منوهای استاندارد سفارشی وردپرس (در صورت تعریف منوی جانبی در wp-admin)
+  const wpParentItems = drawer.querySelectorAll('.mobile-custom-nav-list li.menu-item-has-children');
+  wpParentItems.forEach((li) => {
+    if (li.dataset.accordionInit === 'true') return;
+    li.dataset.accordionInit = 'true';
 
     const link = li.querySelector(':scope > a');
-    if (!link) return;
+    const subMenu = li.querySelector(':scope > .sub-menu');
+    if (!link || !subMenu) return;
 
-    // بسته‌بندی لینک در یک کانتینر برای چینش با دکمه تاگل
+    // بسته‌بندی در کانتینر ردیف
     const wrapper = document.createElement('div');
     wrapper.className = 'mobile-nav-item-inner';
     li.insertBefore(wrapper, link);
     wrapper.appendChild(link);
 
-    // افزودن دکمه تاگل
+    // دکمه تاگل با آیکون فلش آبشاری
     const toggleBtn = document.createElement('button');
     toggleBtn.type = 'button';
     toggleBtn.className = 'mobile-submenu-toggle';
     toggleBtn.setAttribute('aria-label', 'باز یا بسته کردن زیرمنو');
+    toggleBtn.setAttribute('aria-expanded', 'false');
     toggleBtn.innerHTML = `
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg class="mobile-arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="6 9 12 15 18 9"></polyline>
       </svg>
     `;
-
     wrapper.appendChild(toggleBtn);
 
-    toggleBtn.addEventListener('click', (e) => {
+    // بسته‌بندی sub-menu در ساختار انیمیشنی CSS Grid
+    const accordionContent = document.createElement('div');
+    accordionContent.className = 'mobile-accordion-content';
+    const accordionInner = document.createElement('div');
+    accordionInner.className = 'mobile-accordion-inner';
+
+    li.insertBefore(accordionContent, subMenu);
+    accordionInner.appendChild(subMenu);
+    accordionContent.appendChild(accordionInner);
+
+    function toggleWpSubmenu(e) {
       e.preventDefault();
       e.stopPropagation();
-      li.classList.toggle('is-expanded');
-    });
+      const isExpanded = li.classList.toggle('is-expanded');
+      toggleBtn.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+      accordionContent.classList.toggle('is-open', isExpanded);
+    }
+
+    toggleBtn.addEventListener('click', toggleWpSubmenu);
+    link.addEventListener('click', toggleWpSubmenu);
   });
 }
