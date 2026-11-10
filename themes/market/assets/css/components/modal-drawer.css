@@ -30,9 +30,11 @@
   box-shadow: var(--shadow-xl);
   z-index: var(--z-drawer);
   transform: translateX(-100%);
-  transition: transform var(--transition-normal);
+  transition: transform var(--transition-normal), visibility var(--transition-normal);
   display: flex;
   flex-direction: column;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 [dir="rtl"] .drawer {
@@ -41,6 +43,8 @@
 
 .drawer.is-open {
   transform: translateX(0) !important;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 .drawer-header {

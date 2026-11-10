@@ -3,6 +3,7 @@
  */
 
 import { initNavigation } from './modules/navigation.js';
+import { initHeader } from './modules/header.js';
 import { initCartDrawer } from './modules/cart-drawer.js';
 import { initSliders } from './modules/slider.js';
 import { initSingleProduct } from './modules/single-product.js';
@@ -14,6 +15,7 @@ import { initQuickView } from './modules/quick-view.js';
 import { initInteractiveShowcase } from './modules/interactive-showcase.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+  initHeader();
   initNavigation();
   initCartDrawer();
   initSliders();
