@@ -82,9 +82,9 @@ function initHeroSlider() {
     clearTimeout(transitionSafetyTimer);
 
     if (animate) {
-      track.style.transition = 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
+      track.style.transition = 'transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)';
       isTransitioning = true;
-      transitionSafetyTimer = setTimeout(onTransitionComplete, 700);
+      transitionSafetyTimer = setTimeout(onTransitionComplete, 350);
     } else {
       track.style.transition = 'none';
       isTransitioning = false;
@@ -284,32 +284,22 @@ function initProductCarousels() {
       });
     }, { passive: true });
   });
-
-  // Focus mobile search input when clicking the bottom bar search item
-  const bottomSearchTrigger = document.getElementById('mobile-bottom-search-trigger');
-  if (bottomSearchTrigger) {
-    bottomSearchTrigger.addEventListener('click', (e) => {
-      e.preventDefault();
-      const mobileSearchInput = document.getElementById('mobile-search-field');
-      if (mobileSearchInput) {
-        mobileSearchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        setTimeout(() => mobileSearchInput.focus(), 300);
-      }
-    });
-  }
 }
 
 /**
- * 3. Circular Categories 3-Item Auto-scrolling Carousel (Smooth Hardware-Accelerated Sliding with Infinite Loop)
+ * 3. Circular Categories Responsive Scrollable Slider (6 on Desktop, 4 on Tablet, 3 on Mobile)
+ * Supports smooth horizontal scrolling left/right via:
+ * - Desktop Mouse Drag-to-Scroll
+ * - Header Next / Prev arrow buttons
+ * - Mobile Touch Swipe & Trackpad
  */
 function initCategoriesCarousel() {
   const container = document.getElementById('categoriesCircleCarousel');
   if (!container) return;
 
+  const section = container.closest('.categories-circle-section');
   const track = container.querySelector('.categories-carousel-track');
-  const slides = Array.from(container.querySelectorAll('.category-carousel-slide'));
-
-  if (!track || slides.length <= 3) return;
+  if (!track) return;
 
   const isRtl =
     (window.marketData && typeof window.marketData.isRtl === 'boolean')
@@ -318,141 +308,89 @@ function initCategoriesCarousel() {
         document.body.classList.contains('rtl') ||
         window.getComputedStyle(document.body).direction === 'rtl';
 
-  const dirMult = isRtl ? 1 : -1;
-  const cloneCount = 3;
+  function getScrollStep() {
+    const firstSlide = track.querySelector('.category-carousel-slide');
+    if (!firstSlide) return 240;
+    const slideWidth = firstSlide.getBoundingClientRect().width || 120;
+    // Step by 3 items on desktop, 2 on tablet, 1 on mobile
+    const itemsToScroll = window.innerWidth >= 1024 ? 3 : (window.innerWidth >= 768 ? 2 : 1);
+    return Math.round((slideWidth + 12) * itemsToScroll);
+  }
 
-  // Infinite seamless clones (prepend clone of last 3, append clone of first 3)
-  const firstClones = slides.slice(0, cloneCount).map((s) => {
-    const clone = s.cloneNode(true);
-    clone.classList.add('category-slide-clone');
-    return clone;
+  // Header Navigation Arrows
+  const header = section ? section.querySelector('.categories-circle-header') : null;
+  const prevBtn = header ? header.querySelector('.categories-nav-prev') : container.querySelector('.categories-nav-prev');
+  const nextBtn = header ? header.querySelector('.categories-nav-next') : container.querySelector('.categories-nav-next');
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const step = getScrollStep();
+      // In RTL, advancing to next items scrolls towards the left (negative delta)
+      track.scrollBy({ left: isRtl ? -step : step, behavior: 'smooth' });
+    });
+  }
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const step = getScrollStep();
+      // In RTL, going to previous items scrolls towards the right (positive delta)
+      track.scrollBy({ left: isRtl ? step : -step, behavior: 'smooth' });
+    });
+  }
+
+  // Desktop Mouse Drag-to-Scroll
+  let isDown = false;
+  let startX = 0;
+  let scrollLeftStart = 0;
+  let hasDragged = false;
+
+  track.addEventListener('mousedown', (e) => {
+    // Only primary (left) mouse button
+    if (e.button !== 0) return;
+    isDown = true;
+    hasDragged = false;
+    track.classList.add('is-dragging');
+    startX = e.pageX - track.offsetLeft;
+    scrollLeftStart = track.scrollLeft;
   });
 
-  const lastClones = slides.slice(-cloneCount).map((s) => {
-    const clone = s.cloneNode(true);
-    clone.classList.add('category-slide-clone');
-    return clone;
+  window.addEventListener('mouseup', () => {
+    if (!isDown) return;
+    isDown = false;
+    track.classList.remove('is-dragging');
+    setTimeout(() => {
+      hasDragged = false;
+    }, 60);
   });
 
-  firstClones.forEach((clone) => track.appendChild(clone));
-  lastClones.reverse().forEach((clone) => track.insertBefore(clone, track.firstChild));
-
-  let currentTrackIndex = cloneCount; // Index 3 is the original first slide
-  let isTransitioning = false;
-  let autoplayTimer = null;
-  let transitionSafetyTimer = null;
-  const interval = parseInt(container.dataset.autoplayInterval, 10) || 3500;
-
-  function getSlideWidth() {
-    const viewport = container.querySelector('.categories-carousel-viewport') || container;
-    return (viewport.getBoundingClientRect().width || viewport.clientWidth || 0) / 3;
-  }
-
-  function moveToTrackIndex(targetIndex, animate = true) {
-    clearTimeout(transitionSafetyTimer);
-
-    if (animate) {
-      track.style.transition = 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
-      isTransitioning = true;
-      transitionSafetyTimer = setTimeout(onTransitionComplete, 700);
-    } else {
-      track.style.transition = 'none';
-      isTransitioning = false;
-    }
-
-    currentTrackIndex = targetIndex;
-    const slideWidth = getSlideWidth();
-    const offset = dirMult * currentTrackIndex * slideWidth;
-    track.style.transform = `translate3d(${offset}px, 0, 0)`;
-  }
-
-  function onTransitionComplete() {
-    clearTimeout(transitionSafetyTimer);
-    isTransitioning = false;
-
-    // If moved past the original slides into end clones
-    if (currentTrackIndex >= slides.length + cloneCount) {
-      moveToTrackIndex(cloneCount, false);
-    } else if (currentTrackIndex < cloneCount) {
-      moveToTrackIndex(slides.length + currentTrackIndex, false);
-    }
-  }
-
-  track.addEventListener('transitionend', (e) => {
-    if (e.target === track && e.propertyName === 'transform') {
-      onTransitionComplete();
-    }
+  track.addEventListener('mouseleave', () => {
+    if (!isDown) return;
+    isDown = false;
+    track.classList.remove('is-dragging');
+    setTimeout(() => {
+      hasDragged = false;
+    }, 60);
   });
 
-  function nextSlide() {
-    if (isTransitioning) return;
-    moveToTrackIndex(currentTrackIndex + 1, true);
-  }
-
-  function prevSlide() {
-    if (isTransitioning) return;
-    moveToTrackIndex(currentTrackIndex - 1, true);
-  }
-
-  function startAutoplay() {
-    if (autoplayTimer) clearInterval(autoplayTimer);
-    autoplayTimer = setInterval(nextSlide, interval);
-  }
-
-  function stopAutoplay() {
-    if (autoplayTimer) {
-      clearInterval(autoplayTimer);
-      autoplayTimer = null;
+  track.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    const x = e.pageX - track.offsetLeft;
+    const walk = (x - startX);
+    if (Math.abs(walk) > 5) {
+      hasDragged = true;
+      e.preventDefault();
     }
-  }
-
-  function resetAutoplay() {
-    stopAutoplay();
-    startAutoplay();
-  }
-
-  container.addEventListener('mouseenter', stopAutoplay);
-  container.addEventListener('mouseleave', startAutoplay);
-
-  // Touch Swipe for Mobile Devices
-  let touchStartX = 0;
-  let touchEndX = 0;
-
-  container.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-    stopAutoplay();
-  }, { passive: true });
-
-  container.addEventListener('touchend', (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    const diff = touchEndX - touchStartX;
-    if (Math.abs(diff) > 40) {
-      if (diff < 0) {
-        nextSlide();
-      } else {
-        prevSlide();
-      }
-      resetAutoplay();
-    } else {
-      startAutoplay();
-    }
-  }, { passive: true });
-
-  // Handle window resizing cleanly without transition lag
-  let resizeTimer = null;
-  window.addEventListener('resize', () => {
-    track.style.transition = 'none';
-    const slideWidth = getSlideWidth();
-    const offset = dirMult * currentTrackIndex * slideWidth;
-    track.style.transform = `translate3d(${offset}px, 0, 0)`;
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      track.style.transition = '';
-    }, 150);
+    track.scrollLeft = scrollLeftStart - walk;
   });
 
-  // Position at initial slides and start autoplay
-  moveToTrackIndex(cloneCount, false);
-  startAutoplay();
+  // Prevent opening links if user was dragging the slider
+  track.addEventListener('click', (e) => {
+    if (hasDragged) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }, true);
 }
 

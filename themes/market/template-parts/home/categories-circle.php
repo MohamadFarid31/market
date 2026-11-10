@@ -109,19 +109,28 @@ if ($total_items === 0) {
                     <?php endif; ?>
                 </h2>
             </div>
+            <!-- دکمه‌های ناوبری اسلایدر دسته‌بندی برای اسکرول به چپ و راست -->
+            <div class="categories-circle-nav-btns" aria-label="<?php esc_attr_e('کنترل‌های ناوبری دسته‌بندی‌ها', 'market'); ?>">
+                <button type="button" class="categories-nav-btn categories-nav-prev" aria-label="<?php esc_attr_e('دسته‌بندی‌های قبلی', 'market'); ?>">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+                <button type="button" class="categories-nav-btn categories-nav-next" aria-label="<?php esc_attr_e('دسته‌بندی‌های بعدی', 'market'); ?>">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
+            </div>
         </div>
 
-        <!-- اسلایدر ۳ تایی در یک خط با اسکرول خودکار -->
-        <div class="categories-carousel-wrapper" id="categoriesCircleCarousel" data-autoplay-interval="3500">
-            <div class="categories-carousel-viewport" style="overflow: hidden; width: 100%;">
-                <div class="categories-carousel-track" style="display: flex !important; flex-direction: row !important; flex-wrap: nowrap !important; align-items: flex-start !important; width: 100%;">
+        <!-- اسلایدر دسته‌بندی‌ها با قابلیت اسکرول چپ و راست (۶ در دسکتاپ، ۴ در تبلت، ۳ در موبایل) -->
+        <div class="categories-carousel-wrapper" id="categoriesCircleCarousel">
+            <div class="categories-carousel-viewport">
+                <div class="categories-carousel-track">
                     <?php foreach ($circle_categories as $cat) : 
                         $term_title = !empty($cat['title']) ? $cat['title'] : '';
                         $cat_link = !empty($cat['url']) ? $cat['url'] : home_url('/');
                         $image_url = !empty($cat['img']) ? $cat['img'] : '';
                         $cat_icon = isset($cat['icon']) ? $cat['icon'] : 'gear';
                     ?>
-                        <div class="category-carousel-slide" style="flex: 0 0 33.333333% !important; min-width: 33.333333% !important; max-width: 33.333333% !important; box-sizing: border-box !important;">
+                        <div class="category-carousel-slide">
                             <a href="<?php echo esc_url($cat_link); ?>" class="category-circle-item">
                                 <div class="circle-thumb-frame">
                                     <?php if (!empty($image_url)) : ?>
@@ -129,17 +138,17 @@ if ($total_items === 0) {
                                     <?php else : ?>
                                         <div class="circle-icon-visual icon-<?php echo esc_attr($cat_icon); ?>">
                                             <?php if ($cat_icon === 'tripod') : ?>
-                                                <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><line x1="12" y1="2" x2="12" y2="10"></line><circle cx="12" cy="5" r="2"></circle><line x1="12" y1="10" x2="6" y2="22"></line><line x1="12" y1="10" x2="18" y2="22"></line><line x1="12" y1="10" x2="12" y2="22"></line></svg>
+                                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><line x1="12" y1="2" x2="12" y2="10"></line><circle cx="12" cy="5" r="2"></circle><line x1="12" y1="10" x2="6" y2="22"></line><line x1="12" y1="10" x2="18" y2="22"></line><line x1="12" y1="10" x2="12" y2="22"></line></svg>
                                             <?php elseif ($cat_icon === 'lighting') : ?>
-                                                <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="14" rx="2"></rect><circle cx="12" cy="10" r="3"></circle><line x1="12" y1="17" x2="12" y2="21"></line><line x1="8" y1="21" x2="16" y2="21"></line></svg>
+                                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="14" rx="2"></rect><circle cx="12" cy="10" r="3"></circle><line x1="12" y1="17" x2="12" y2="21"></line><line x1="8" y1="21" x2="16" y2="21"></line></svg>
                                             <?php elseif ($cat_icon === 'microphone') : ?>
-                                                <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+                                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
                                             <?php elseif ($cat_icon === 'camera-acc') : ?>
-                                                <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
                                             <?php elseif ($cat_icon === 'battery-org' || $cat_icon === 'battery-copy') : ?>
-                                                <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="7" width="16" height="10" rx="2"></rect><line x1="22" y1="11" x2="22" y2="13"></line><line x1="6" y1="11" x2="6" y2="13"></line><line x1="10" y1="11" x2="10" y2="13"></line></svg>
+                                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="7" width="16" height="10" rx="2"></rect><line x1="22" y1="11" x2="22" y2="13"></line><line x1="6" y1="11" x2="6" y2="13"></line><line x1="10" y1="11" x2="10" y2="13"></line></svg>
                                             <?php else : ?>
-                                                <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v8"></path><path d="M8 12h8"></path></svg>
+                                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v8"></path><path d="M8 12h8"></path></svg>
                                             <?php endif; ?>
                                         </div>
                                     <?php endif; ?>
