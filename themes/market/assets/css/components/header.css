@@ -5,7 +5,7 @@
 .site-header {
   position: sticky;
   top: 0;
-  z-index: var(--z-sticky);
+  z-index: calc(var(--z-sticky) + 1);
   background-color: var(--color-bg-surface);
   border-block-end: 1px solid var(--color-border-subtle);
   transition: box-shadow var(--transition-fast);
@@ -130,18 +130,15 @@
 
 /* Mobile Search Wrapper */
 .header-mobile-search-wrap {
-  position: relative;
-  z-index: 5;
+  position: sticky;
+  top: var(--mobile-header-height, 63px);
+  z-index: var(--z-sticky);
   background-color: var(--color-bg-surface);
   border-block-end: 1px solid var(--color-border-subtle);
   padding-block: var(--space-2) var(--space-3);
-  max-height: 80px;
-  overflow: hidden;
-  transition: max-height 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-              padding 0.28s ease,
-              opacity 0.22s ease,
-              transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: max-height, opacity, transform;
+  transform: translateY(0);
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
 }
 
 .header-mobile-search-wrap .header-search-input {
@@ -152,21 +149,8 @@
 
 @media (max-width: 1023px) {
   .header-mobile-search-wrap.is-hidden {
-    max-height: 0;
-    padding-block: 0;
-    opacity: 0;
-    transform: translateY(-100%);
+    transform: translateY(calc(-100% - 2px));
     pointer-events: none;
-    border-block-end-color: transparent;
-  }
-
-  .header-mobile-search-wrap.is-sticky-shown {
-    max-height: 80px;
-    padding-block: var(--space-2) var(--space-3);
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-    border-block-end: 1px solid var(--color-border-subtle);
   }
 }
 

@@ -67,17 +67,17 @@ defined('ABSPATH') || exit;
         </div>
     </div>
 
-    <!-- فیلد جستجوی تمام‌عرض موبایل -->
-    <div class="header-mobile-search-wrap hide-on-desktop">
-        <div class="container">
-            <?php get_template_part('template-parts/header/search-bar', null, ['input_id' => 'mobile-search-field']); ?>
-        </div>
-    </div>
-
     <div class="header-nav-wrap hide-on-mobile">
         <?php get_template_part('template-parts/header/navigation-desktop'); ?>
     </div>
 </header>
+
+<!-- فیلد جستجوی تمام‌عرض موبایل -->
+<div class="header-mobile-search-wrap hide-on-desktop">
+    <div class="container">
+        <?php get_template_part('template-parts/header/search-bar', null, ['input_id' => 'mobile-search-field']); ?>
+    </div>
+</div>
 
 <?php get_template_part('template-parts/navigation/mobile-nav-drawer'); ?>
 <?php get_template_part('template-parts/modal/cart-drawer'); ?>
