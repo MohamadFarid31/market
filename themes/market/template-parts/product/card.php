@@ -17,10 +17,11 @@ $product_id   = $product->get_id();
 $brand_terms  = get_the_terms($product_id, 'product_brand');
 $brand_name   = (!empty($brand_terms) && !is_wp_error($brand_terms)) ? $brand_terms[0]->name : '';
 $sku          = $product->get_sku();
-$price_html   = $product->get_price_html();
-$has_price    = !empty($product->get_price()) && (float) $product->get_price() > 0;
-$is_in_stock  = $product->is_in_stock();
-$is_purchasable = $product->is_purchasable() && $is_in_stock && $has_price && $product->is_type('simple');
+$price_html       = $product->get_price_html();
+$raw_price        = $product->get_price();
+$has_price        = !empty($price_html) && ('' !== $raw_price || $product->is_type('grouped'));
+$is_direct_simple = $has_price && $product->is_type('simple') && $product->is_purchasable() && $product->is_in_stock();
+$can_ajax_add     = $is_direct_simple && $product->supports('ajax_add_to_cart');
 ?>
 <div <?php wc_product_class('product-card', $product); ?>>
     <div class="product-card-top-actions">
@@ -67,8 +68,12 @@ $is_purchasable = $product->is_purchasable() && $is_in_stock && $has_price && $p
 
         <!-- دکمه خرید، نمایش سریع و اقدامات کارت (هاور دسکتاپ و موبایل) -->
         <div class="product-card-action-wrap">
-            <?php if ($is_purchasable) : ?>
-                <a href="<?php echo esc_url($product->add_to_cart_url()); ?>" data-product_id="<?php echo esc_attr($product_id); ?>" class="product-card-btn btn-add-to-cart ajax_add_to_cart" aria-label="<?php esc_attr_e('افزودن به سبد خرید', 'market'); ?>">
+            <?php if ($has_price) : ?>
+                <?php
+                $cta_url     = ($is_direct_simple || $product->is_type('external')) ? $product->add_to_cart_url() : $product->get_permalink();
+                $cta_classes = 'product-card-btn btn-add-to-cart' . ($can_ajax_add ? ' ajax_add_to_cart' : '');
+                ?>
+                <a href="<?php echo esc_url($cta_url); ?>"<?php echo $can_ajax_add ? ' data-product_id="' . esc_attr($product_id) . '"' : ''; ?> class="<?php echo esc_attr($cta_classes); ?>" aria-label="<?php esc_attr_e('افزودن به سبد خرید', 'market'); ?>">
                     <?php esc_html_e('افزودن به سبد خرید', 'market'); ?>
                 </a>
             <?php else : ?>
